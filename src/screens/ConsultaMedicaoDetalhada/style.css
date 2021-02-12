@@ -1,0 +1,40 @@
+.cm-box-label{
+    width: 25%;
+    margin: 0 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.cm-box-label label{
+    font-size: 26px;
+    font-weight: 700;
+}
+
+.cm-box-label span{
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.cm-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.cm-body-box-button{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.button-back{
+    background-color: var(--primary-red);
+    color: var(--primary-white);
+    transition: all 0.3s;
+}
+
+.button-back:hover{
+    color: var(--primary-white);
+    transform: scale(1.1);
+}

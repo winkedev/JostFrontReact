@@ -1,0 +1,15 @@
+.table-to-xls{
+    height: 100%;
+}
+
+.btn-scale{
+    transition: all 0.3s;
+}
+
+.btn-scale:hover{
+    transform: scale(1.1);
+}
+
+#table-to-xls{
+    height: 100%;
+}
