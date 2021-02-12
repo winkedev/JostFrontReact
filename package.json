@@ -26,6 +26,7 @@
     "react-loading": "^2.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
+    "reactjs-popup": "^2.0.4",
     "web-vitals": "^1.1.0"
   },
   "scripts": {

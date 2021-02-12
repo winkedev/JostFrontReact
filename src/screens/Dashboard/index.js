@@ -14,6 +14,7 @@ import SPILogo from '../../assets/spi_logo.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
 import CadastroMotivo from '../CadastroMotivo';
+import CustomPopup from '../../components/CustomPopup';
 
 const Dashboard = () => {
 
@@ -52,13 +53,12 @@ const Dashboard = () => {
                                 <a href="#homeSubmenu"
                                     data-toggle="collapse"
                                     aria-expanded="false" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }} className="dropdown-toggle">
-
                                 </a>
                             </div>
                             <div className="collapse sidebar-header-box2" id="homeSubmenu">
                                 <ul className="list-unstyled">
                                     <li>
-                                        <a href="javascript:void(0);" onClick={() => testConnection()}>
+                                        <a href="javascript:void(0);">
                                             <i>
                                                 <i><LogoutSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
                                             </i>
@@ -126,7 +126,6 @@ const Dashboard = () => {
                                         <span>Testar Conexão</span>
                                     </a>
                                 </li>
-
                             </ul>
                         </div>
                     </nav>
@@ -137,6 +136,7 @@ const Dashboard = () => {
                     <span className="navbar-brand"><i><img src={SPILogo} width={145} height={50} /></i></span>
                 </nav>
                 <div className="dashboard-main-content">
+                    <CustomPopup title="x" content={<button className="btn btn-primary"> Test Button</button>} />
                     {
                         setActiveScreen(indexActive)
                     }
