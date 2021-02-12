@@ -6,9 +6,12 @@ export const BaseApi = axios.create({
 });
 
 export const MountError = (e) => {
+
+    console.log(e.response);
+
     return {
         data: null,
         sucess: 0,
-        message: e.message
+        message: e.response.data
     }
 }
