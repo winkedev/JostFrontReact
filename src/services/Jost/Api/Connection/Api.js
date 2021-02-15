@@ -13,5 +13,17 @@ export const ApiConnection = {
         }
 
         return resp.data;
+    },
+
+    getConnection: async () => {
+        let resp;
+        try {
+            resp = await BaseApi.get("api/connection/getconnection")
+        }
+        catch (e) {
+            resp = MountError(e)
+        }
+
+        return resp.data;
     }
 }

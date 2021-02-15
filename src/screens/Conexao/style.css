@@ -6,24 +6,24 @@
     height: 100%;
 }
 
-.conexao-buttons{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-}
-
 .conexao-panel{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50%;
+    width: 80%;
     height: 100%;
 }
 
+.conexao-card-header
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .button-test{
-    width: 30%;
+    width: 100%;
     background: var(--primary-dark);
     opacity: 0.5;
     color: var(--primary-white);
