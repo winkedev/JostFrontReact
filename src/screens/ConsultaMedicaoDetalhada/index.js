@@ -8,7 +8,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
     const columns = [
         {
             dataField: "posicao",
-            text: "Posicao"
+            text: "Posição"
         },
         {
             dataField: "tipo",
@@ -16,7 +16,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "caracteristica",
-            text: "Caracteristica"
+            text: "Característica"
         },
         {
             dataField: "class",
@@ -28,7 +28,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "numeroMedicao",
-            text: "NMedicao"
+            text: "N°Medição"
         },
         {
             dataField: "valorMedido",
@@ -36,7 +36,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "descricaoTipo",
-            text: "DescTipo"
+            text: "Desc.Tipo"
         },
         {
             dataField: "justificativa",
@@ -44,15 +44,15 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "observacao",
-            text: "Observacao"
+            text: "Observação"
         },
         {
             dataField: "codigoOperacao",
-            text: "CodigoOp"
+            text: "CódigoOp"
         },
         {
-            dataField: "dataMedicao",
-            text: "DataMedicao"
+            dataField: "dataMedicaoShort",
+            text: "DataMedição"
         },
     ]
 
@@ -66,15 +66,15 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata[0].codigoItem}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Descricao</label>
+                        <label>Descrição</label>
                         <span>{customdata[0].descricaoItem}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Plano Medicao</label>
+                        <label>Plano Medição(Máquina)</label>
                         <span>{customdata[0].codigoCCAndDescricaoCC}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Versao</label>
+                        <label>Versão</label>
                         <span>{customdata[0].verPlano}</span>
                     </div>
                 </div>

@@ -99,6 +99,16 @@ const ConsultaMedicao = () => {
         setMedicaoData(resp != null && resp.data != null ? resp.data : []);
     }
 
+    const cleanData = () => {
+        setCurrentCodigoCC(null);
+        setCurrentDescricaoItem(null);
+        setCurrentCodigoOp(null);
+
+        document.getElementById("IDMaquina").value = "selectone";
+        document.getElementById("IDMaterial").value = "selectone";
+        document.getElementById("IDOrdemProducao").value = "selectone";
+    }
+
     const mountMedicaoDetalhada = (row) => {
         let dic = [];
         dic.push(row)
@@ -121,8 +131,9 @@ const ConsultaMedicao = () => {
 
     const column = [
         {
+            ID: "codigoCC",
             dataField: "codigoCCAndDescricaoCC",
-            text: "Maquina"
+            text: "Máquina"
         },
         {
             dataField: "codigoItem",
@@ -130,15 +141,19 @@ const ConsultaMedicao = () => {
         },
         {
             dataField: "descricaoItem",
-            text: "Descricao"
+            text: "Descrição"
         },
         {
             dataField: "verPlano",
-            text: "VersaoPlano"
+            text: "Versão Plano"
+        },
+        {
+            dataField: "dataMedicaoShort",
+            text: "Data medição"
         },
         {
             dataField: "IDConsultaDet",
-            text: "Consulta Det",
+            text: "Consulta Medições",
             formatter: actionformatter
         },
     ]
@@ -151,7 +166,7 @@ const ConsultaMedicao = () => {
                 <div>
 
                     <div className="cm-title">
-                        <h4>Consulta Medicao</h4>
+                        <h4>Consulta Medição</h4>
                     </div>
 
 
@@ -161,19 +176,19 @@ const ConsultaMedicao = () => {
                             <div className="cm-header">
                                 <div className="cm-header-inputs">
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Maquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoCC(e.target.value)} />
+                                        <CustomSelectPicker title="Máquina" ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoCC(e.target.value)} />
                                     </div>
 
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Item" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
+                                        <CustomSelectPicker title="Item" ID="IDMaterial" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
                                     </div>
 
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Operacao" dict={dicOrdemProducao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoOp(e.target.value)} />
+                                        <CustomSelectPicker title="Ordem produção" ID="IDOrdemProducao" dict={dicOrdemProducao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoOp(e.target.value)} />
                                     </div>
 
                                     <div className="cm-header-box-datepicker">
-                                        <CustomDatePicker title="Data Inicio" startdate={initialDate} value={currentInitialDate} onChangeEvent={(date) => setCurrentInitialDate(date != null ? date : null)} />
+                                        <CustomDatePicker title="Data Início" startdate={initialDate} value={currentInitialDate} onChangeEvent={(date) => setCurrentInitialDate(date != null ? date : null)} />
                                     </div>
 
                                     <div className="cm-header-box-datepicker">
@@ -183,7 +198,7 @@ const ConsultaMedicao = () => {
 
                                 <div className="cm-header-box-buttons">
                                     <button className="btn button-ok" onClick={searchData}>Consultar</button>
-                                    <button className="btn button-limpar">Limpar</button>
+                                    <button className="btn button-limpar" onClick={cleanData}>Limpar</button>
                                 </div>
                             </div>
 

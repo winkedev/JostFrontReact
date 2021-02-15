@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-
 export const BaseApi = axios.create({
-    baseURL: process.env.REACT_APP_WS
+    baseURL: localStorage.getItem("configWS")
 });
 
 export const MountError = (e) => {
@@ -12,6 +11,6 @@ export const MountError = (e) => {
     return {
         data: null,
         sucess: 0,
-        message: e.response.data
+        message: e.response?.data
     }
 }

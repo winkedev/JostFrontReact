@@ -1,0 +1,36 @@
+.conexao-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.conexao-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.conexao-panel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+}
+
+.button-test{
+    width: 30%;
+    background: var(--primary-dark);
+    opacity: 0.5;
+    color: var(--primary-white);
+    transition: all 0.3s;
+}
+
+.button-test:hover{
+    color: var(--primary-white);
+    transform: scale(1.1);
+}

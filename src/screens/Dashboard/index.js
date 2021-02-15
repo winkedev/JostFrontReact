@@ -7,14 +7,11 @@ import { ReactComponent as UserSVG } from '../../assets/user.svg';
 import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
 
-import { ApiConnection } from '../../services/Jost/Api/Connection/Api';
-
 import Logo from '../../assets/jost-logo1.png';
 import SPILogo from '../../assets/spi_logo.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
-import CadastroMotivo from '../CadastroMotivo';
-import CustomPopup from '../../components/CustomPopup';
+import Conexao from '../Conexao';
 
 const Dashboard = () => {
 
@@ -27,14 +24,11 @@ const Dashboard = () => {
                 return <DashboardDefault />
             case 1:
                 return <ConsultaMedicao />
+            case 2:
+                return <Conexao />
             default:
                 console.log(index);
         }
-    }
-
-    const testConnection = async () => {
-        let resp = await ApiConnection.testConnection();
-        console.log(resp);
     }
 
     return (
@@ -115,11 +109,11 @@ const Dashboard = () => {
                                         <i>
                                             <FileSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
-                                        <span>Consulta Medicao</span>
+                                        <span>Consulta Medição</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onClick={() => testConnection()}>
+                                    <a href="javascript:void(0)" onClick={() => setIndexActive(2)}>
                                         <i>
                                             <PlugSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
@@ -136,7 +130,6 @@ const Dashboard = () => {
                     <span className="navbar-brand"><i><img src={SPILogo} width={145} height={50} /></i></span>
                 </nav>
                 <div className="dashboard-main-content">
-                    <CustomPopup title="x" content={<button className="btn btn-primary"> Test Button</button>} />
                     {
                         setActiveScreen(indexActive)
                     }
