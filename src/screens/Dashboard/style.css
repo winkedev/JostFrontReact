@@ -33,6 +33,7 @@
 
 #db-navbar-active{
     width: 100%;
+	z-index: 998;
 }
 
 #sidebar-wrapper {
