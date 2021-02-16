@@ -31,7 +31,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body, html, #root, #root > div{
-  height: 100%;
   font-family: 'Roboto', sans-serif; 
 }

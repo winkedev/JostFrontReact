@@ -8,51 +8,63 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
     const columns = [
         {
             dataField: "posicao",
-            text: "Posição"
+            text: "Posição",
+            editable: false
         },
         {
             dataField: "tipo",
-            text: "Tipo"
+            text: "Tipo",
+            editable: false
         },
         {
             dataField: "caracteristica",
-            text: "Característica"
+            text: "Característica",
+            editable: false
         },
         {
             dataField: "class",
-            text: "Class"
+            text: "Class",
+            editable: false
         },
         {
             dataField: "limite",
-            text: "Limites"
+            text: "Limites",
+            editable: false
         },
         {
             dataField: "numeroMedicao",
-            text: "N°Medição"
+            text: "N°Medição",
+            editable: false
         },
         {
             dataField: "valorMedido",
-            text: "ValorMedido"
+            text: "ValorMedido",
+            editable: false
         },
         {
             dataField: "descricaoTipo",
-            text: "Desc.Tipo"
+            text: "Desc.Tipo",
+            editable: false
         },
         {
             dataField: "justificativa",
-            text: "Justificatica"
+            text: "Justificatica",
+            editable: false
         },
         {
             dataField: "observacao",
-            text: "Observação"
+            text: "Observação",
+            editable: false
         },
         {
             dataField: "codigoOperacao",
-            text: "CódigoOp"
+            text: "CódigoOp",
+            editable: false
         },
         {
             dataField: "dataMedicaoShort",
-            text: "DataMedição"
+            text: "DataMedição",
+            editable: false
         },
     ]
 

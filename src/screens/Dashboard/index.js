@@ -17,6 +17,7 @@ const Dashboard = () => {
 
     const [isActive, setIsActive] = useState(true);
     const [indexActive, setIndexActive] = useState(0);
+    const [isAutoHeight, setIsAutoHeight] = useState(true);
 
     const setActiveScreen = (index) => {
         switch (index) {
@@ -98,7 +99,7 @@ const Dashboard = () => {
                 <nav id={isActive ? "db-navbar-active" : ""} className="navbar d-flex justify-content-end align-items-center">
                     <span className="navbar-brand"><i><img src={SPILogo} width={145} height={50} /></i></span>
                 </nav>
-                <div className="dashboard-main-content">
+                <div id="dashboard-main-content">
                     {
                         setActiveScreen(indexActive)
                     }

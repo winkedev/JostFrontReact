@@ -1,11 +1,7 @@
-.color-alpha{
-	color: rgba(255, 255, 255, 0.5);
-}
-
 .dashboard-container {
-	height: 100%;
 	display: flex;
 	flex-direction: row;
+	min-height: 100vh;
 }
 
 #dashboard-sidebar {
@@ -184,9 +180,8 @@ a:focus {
 	transform: translateX(50%);
 }
 
-.dashboard-main-content{
+#dashboard-main-content{
 	width: 100%;
-	height: 100%;
 	padding: 80px 100px;
 	background-color: var(--primary-gray);
 }

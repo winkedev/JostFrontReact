@@ -5,7 +5,7 @@ import JostLogoB from '../../assets/jost_LOGO OFICIAL.jpg';
 const DashboardDefault = () => {
     return (
         <div className="db-default-container">
-            <img src={JostLogoB} width="90%" height="90%" style={{ opacity: 0.1 }} />
+            <img src={JostLogoB} width="90%" height="70%" style={{ opacity: 0.1 }} />
         </div>
     )
 }

@@ -5,6 +5,8 @@ import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
 import { ReactComponent as PDFSVG } from '../../assets/pdf.svg';
 
 import BootstrapTable from 'react-bootstrap-table-next';
+import CellEditfactory from 'react-bootstrap-table2-editor';
+
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import jspdf from 'jspdf';
@@ -85,7 +87,7 @@ const CustomTable = ({ customcolumns, customdata }) => {
                 ?
 
                 <div style={{ backgroundColor: "#FFF", margin: "10px 0" }}>
-                    <BootstrapTable id="table-to-xls" keyField="id" columns={customcolumns} data={customdata} pagination={paginationFactory()} noDataIndication="Table Empty" />
+                    <BootstrapTable id="table-to-xls" keyField="id" columns={customcolumns} data={customdata} pagination={paginationFactory()} noDataIndication="Table Empty" cellEdit={CellEditfactory({ mode: "click" })} />
 
                     <ReactHTMLTableToExcel id="test-table-xls-button"
                         className="download-table-xls-button btn"
