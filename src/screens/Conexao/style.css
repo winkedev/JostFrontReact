@@ -1,16 +1,15 @@
 .conexao-container{
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     height: 100%;
+    padding: 20px;
 }
 
 .conexao-panel{
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 90%;
     height: 100%;
 }
 
@@ -33,4 +32,47 @@
 .button-test:hover{
     color: var(--primary-white);
     transform: scale(1.1);
+}
+
+.conexao-card-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s;
+}
+
+#conexao-button{
+    width: 64px;
+    height: 64px;
+    background-color: var(--primary-dark);
+    border-radius: 25px;
+    color: var(--primary-white);
+    opacity: 0.5;
+    border: none;
+    transition: all 0.3s;
+}
+
+#conexao-button.active{
+    background-color: var(--primary-green);
+    transition: all 0.3s;
+}
+
+#conexao-line{
+    width: 90px;
+    height: 2px;
+    background-color: var(--primary-dark);
+    opacity: 0.5;
+    transition: all 0.3s;
+}
+
+#conexao-button:hover{
+    transform: scale(1.1);
+}
+
+.conexao-loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
