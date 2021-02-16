@@ -43,7 +43,7 @@ const Conexao = () => {
             let config = await SecurityConfig.getConfigWS();
 
             if (config) {
-                await new Promise(r => setTimeout(r, 2000));
+                await new Promise(r => setTimeout(r, 1000));
                 setIsWSConnected(true);
                 setCurrentWSString(config);
             } else {
@@ -53,7 +53,7 @@ const Conexao = () => {
             let connectionstring = await ApiConnection.getConnection();
 
             if (connectionstring) {
-                await new Promise(r => setTimeout(r, 2000));
+                await new Promise(r => setTimeout(r, 1000));
                 setIsCSConnected(true);
                 let st = `Server: ${connectionstring?.data?.server}\n Database: ${connectionstring?.data?.database}\n UID: ${connectionstring?.data?.userID}`;
                 setCurrentCSString(st);
@@ -61,14 +61,14 @@ const Conexao = () => {
                 return;
             }
 
-            await new Promise(r => setTimeout(r, 2000));
+            await new Promise(r => setTimeout(r, 1000));
             setIsOPConnected(true);
             setCurrentOPString("Open Connection..")
 
             let resp = await ApiConnection.testConnection();
 
             if (resp) {
-                await new Promise(r => setTimeout(r, 2000));
+                await new Promise(r => setTimeout(r, 1000));
                 setIsREConnected(true);
                 setCurrentREString(resp?.message);
             }
@@ -104,13 +104,13 @@ const Conexao = () => {
                         <div className="conexao-card-body">
                             <button id="conexao-button" className={isWSConnected ? "active" : ""} data-toggle="modal" data-target="#WSModal">WS</button>
                             <CustomPopup dataTargetID="WSModal" title="WebService" content={currentWSString} />
-                            <div id="conexao-line"></div>
+                            <div id="conexao-line" className={isWSConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isCSConnected ? "active" : ""} data-toggle="modal" data-target="#CSModal">CS</button>
                             <CustomPopup dataTargetID="CSModal" title="Connection String" content={currentCSString} />
-                            <div id="conexao-line"></div>
+                            <div id="conexao-line" className={isCSConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isOPConnected ? "active" : ""} data-toggle="modal" data-target="#OPModal">OP</button>
                             <CustomPopup dataTargetID="OPModal" title="Open Connection" content={currentOPString} />
-                            <div id="conexao-line"></div>
+                            <div id="conexao-line" className={isOPConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isREConnected ? "active" : ""} data-toggle="modal" data-target="#REModal">RE</button>
                             <CustomPopup dataTargetID="REModal" title="Response Connection" content={currentREString} />
                         </div>

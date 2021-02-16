@@ -65,40 +65,9 @@ const Dashboard = () => {
 
                         <div className="sidebar-body">
                             <ul className="list-unstyled components">
-                                {/* <li className="active">
-                                <a
-                                    href="#homeSubmenu"
-                                    data-toggle="collapse"
-                                    aria-expanded="false"
-                                    className="dropdown-toggle"
-                                >
-                                    <i>
-                                        <FontAwesomeIcon icon={faHome} />
-                                    </i>
-                                    <span>Page1</span>
-                                </a>
-                                <ul className="collapse list-unstyled" id="homeSubmenu">
-                                    <li>
-                                        <a href="#">
-                                            <i>
-                                                <FontAwesomeIcon icon={faUser} />
-                                            </i>
-                                            <span>Page1.1</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i>
-                                                <FontAwesomeIcon icon={faUser} />
-                                            </i>
-                                            <span>Page1.2</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li> */}
                                 <li>
                                     <a href="javascript:void(0)" onClick={() => setIndexActive(0)}>
-                                        <i className="color-alpha">
+                                        <i>
                                             <HomeSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
                                         <span>Home</span>
