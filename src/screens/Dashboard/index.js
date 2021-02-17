@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './style.css';
 
+import { useHistory } from 'react-router-dom';
+
 import { ReactComponent as HomeSVG } from '../../assets/home.svg';
 import { ReactComponent as FileSVG } from '../../assets/file.svg';
 import { ReactComponent as UserSVG } from '../../assets/user.svg';
@@ -14,6 +16,8 @@ import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
 
 const Dashboard = () => {
+
+    const nav = useHistory();
 
     const [isActive, setIsActive] = useState(true);
     const [indexActive, setIndexActive] = useState(0);
@@ -30,6 +34,10 @@ const Dashboard = () => {
             default:
                 console.log(index);
         }
+    }
+
+    const doLogout = () => {
+        nav.push('/');
     }
 
     return (
@@ -51,9 +59,9 @@ const Dashboard = () => {
                                 </a>
                             </div>
                             <div className="collapse sidebar-header-box2" id="homeSubmenu">
-                                <ul className="list-unstyled">
+                                <ul className="list-unstyled sidebar-collapsed-list">
                                     <li>
-                                        <a href="javascript:void(0);">
+                                        <a href="javascript:void(0);" onClick={doLogout}>
                                             <i>
                                                 <i><LogoutSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
                                             </i>
@@ -75,12 +83,33 @@ const Dashboard = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onClick={() => setIndexActive(1)}>
+                                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false">
                                         <i>
                                             <FileSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
-                                        <span>Consulta Medição</span>
+                                        <span>Medição</span>
+                                        <i className="dropdown-toggle" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }}> </i>
                                     </a>
+                                    <div className="collapse" id="homeSubmenu2">
+                                        <ul className="list-unstyled sidebar-collapsed-list">
+                                            <li>
+                                                <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                                    <i>
+                                                        <FileSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
+                                                    </i>
+                                                    <span>Consulta Medição</span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                                    <i>
+                                                        <FileSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
+                                                    </i>
+                                                    <span>Cadastra Medição</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)" onClick={() => setIndexActive(2)}>

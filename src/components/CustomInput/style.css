@@ -1,0 +1,44 @@
+.custom-input-group{
+    margin: 10px 0;
+}
+
+.custom-input-group .input-group-text{
+    border: none !important;;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: var(--primary-white);
+}
+
+.custom-input-group .form-control{
+    width: 80% !important;
+    height: 40px;
+    border: none !important;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: var(--primary-white);
+    box-shadow: none;
+    font-size: 0.8571em;
+    color: rgba(255, 255, 255, 1);
+    transition: all 0.3s;
+}
+
+.custom-input-group .form-control:focus{
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: rgba(255, 255, 255, 1);
+    border-style: none !important;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.custom-input-group .form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .custom-input-group .form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .custom-input-group .form-control::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgba(255, 255, 255, 0.7);
+  }

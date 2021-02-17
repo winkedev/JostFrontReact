@@ -135,7 +135,6 @@ a:focus {
 	color: transparent !important;
 }
 
-
 #sidebar ul li a {
 	display: flex;
 	flex-direction: row;
@@ -144,8 +143,8 @@ a:focus {
 }
 
 #sidebar .sidebar-body ul li a{
+	margin: 10px 0 0 10px;
 	padding: 0.5rem 0.7rem;
-	margin: 10px 10px;
 }
 
 #sidebar ul li a:hover {

@@ -1,6 +1,6 @@
 import React from 'react'
 import './style.css';
-import JostLogoB from '../../assets/jost_LOGO OFICIAL.jpg';
+import JostLogoB from '../../assets/jost_LOGO_OFICIAL.jpg';
 
 const DashboardDefault = () => {
     return (

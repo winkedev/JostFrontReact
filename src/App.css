@@ -34,4 +34,5 @@
 
 body, html, #root, #root > div{
   font-family: 'Roboto', sans-serif; 
+  -webkit-tap-highlight-color: transparent;
 }
