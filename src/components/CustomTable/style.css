@@ -13,3 +13,7 @@
 #table-to-xls{
     height: 100%;
 }
+
+.td-alternate-color{
+    background-color: var(--primary-gray);
+}

@@ -9,7 +9,6 @@ import CustomDatePicker from '../../components/CustomDatePicker';
 
 import ConsultaMedicaoDetalhada from '../ConsultaMedicaoDetalhada';
 
-import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 import { ApiPlanoInspecao } from '../../services/Jost/Api/PlanoInspecao/Api';
 import { ApiOrdemProducao } from '../../services/Jost/Api/OrdemProducao/Api';
 
@@ -33,7 +32,7 @@ const ConsultaMedicao = () => {
     const [currentCodigoOp, setCurrentCodigoOp] = useState(null);
     const [currentInitialDate, setCurrentInitialDate] = useState(new Date());
     const [currentFinalDate, setCurrentFinalDate] = useState(new Date());
-    const [currentMedicao, setCurrentMedicao] = useState([]);
+    const [currentMedicao, setCurrentMedicao] = useState({});
 
     useEffect(async () => {
 
@@ -50,16 +49,19 @@ const ConsultaMedicao = () => {
         let dicMaterial = [];
 
         let resp = await ApiPlanoInspecao.getAll();
+        let resp2 = await ApiPlanoInspecao.getAllCodItem();
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
                 key: resp.data[v].codigoCC,
                 value: resp.data[v].codigoCC + " " + resp.data[v].descricaoCC
             });
+        })
 
+        Object.keys(resp2.data).map((k, v) => {
             dicMaterial.push({
-                key: resp.data[v].codigoItem,
-                value: resp.data[v].codigoItem
+                key: resp2.data[v].codigoItem,
+                value: resp2.data[v].codigoItem
             })
         })
 
@@ -94,8 +96,9 @@ const ConsultaMedicao = () => {
             dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
         };
 
-        let resp = await ApiConsultaMedicao.getBy(dto);
+        let resp = await ApiPlanoInspecao.getBy(dto);
 
+        console.log(resp);
         setMedicaoData(resp != null && resp.data != null ? resp.data : []);
     }
 
@@ -110,10 +113,8 @@ const ConsultaMedicao = () => {
     }
 
     const mountMedicaoDetalhada = (row) => {
-        let dic = [];
-        dic.push(row)
         setIsMedicaoDetalhada(true);
-        setCurrentMedicao(dic);
+        setCurrentMedicao(row);
     }
 
     const unmountMedicaoDetalhada = () => {

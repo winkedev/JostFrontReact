@@ -4,7 +4,9 @@ import './style.css';
 import { useHistory } from 'react-router-dom';
 
 import { ReactComponent as HomeSVG } from '../../assets/home.svg';
-import { ReactComponent as FileSVG } from '../../assets/file.svg';
+import { ReactComponent as FileSVG } from '../../assets/filebold.svg';
+import { ReactComponent as FileEditSVG } from '../../assets/fileedit.svg';
+import { ReactComponent as FileSearchSVG } from '../../assets/filesearchbold.svg';
 import { ReactComponent as UserSVG } from '../../assets/user.svg';
 import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
@@ -21,7 +23,6 @@ const Dashboard = () => {
 
     const [isActive, setIsActive] = useState(true);
     const [indexActive, setIndexActive] = useState(0);
-    const [isAutoHeight, setIsAutoHeight] = useState(true);
 
     const setActiveScreen = (index) => {
         switch (index) {
@@ -95,7 +96,7 @@ const Dashboard = () => {
                                             <li>
                                                 <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
                                                     <i>
-                                                        <FileSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
+                                                        <FileSearchSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
                                                     </i>
                                                     <span>Consulta Medição</span>
                                                 </a>
@@ -103,7 +104,7 @@ const Dashboard = () => {
                                             <li>
                                                 <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
                                                     <i>
-                                                        <FileSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
+                                                        <FileEditSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
                                                     </i>
                                                     <span>Cadastra Medição</span>
                                                 </a>

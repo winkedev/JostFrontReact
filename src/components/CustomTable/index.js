@@ -5,14 +5,14 @@ import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
 import { ReactComponent as PDFSVG } from '../../assets/pdf.svg';
 
 import BootstrapTable from 'react-bootstrap-table-next';
-import CellEditfactory from 'react-bootstrap-table2-editor';
+import cellEditfactory from 'react-bootstrap-table2-editor';
 
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import jspdf from 'jspdf';
 import 'jspdf-autotable';
 
-const CustomTable = ({ customcolumns, customdata }) => {
+const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor }) => {
 
     //#region Exemplos de Columns / Data e ActionFormatter
     /* const actionformatter = (cell, row) => {
@@ -81,13 +81,36 @@ const CustomTable = ({ customcolumns, customdata }) => {
           */
     }
 
+    function rowClassNameFormat(row, rowIdx) {
+        // row is whole row object
+        // rowIdx is index of row
+        return rowIdx % 2 === 0 ? 'td-alternate-color' : '';
+    }
+
     return (
         <div>
             { customdata != null && customcolumns != null
                 ?
 
                 <div style={{ backgroundColor: "#FFF", margin: "10px 0" }}>
-                    <BootstrapTable id="table-to-xls" keyField="id" columns={customcolumns} data={customdata} pagination={paginationFactory()} noDataIndication="Table Empty" cellEdit={CellEditfactory({ mode: "click" })} />
+                    <BootstrapTable
+                        id="table-to-xls"
+                        keyField={fieldKey != null ? fieldKey : "id"}
+                        columns={customcolumns}
+                        data={customdata}
+                        pagination={paginationFactory()}
+                        noDataIndication="Table Empty"
+                        rowClasses={isAlternateRowColor ? rowClassNameFormat : ""}
+                        cellEdit={cellEditfactory({
+                            mode: "click",
+                            beforeSaveCell(oldValue, newValue, row, column, done) {
+                                setTimeout(() => {
+                                    console.log(`old value: ${oldValue} new value: ${newValue}`);
+                                    done();
+                                }, 0);
+                                return { async: true };
+                            }
+                        })} />
 
                     <ReactHTMLTableToExcel id="test-table-xls-button"
                         className="download-table-xls-button btn"
