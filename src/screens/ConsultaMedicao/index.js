@@ -48,7 +48,7 @@ const ConsultaMedicao = () => {
         let dicMaquinas = [];
         let dicMaterial = [];
 
-        let resp = await ApiPlanoInspecao.getAll();
+        let resp = await ApiPlanoInspecao.getAllCodCC();
         let resp2 = await ApiPlanoInspecao.getAllCodItem();
 
         Object.keys(resp.data).map((k, v) => {

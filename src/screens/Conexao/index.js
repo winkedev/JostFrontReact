@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './style.css';
 import ReactLoading from 'react-loading';
 
@@ -76,7 +76,13 @@ const Conexao = () => {
 
         } finally {
             setIsLoading(false);
+            doClickOnButton();
         }
+    }
+
+    const refButton = useRef(null);
+    const doClickOnButton = () => {
+        refButton.current.click();
     }
 
     return (
@@ -89,7 +95,7 @@ const Conexao = () => {
                     <div className="card-header conexao-card-header">
                         <h5>TEST...</h5>
                         <div style={{ width: "70px" }}>
-                            <button className="btn button-test" onClick={() => testConnection()}>
+                            <button className="btn button-test" disabled={isLoading} onClick={() => testConnection()}>
                                 <i>
                                     {isLoading ?
                                         <div className="conexao-loading"><ReactLoading type="spin" width="31px" height="31px" color="#FFF" /></div> :
@@ -102,17 +108,19 @@ const Conexao = () => {
                     <div className="card-body">
                         {/* <div className="card-body" style={{ whiteSpace: "pre-line" }}>{logs}</div> */}
                         <div className="conexao-card-body">
+                            <div style={{ display: "none" }} ref={refButton} data-toggle="modal" data-target="#testOkModal"></div>
+                            <CustomPopup dataTargetID="testOkModal" title="Test Finish" content="Teste finalizado" isOk />
                             <button id="conexao-button" className={isWSConnected ? "active" : ""} data-toggle="modal" data-target="#WSModal">WS</button>
-                            <CustomPopup dataTargetID="WSModal" title="WebService" content={currentWSString} />
+                            <CustomPopup dataTargetID="WSModal" title="WebService" content={currentWSString} isOk={isWSConnected} />
                             <div id="conexao-line" className={isWSConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isCSConnected ? "active" : ""} data-toggle="modal" data-target="#CSModal">CS</button>
-                            <CustomPopup dataTargetID="CSModal" title="Connection String" content={currentCSString} />
+                            <CustomPopup dataTargetID="CSModal" title="Connection String" content={currentCSString} isOk={isCSConnected} />
                             <div id="conexao-line" className={isCSConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isOPConnected ? "active" : ""} data-toggle="modal" data-target="#OPModal">OP</button>
-                            <CustomPopup dataTargetID="OPModal" title="Open Connection" content={currentOPString} />
+                            <CustomPopup dataTargetID="OPModal" title="Open Connection" content={currentOPString} isOk={isOPConnected} />
                             <div id="conexao-line" className={isOPConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isREConnected ? "active" : ""} data-toggle="modal" data-target="#REModal">RE</button>
-                            <CustomPopup dataTargetID="REModal" title="Response Connection" content={currentREString} />
+                            <CustomPopup dataTargetID="REModal" title="Response Connection" content={currentREString} isOk={isREConnected} />
                         </div>
                     </div>
                 </div>

@@ -36,3 +36,19 @@ body, html, #root, #root > div{
   font-family: 'Roboto', sans-serif; 
   -webkit-tap-highlight-color: transparent;
 }
+
+.bg-primary-green{
+  background-color: var(--primary-green) !important;
+}
+
+.bg-primary-red{
+  background-color: var(--primary-red) !important;
+}
+
+.bg-primary-orange{
+  background-color: var(--primary-orange) !important;
+}
+
+.border-none{
+  border: none;
+}
