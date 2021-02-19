@@ -8,7 +8,7 @@ import { SecurityConfig } from './services/SecurityConfig';
 const App = () => {
 
   useEffect(async () => {
-    console.log("Executing Config..");
+    SecurityConfig.writeLogs("*APP*", "Set initial config.")
     await SecurityConfig.setConfigWS();
   }, [])
 

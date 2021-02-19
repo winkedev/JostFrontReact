@@ -16,7 +16,11 @@ import { ApiOrdemProducao } from '../../services/Jost/Api/OrdemProducao/Api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFile } from '@fortawesome/free-solid-svg-icons';
 
+import { SecurityConfig } from '../../services/SecurityConfig';
+
 const ConsultaMedicao = () => {
+
+    const CONSULTAMEDICAO_PREFIX = '*ConsultaMedicao*';
 
     const refmodal = useRef(null);
 
@@ -63,7 +67,9 @@ const ConsultaMedicao = () => {
     const fillMaquina = async () => {
 
         let dicMaquinas = [];
+
         let resp = await ApiPlanoInspecao.getAllCodCC();
+        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllCodCC(): ${resp?.data ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
@@ -79,7 +85,9 @@ const ConsultaMedicao = () => {
     const fillItem = async () => {
 
         let dicMaterial = [];
+
         let resp = await ApiPlanoInspecao.getAllCodItem();
+        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllCodItem(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicMaterial.push({
@@ -96,6 +104,7 @@ const ConsultaMedicao = () => {
         let dicOrdemProducao = [];
 
         let resp = await ApiOrdemProducao.getAll();
+        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiOrdemProducao.getAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicOrdemProducao.push({
@@ -125,6 +134,7 @@ const ConsultaMedicao = () => {
             };
 
             let resp = await ApiPlanoInspecao.getBy(dto);
+            SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.data != null) {
                 setMedicaoData(resp.data);
@@ -179,6 +189,11 @@ const ConsultaMedicao = () => {
         {
             dataField: "codigoItem",
             text: "Item",
+            editable: false
+        },
+        {
+            dataField: "codigoOP",
+            text: "Código Operação",
             editable: false
         },
         {

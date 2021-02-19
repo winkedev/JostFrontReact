@@ -83,3 +83,15 @@
     justify-content: center;
     align-items: center;
 }
+
+.conexao-card-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.conexao-card-footer span{
+    font-size: 20px;
+    padding-right: 10px;
+}

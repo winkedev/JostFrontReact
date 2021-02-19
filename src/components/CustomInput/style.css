@@ -3,14 +3,14 @@
 }
 
 .custom-input-group .input-group-text{
-    border: none !important;;
+    border: none !important;
     background-color: rgba(255, 255, 255, 0.1);
     border-radius: 30px;
     color: var(--primary-white);
 }
 
 .custom-input-group .form-control{
-    width: 80% !important;
+    width: 50% !important;
     height: 40px;
     border: none !important;
     background-color: rgba(255, 255, 255, 0.1);

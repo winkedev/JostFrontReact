@@ -1,6 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './style.css';
 import ReactLoading from 'react-loading';
+import ReactSwitchButton from 'react-switch';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 import { ApiConnection } from '../../services/Jost/Api/Connection/Api';
@@ -22,6 +23,9 @@ const Conexao = () => {
     const [currentOPString, setCurrentOPString] = useState("");
     const [currentREString, setCurrentREString] = useState("");
 
+    const [isLogs, setIsLogs] = useState(false);
+    const refButton = useRef(null);
+
     const disableStates = () => {
         setIsWSConnected(false);
         setIsCSConnected(false);
@@ -33,6 +37,10 @@ const Conexao = () => {
         setCurrentOPString("");
         setCurrentREString("");
     }
+
+    useEffect(() => {
+        setIsLogs(SecurityConfig.getEnableLogs() == 'true' ? true : false);
+    }, [])
 
     const testConnection = async () => {
 
@@ -80,9 +88,13 @@ const Conexao = () => {
         }
     }
 
-    const refButton = useRef(null);
     const openModal = () => {
         refButton.current.click();
+    }
+
+    const handleCheck = (e) => {
+        SecurityConfig.setEnableLogs(e);
+        setIsLogs(e);
     }
 
     return (
@@ -91,7 +103,7 @@ const Conexao = () => {
                 <h4>Conexão</h4>
             </div>
             <div className="conexao-panel">
-                <div className="card" style={{ width: "100%", height: "90%" }}>
+                <div className="card" style={{ width: "100%", height: "90%", backgroundColor: "transparent" }}>
                     <div className="card-header conexao-card-header">
                         <h5>TEST...</h5>
                         <div style={{ width: "70px" }}>
@@ -121,6 +133,24 @@ const Conexao = () => {
                             <div id="conexao-line" className={isOPConnected ? "active" : ""}></div>
                             <button id="conexao-button" className={isREConnected ? "active" : ""} data-toggle="modal" data-target="#REModal">RE</button>
                             <CustomPopup dataTargetID="REModal" title="Response Connection" content={currentREString} isOk={isREConnected} />
+                        </div>
+                    </div>
+                    <div className="card-footer">
+                        <div className="conexao-card-footer">
+                            <span>Logs</span>
+                            <ReactSwitchButton onColor="#18CE0F"
+                                onHandleColor="#18CE0F"
+                                handleDiameter={30}
+                                uncheckedIcon={false}
+                                checkedIcon={false}
+                                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                height={20}
+                                width={48}
+                                className="react-switch"
+                                id="material-switch"
+                                checked={isLogs}
+                                onChange={handleCheck} />
                         </div>
                     </div>
                 </div>

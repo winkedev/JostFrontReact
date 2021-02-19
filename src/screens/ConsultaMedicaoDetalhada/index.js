@@ -6,8 +6,11 @@ import ReactLoading from 'react-loading';
 import CustomPopup from '../../components/CustomPopup';
 
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
+import { SecurityConfig } from '../../services/SecurityConfig';
 
 const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
+
+    const CONSULTAMEDICAODET_PREFIX = "*ConsultaMedicaoDetalhada*";
 
     const refmodal = useRef(null);
 
@@ -22,8 +25,6 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     useEffect(async () => {
 
-        console.log("actived");
-
         let dto = {
             codigoCC: customdata.codigoCC,
             descricaoItem: customdata.descricaoItem,
@@ -32,6 +33,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             dataFim: customdata.dataRI
         };
         let resp = await ApiConsultaMedicao.getBy(dto);
+        SecurityConfig.writeLogs(CONSULTAMEDICAODET_PREFIX, `Response from ApiConsultaMedicao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
         setDic(resp.data);
 
@@ -60,6 +62,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             })
 
             let resp = await ApiConsultaMedicao.updateAll(compactedDic);
+            SecurityConfig.writeLogs(CONSULTAMEDICAODET_PREFIX, `Response from ApiConsultaMedicao.updateAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.sucess) {
                 openModal("Sucesso", "informações atualizadas com sucesso.", true, false);
@@ -83,7 +86,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "posicao",
-            text: "Posição",
+            text: "Pos",
             editable: false,
 
         },
@@ -109,17 +112,17 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "numeroMedicao",
-            text: "N°Medição",
+            text: "N°Med",
             editable: false
         },
         {
             dataField: "valorMedido",
-            text: "ValorMedido",
+            text: "Valor",
             editable: true
         },
         {
             dataField: "descricaoTipo",
-            text: "Desc.Tipo",
+            text: "TipoMed",
             editable: false
         },
         {
@@ -133,8 +136,8 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             editable: false
         },
         {
-            dataField: "codigoOperacao",
-            text: "CódigoOp",
+            dataField: "numeroMatricula",
+            text: "Nome",
             editable: false
         },
         {
@@ -172,7 +175,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             </div>
 
             <div className="cm-body">
-                <CustomTable isAlternateRowColor="true" fieldKey="row" customcolumns={columns} customdata={dic} />
+                <CustomTable fieldKey="row" customcolumns={columns} customdata={dic} />
                 <div className="cm-body-box-button">
                     <button className="btn button-save" disabled={isLoading} onClick={saveAll}>{isLoading ? <ReactLoading type="spin" width="20px" height="24px" color="#FFF" /> : "Salvar"}</button>
                     <button className="btn button-back" disabled={isLoading} onClick={onBackButtonClick}>Voltar</button>

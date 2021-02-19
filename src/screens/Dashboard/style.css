@@ -179,6 +179,13 @@ a:focus {
 	transform: translateX(50%);
 }
 
+.db-navbar{
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	align-items: center;
+}
+
 #dashboard-main-content{
 	width: 100%;
 	padding: 80px 100px;

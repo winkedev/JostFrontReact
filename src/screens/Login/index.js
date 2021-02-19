@@ -9,8 +9,11 @@ import ReactLoading from 'react-loading';
 import { useHistory } from 'react-router-dom';
 
 import CustomInput from '../../components/CustomInput';
+import { SecurityConfig } from '../../services/SecurityConfig';
 
 const Login = () => {
+
+    const LOGIN_PREFIX = '*Login*'
 
     const nav = useHistory();
 
@@ -21,8 +24,15 @@ const Login = () => {
     const doLogin = async () => {
 
         setIsLoading(true);
-        console.log(`CurrentUser: ${currentUser}, CurrentPass: ${currentPassword}`)
+
+
+        SecurityConfig.writeLogs(LOGIN_PREFIX, `CurrentUser: ${currentUser}, CurrentPass: ${currentPassword}`);
+        SecurityConfig.writeLogs(LOGIN_PREFIX, "Open WS Communication...");
+
         await new Promise(r => setTimeout(r, 2000));
+
+        SecurityConfig.writeLogs(LOGIN_PREFIX, "Response from WS Communication: Sucess.")
+
         nav.push('/Dashboard');
         setIsLoading(false)
     }
@@ -46,7 +56,7 @@ const Login = () => {
                 </div>
             </div>
             <div className="login-footer">
-                <span>SPI INTEGRADORA</span>
+                <span>SPI INTEGRADORA | Version 0.0.0.1</span>
                 <span>©2021, Designed by <span style={{ color: "blue" }}>SPI Integradora </span></span>
             </div>
         </div>
