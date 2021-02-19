@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './style.css';
 
 import CustomTable from '../../components/CustomTable';
 import ReactLoading from 'react-loading';
+import CustomPopup from '../../components/CustomPopup';
 
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 
 const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
+
+    const refmodal = useRef(null);
+
+    const [isErrorPopup, setIsErrorPopup] = useState(false);
+    const [isOkPopup, setIsOkPopup] = useState(false);
+    const [popupTitle, setPopupTitle] = useState();
+    const [popupContent, setPopupContent] = useState();
 
     const [dic, setDic] = useState([]);
 
@@ -29,22 +37,41 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     }, [])
 
+    const openModal = (title, content, isOk, isError) => {
+        setPopupTitle(title);
+        setPopupContent(content);
+        setIsOkPopup(isOk);
+        setIsErrorPopup(isError);
+        refmodal.current.click();
+    }
+
     const saveAll = async () => {
 
-        setIsloading(true);
-        await new Promise(r => setTimeout(r, 1000));
-        var compactedDic = [];
+        try {
+            setIsloading(true);
+            await new Promise(r => setTimeout(r, 500));
+            var compactedDic = [];
 
-        Object.keys(dic).map((k, v) => {
-            compactedDic.push({
-                idMedicaoCarac: dic[v].idMedicaoCarac,
-                valorMedido: dic[v].valorMedido
+            Object.keys(dic).map((k, v) => {
+                compactedDic.push({
+                    idMedicaoCarac: dic[v].idMedicaoCarac,
+                    valorMedido: dic[v].valorMedido
+                })
             })
-        })
 
-        let resp = await ApiConsultaMedicao.updateAll(compactedDic);
+            let resp = await ApiConsultaMedicao.updateAll(compactedDic);
 
-        setIsloading(false);
+            if (resp?.sucess) {
+                openModal("Sucesso", "informações atualizadas com sucesso.", true, false);
+            }
+
+        }
+        catch (e) {
+
+        }
+        finally {
+            setIsloading(false);
+        }
     }
 
     const columns = [
@@ -120,6 +147,9 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     return (
         <div>
+            <div style={{ display: "none" }} ref={refmodal} data-toggle="modal" data-target="#messageModal"></div>
+            <CustomPopup dataTargetID="messageModal" title={popupTitle} content={popupContent} isOk={isOkPopup} isError={isErrorPopup} />
+
             <div className="cm-header">
                 <div className="cm-header-inputs">
                     <div className="cm-box-label">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import './style.css';
 
 import { useHistory } from 'react-router-dom';
@@ -20,6 +20,8 @@ import Conexao from '../Conexao';
 const Dashboard = () => {
 
     const nav = useHistory();
+    const refSidebarUsername = useRef(null);
+    const refSidebarMedicao = useRef(null);
 
     const [isActive, setIsActive] = useState(true);
     const [indexActive, setIndexActive] = useState(0);
@@ -41,10 +43,25 @@ const Dashboard = () => {
         nav.push('/');
     }
 
+    const onMouseLeaveSidebar = () => {
+        setIsActive(true);
+
+        let areaExpandedUsername = document.getElementById('sidebar-username').getAttribute('aria-expanded');
+        let areaExpandedMedicao = document.getElementById('sidebar-medicao').getAttribute('aria-expanded');
+
+        if (areaExpandedUsername == 'true') {
+            refSidebarUsername.current.click();
+        }
+
+        if (areaExpandedMedicao == 'true') {
+            refSidebarMedicao.current.click();
+        }
+    }
+
     return (
         <div className="dashboard-container">
             <div id="dashboard-sidebar">
-                <div id="sidebar-wrapper" className={isActive ? "active" : ""} onMouseOver={() => setIsActive(false)} onMouseLeave={() => setIsActive(true)}>
+                <div id="sidebar-wrapper" className={isActive ? "active" : ""} onMouseOver={() => setIsActive(false)} onMouseLeave={onMouseLeaveSidebar}>
                     <nav id="sidebar" className={isActive ? "active" : ""}>
                         <div className="sidebar-logo">
                             <img src={Logo} style={{ borderRadius: "5px" }} />
@@ -54,7 +71,7 @@ const Dashboard = () => {
                             <div className="sidebar-header-box1">
                                 <i><UserSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
                                 <span>Username</span>
-                                <a href="#homeSubmenu"
+                                <a id="sidebar-username" ref={refSidebarUsername} href="#homeSubmenu"
                                     data-toggle="collapse"
                                     aria-expanded="false" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }} className="dropdown-toggle">
                                 </a>
@@ -76,7 +93,7 @@ const Dashboard = () => {
                         <div className="sidebar-body">
                             <ul className="list-unstyled components">
                                 <li>
-                                    <a href="javascript:void(0)" onClick={() => setIndexActive(0)}>
+                                    <a href="javascript:void(0);" onClick={() => setIndexActive(0)}>
                                         <i>
                                             <HomeSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
@@ -84,14 +101,14 @@ const Dashboard = () => {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#homeSubmenu2" data-toggle="collapse" aria-expanded="false">
+                                    <a id="sidebar-medicao" ref={refSidebarMedicao} href="#homeSubmenuMedicao" data-toggle="collapse" aria-expanded="false">
                                         <i>
                                             <FileSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>
                                         <span>Medição</span>
                                         <i className="dropdown-toggle" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }}> </i>
                                     </a>
-                                    <div className="collapse" id="homeSubmenu2">
+                                    <div className="collapse" id="homeSubmenuMedicao">
                                         <ul className="list-unstyled sidebar-collapsed-list">
                                             <li>
                                                 <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>

@@ -32,7 +32,7 @@
     background-color: var(--primary-red);
     color: var(--primary-white);
     transition: all 0.3s;
-    width: 10%;
+    width: 94px;
 }
 
 .button-back:hover{
@@ -45,7 +45,7 @@
     color: var(--primary-white);
     transition: all 0.3s;
     margin: 0 15px;
-    width: 10%;
+    width: 94px;
     display: flex;
     justify-content: center;
     align-items: center;

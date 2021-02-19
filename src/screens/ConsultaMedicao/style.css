@@ -57,12 +57,14 @@
 }
 
 .button-ok{
+    width: 94px;
     background: var(--primary-green);
     color: var(--primary-white);
     transition: all 0.3s;
 }
 
 .button-limpar{
+    width: 94px;
     background: var(--primary-orange);
     color: var(--primary-white);
     transition: all 0.3s;

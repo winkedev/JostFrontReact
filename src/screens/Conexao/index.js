@@ -76,12 +76,12 @@ const Conexao = () => {
 
         } finally {
             setIsLoading(false);
-            doClickOnButton();
+            openModal();
         }
     }
 
     const refButton = useRef(null);
-    const doClickOnButton = () => {
+    const openModal = () => {
         refButton.current.click();
     }
 
@@ -109,7 +109,7 @@ const Conexao = () => {
                         {/* <div className="card-body" style={{ whiteSpace: "pre-line" }}>{logs}</div> */}
                         <div className="conexao-card-body">
                             <div style={{ display: "none" }} ref={refButton} data-toggle="modal" data-target="#testOkModal"></div>
-                            <CustomPopup dataTargetID="testOkModal" title="Test Finish" content="Teste finalizado" isOk />
+                            <CustomPopup dataTargetID="testOkModal" title="Test Finish" content={isWSConnected && isCSConnected && isOPConnected && isREConnected ? "Teste realizado com sucesso" : "Erro ao realizar teste."} isOk={isWSConnected && isCSConnected && isOPConnected && isREConnected} isError={!isWSConnected || !isCSConnected || !isOPConnected || !isREConnected} />
                             <button id="conexao-button" className={isWSConnected ? "active" : ""} data-toggle="modal" data-target="#WSModal">WS</button>
                             <CustomPopup dataTargetID="WSModal" title="WebService" content={currentWSString} isOk={isWSConnected} />
                             <div id="conexao-line" className={isWSConnected ? "active" : ""}></div>

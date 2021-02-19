@@ -12,7 +12,7 @@ const CustomPopup = ({ title, content, dataTargetID, isOk, isError, isWarning })
                 Teste
             </a> */}
 
-            <div className="modal fade" id={dataTargetID} tabindex="-1" role="dialog" aria-labelledby="popupCenteredTitle" aria-hidden="true">
+            <div className="modal fade" id={dataTargetID} tabIndex="-1" role="dialog" aria-labelledby="popupCenteredTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content" style={{ border: "none" }} >
                         <div className={isOk ? "modal-header bg-primary-green border-none" : isError ? "modal-header bg-primary-red border-none" : isWarning ? "modal-header bg-primary-orange border-none" : "modal-header"}>

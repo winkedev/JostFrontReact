@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import ReactLoading from 'react-loading';
@@ -6,6 +6,7 @@ import ReactLoading from 'react-loading';
 import CustomSelectPicker from '../../components/CustomSelectPicker';
 import CustomTable from '../../components/CustomTable';
 import CustomDatePicker from '../../components/CustomDatePicker';
+import CustomPopup from '../../components/CustomPopup';
 
 import ConsultaMedicaoDetalhada from '../ConsultaMedicaoDetalhada';
 
@@ -17,7 +18,14 @@ import { faFile } from '@fortawesome/free-solid-svg-icons';
 
 const ConsultaMedicao = () => {
 
+    const refmodal = useRef(null);
+
+    const [modalTitle, setModalTitle] = useState();
+    const [modalContent, setmodalContent] = useState();
+    const [isModalWarning, setIsModalWarning] = useState(false);
+
     const [isLoading, setIsLoading] = useState(true);
+    const [isConsumeLoading, setIsConsumeLoading] = useState(false);
 
     const [dicMaquinas, setDicMaquinas] = useState([])
     const [dicMaterial, setDicMaterial] = useState([])
@@ -36,36 +44,50 @@ const ConsultaMedicao = () => {
 
     useEffect(async () => {
 
-        await fillMaquinaAndMaterial();
+        await fillMaquina();
+        await fillItem();
         await fillOrdemProducao();
-
         setIsLoading(false);
 
     }, [])
 
-    const fillMaquinaAndMaterial = async () => {
+    const openModal = (title, message, isWarning) => {
+        setModalTitle(title);
+        setmodalContent(message);
+        setIsModalWarning(isWarning);
+        refmodal.current.click();
+    }
+
+    //#region Fill data
+
+    const fillMaquina = async () => {
 
         let dicMaquinas = [];
-        let dicMaterial = [];
-
         let resp = await ApiPlanoInspecao.getAllCodCC();
-        let resp2 = await ApiPlanoInspecao.getAllCodItem();
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
                 key: resp.data[v].codigoCC,
                 value: resp.data[v].codigoCC + " " + resp.data[v].descricaoCC
             });
-        })
-
-        Object.keys(resp2.data).map((k, v) => {
-            dicMaterial.push({
-                key: resp2.data[v].codigoItem,
-                value: resp2.data[v].codigoItem
-            })
-        })
+        });
 
         setDicMaquinas(dicMaquinas);
+
+    }
+
+    const fillItem = async () => {
+
+        let dicMaterial = [];
+        let resp = await ApiPlanoInspecao.getAllCodItem();
+
+        Object.keys(resp.data).map((k, v) => {
+            dicMaterial.push({
+                key: resp.data[v].codigoItem,
+                value: resp.data[v].codigoItem
+            })
+        });
+
         setDicMaterial(dicMaterial);
     }
 
@@ -86,20 +108,38 @@ const ConsultaMedicao = () => {
 
     }
 
+    //#endregion
+
     const searchData = async () => {
 
-        let dto = {
-            codigoCC: currentCodigoCC,
-            descricaoItem: currentDescricaoItem,
-            codigoOperacao: currentCodigoOp,
-            dataInicio: currentInitialDate != null ? currentInitialDate.toISOString() : null,
-            dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
-        };
+        try {
+            setIsConsumeLoading(true);
+            await new Promise(r => setTimeout(r, 500));
 
-        let resp = await ApiPlanoInspecao.getBy(dto);
+            let dto = {
+                codigoCC: currentCodigoCC,
+                descricaoItem: currentDescricaoItem,
+                codigoOperacao: currentCodigoOp,
+                dataInicio: currentInitialDate != null ? currentInitialDate.toISOString() : null,
+                dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
+            };
 
-        console.log(resp);
-        setMedicaoData(resp != null && resp.data != null ? resp.data : []);
+            let resp = await ApiPlanoInspecao.getBy(dto);
+
+            if (resp?.data != null) {
+                setMedicaoData(resp.data);
+            }
+            else {
+                setMedicaoData([]);
+                openModal("Aviso", "Não existe nenhuma informação.", true)
+            }
+        } catch (e) {
+
+        }
+        finally {
+            setIsConsumeLoading(false);
+        }
+
     }
 
     const cleanData = () => {
@@ -166,7 +206,6 @@ const ConsultaMedicao = () => {
 
     return (
         <div className="consulta-medicao-container">
-
             {isLoading ? <div className="cm-loading"><ReactLoading type="spin" width="128px" height="128px" color="#FFF" /> </div> :
 
                 <div>
@@ -178,6 +217,8 @@ const ConsultaMedicao = () => {
 
                     {isMedicaoDetalhada ? <ConsultaMedicaoDetalhada customdata={currentMedicao} onBackButtonClick={() => unmountMedicaoDetalhada()} /> :
                         <div>
+                            <div style={{ display: "none" }} ref={refmodal} data-toggle="modal" data-target="#messageModal"></div>
+                            <CustomPopup dataTargetID="messageModal" title={modalTitle} content={modalContent} isWarning={isModalWarning} />
                             <div className="cm-header">
                                 <div className="cm-header-inputs">
                                     <div className="cm-header-box-select">
@@ -202,8 +243,16 @@ const ConsultaMedicao = () => {
                                 </div>
 
                                 <div className="cm-header-box-buttons">
-                                    <button className="btn button-ok" onClick={searchData}>Consultar</button>
-                                    <button className="btn button-limpar" onClick={cleanData}>Limpar</button>
+                                    <button className="btn button-ok" disabled={isConsumeLoading} onClick={searchData}>
+                                        {isConsumeLoading ?
+                                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                                <ReactLoading type="spin" width="22px" height="22px" color="#FFFFFF" />
+                                            </div>
+                                            :
+                                            "Consultar"
+                                        }
+                                    </button>
+                                    <button className="btn button-limpar" disabled={isConsumeLoading} onClick={cleanData}>Limpar</button>
                                 </div>
                             </div>
 

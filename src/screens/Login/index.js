@@ -35,7 +35,7 @@ const Login = () => {
                     <div className="card-header login-header">
                         <img src={Logo} width={65} height={65} />
                     </div>
-                    <div class="card-body" style={{ width: "60%" }}>
+                    <div className="card-body" style={{ width: "60%" }}>
                         <CustomInput value={currentUser} onChangeEvent={(e) => setCurrentUser(e.target.value)} type="text" placeholder="Usuário..." icon={<UserSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
                         <CustomInput value={currentPassword} onChangeEvent={(e) => setCurrentPassword(e.target.value)} type="password" placeholder="Password..." icon={<LockSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
 
