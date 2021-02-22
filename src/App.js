@@ -3,6 +3,8 @@ import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import Routes from './Routes';
 
+import UserContextProvider from './contexts/UserContext';
+
 import { SecurityConfig } from './services/SecurityConfig';
 
 const App = () => {
@@ -13,7 +15,9 @@ const App = () => {
   }, [])
 
   return (
-    <Routes />
+    <UserContextProvider>
+      <Routes />
+    </UserContextProvider>
   )
 }
 

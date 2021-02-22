@@ -195,7 +195,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         return false;
                     }}
                     onValidateErrorEvent={() => {
-                        openModal("Erro ao validar campo", "", false, true);
+                        openModal("Erro ao validar campo", "Verifique os limites e o tipo de caracteristica.", false, true);
                     }} />
                 <div className="cm-body-box-button">
                     <button className="btn button-save" disabled={isLoading} onClick={saveAll}>{isLoading ? <ReactLoading type="spin" width="20px" height="24px" color="#FFF" /> : "Salvar"}</button>

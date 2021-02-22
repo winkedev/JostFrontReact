@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useContext } from 'react'
 import './style.css';
 
 import { useHistory } from 'react-router-dom';
@@ -11,16 +11,18 @@ import { ReactComponent as UserSVG } from '../../assets/user.svg';
 import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
 import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg';
-import { ReactComponent as EasyQualitySVG2 } from '../../assets/easy-quality2.svg';
-import { ReactComponent as EasyQualitySVG3 } from '../../assets/easy-quality3.svg';
 
 import Logo from '../../assets/jost-logo1.png';
 import SPILogo from '../../assets/spi_logo.png';
+import SPILogoFC from '../../assets/spi_logo_fc.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
+import { UserContext } from '../../contexts/UserContext';
 
 const Dashboard = () => {
+
+    const [user] = useContext(UserContext);
 
     const nav = useHistory();
     const refSidebarUsername = useRef(null);
@@ -44,6 +46,10 @@ const Dashboard = () => {
 
     const doLogout = () => {
         nav.push('/');
+    }
+
+    const isAdminRole = () => {
+        return user.type == '0';
     }
 
     const onMouseLeaveSidebar = () => {
@@ -73,7 +79,7 @@ const Dashboard = () => {
                         <div className="sidebar-header">
                             <div className="sidebar-header-box1">
                                 <i><UserSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
-                                <span>Username</span>
+                                <span>{user.username}</span>
                                 <a id="sidebar-username" ref={refSidebarUsername} href="#homeSubmenu"
                                     data-toggle="collapse"
                                     aria-expanded="false" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }} className="dropdown-toggle">
@@ -121,14 +127,15 @@ const Dashboard = () => {
                                                     <span>Consulta Medição</span>
                                                 </a>
                                             </li>
-                                            <li>
-                                                <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
-                                                    <i>
-                                                        <FileEditSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
-                                                    </i>
-                                                    <span>Cadastra Medição</span>
-                                                </a>
-                                            </li>
+                                            {isAdminRole() ?
+                                                <li>
+                                                    <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                                        <i>
+                                                            <FileEditSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
+                                                        </i>
+                                                        <span>Cadastra Medição</span>
+                                                    </a>
+                                                </li> : ""}
                                         </ul>
                                     </div>
                                 </li>
@@ -147,7 +154,7 @@ const Dashboard = () => {
             </div>
             <div id="dashboard-main">
                 <nav id={isActive ? "db-navbar-active" : ""} className="navbar db-navbar">
-                    <i><img src={SPILogo} width={145} height={50} style={{ marginRight: "20px" }} /></i>
+                    <i><img src={SPILogoFC} width={150} height={66} style={{ marginRight: "20px" }} /></i>
                     <EasyQualitySVG width="145px" height="66px" />
                 </nav>
                 <div id="dashboard-main-content">

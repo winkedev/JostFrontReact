@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './style.css';
+
+import { UserContext } from '../../contexts/UserContext';
 
 import Logo from '../../assets/jost-logo1.png';
 import { ReactComponent as UserSVG } from '../../assets/user.svg';
@@ -12,6 +14,8 @@ import CustomInput from '../../components/CustomInput';
 import { SecurityConfig } from '../../services/SecurityConfig';
 
 const Login = () => {
+
+    const [user, setUser] = useContext(UserContext);
 
     const LOGIN_PREFIX = '*Login*'
 
@@ -29,7 +33,13 @@ const Login = () => {
         SecurityConfig.writeLogs(LOGIN_PREFIX, `CurrentUser: ${currentUser}, CurrentPass: ${currentPassword}`);
         SecurityConfig.writeLogs(LOGIN_PREFIX, "Open WS Communication...");
 
-        await new Promise(r => setTimeout(r, 2000));
+        setUser({
+            username: currentUser,
+            password: currentPassword,
+            type: currentUser == "admin" ? 0 : 1
+        })
+
+        await new Promise(r => setTimeout(r, 1000));
 
         SecurityConfig.writeLogs(LOGIN_PREFIX, "Response from WS Communication: Sucess.")
 
