@@ -35,7 +35,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         let resp = await ApiConsultaMedicao.getBy(dto);
         SecurityConfig.writeLogs(CONSULTAMEDICAODET_PREFIX, `Response from ApiConsultaMedicao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
-        setDic(resp.data);
+        setDic(resp?.data ?? []);
 
     }, [])
 
