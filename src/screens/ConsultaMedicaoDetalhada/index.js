@@ -88,7 +88,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             dataField: "posicao",
             text: "Pos",
             editable: false,
-
+            sort: true
         },
         {
             dataField: "tipo",
@@ -146,7 +146,6 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             editable: false
         },
     ]
-
 
     return (
         <div>

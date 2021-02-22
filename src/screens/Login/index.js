@@ -33,7 +33,7 @@ const Login = () => {
         SecurityConfig.writeLogs(LOGIN_PREFIX, `CurrentUser: ${currentUser}, CurrentPass: ${currentPassword}`);
         SecurityConfig.writeLogs(LOGIN_PREFIX, "Open WS Communication...");
 
-        setUser({
+        SecurityConfig.setUser({
             username: currentUser,
             password: currentPassword,
             type: currentUser == "admin" ? 0 : 1
@@ -47,6 +47,14 @@ const Login = () => {
         setIsLoading(false)
     }
 
+    const doUserInputFocus = () => {
+        document.getElementById("idUserInput").focus();
+    }
+
+    const doPassInputFocus = () => {
+        document.getElementById("idPassInput").focus();
+    }
+
     return (
         <div className="login-container">
             <div className="login-nav"></div>
@@ -56,8 +64,23 @@ const Login = () => {
                         <img src={Logo} width={65} height={65} />
                     </div>
                     <div className="card-body" style={{ width: "60%" }}>
-                        <CustomInput value={currentUser} onChangeEvent={(e) => setCurrentUser(e.target.value)} type="text" placeholder="Usuário..." icon={<UserSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
-                        <CustomInput value={currentPassword} onChangeEvent={(e) => setCurrentPassword(e.target.value)} type="password" placeholder="Password..." icon={<LockSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
+                        <CustomInput
+                            onKeyPressEvent={(e) => e.key == "Enter" ? doPassInputFocus() : ""}
+                            id="idUserInput"
+                            value={currentUser}
+                            onChangeEvent={(e) => setCurrentUser(e.target.value)}
+                            type="text"
+                            placeholder="Usuário..."
+                            icon={<UserSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
+
+                        <CustomInput
+                            id="idPassInput"
+                            onKeyPressEvent={(e) => e.key == "Enter" ? doLogin() : ""}
+                            value={currentPassword}
+                            onChangeEvent={(e) => setCurrentPassword(e.target.value)}
+                            type="password"
+                            placeholder="Password..."
+                            icon={<LockSVG width="16px" height="16px" fill="#FFFFFF" opacity="0.5" />} />
 
                         <button disabled={isLoading} onClick={doLogin} className="btn btn-login">
                             {isLoading ? <ReactLoading type="spin" width="16px" height="16px" color="#000" opacity="0.5" /> : "Login"}

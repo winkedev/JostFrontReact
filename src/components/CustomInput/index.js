@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.css';
 
-const CustomInput = ({ placeholder, type, id, onChangeEvent, value, icon }) => {
+const CustomInput = ({ placeholder, type, id, onChangeEvent, value, icon, onKeyPressEvent }) => {
     return (
         <div class="input-group no-border custom-input-group">
             <span class="input-group-prepend">
@@ -11,7 +11,7 @@ const CustomInput = ({ placeholder, type, id, onChangeEvent, value, icon }) => {
                     </i>
                 </div>
             </span>
-            <input value={value} onChange={onChangeEvent} id={id} type={type} class="form-control" placeholder={placeholder} />
+            <input value={value} onKeyPress={onKeyPressEvent} onChange={onChangeEvent} id={id} type={type} class="form-control" placeholder={placeholder} />
         </div>
     )
 }

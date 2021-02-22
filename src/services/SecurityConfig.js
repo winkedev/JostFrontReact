@@ -3,6 +3,7 @@ import axios from 'axios';
 const CONFIG = "config.json";
 const CONFIGWS = "configWS";
 const ENABLELOGS = "logs";
+const USERKEY = "user";
 
 export const SecurityConfig = {
 
@@ -40,5 +41,11 @@ export const SecurityConfig = {
             console.log(`${screen} : ${content}`)
         }
     },
+    getUser: () => {
+        return JSON.parse(localStorage.getItem(USERKEY));
+    },
+    setUser: (user) => {
+        localStorage.setItem(USERKEY, JSON.stringify(user));
+    }
 
 }

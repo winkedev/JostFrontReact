@@ -15,15 +15,14 @@ import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg'
 import Logo from '../../assets/jost-logo1.png';
 import SPILogo from '../../assets/spi_logo.png';
 import SPILogoFC from '../../assets/spi_logo_fc.png';
+import SPILogoFE from '../../assets/spi_logo_fe.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
-import { UserContext } from '../../contexts/UserContext';
+
+import { SecurityConfig } from '../../services/SecurityConfig';
 
 const Dashboard = () => {
-
-    const [user] = useContext(UserContext);
-
     const nav = useHistory();
     const refSidebarUsername = useRef(null);
     const refSidebarMedicao = useRef(null);
@@ -49,10 +48,11 @@ const Dashboard = () => {
     }
 
     const isAdminRole = () => {
-        return user.type == '0';
+        return SecurityConfig.getUser()?.type == '0';
     }
 
     const onMouseLeaveSidebar = () => {
+
         setIsActive(true);
 
         let areaExpandedUsername = document.getElementById('sidebar-username').getAttribute('aria-expanded');
@@ -79,7 +79,7 @@ const Dashboard = () => {
                         <div className="sidebar-header">
                             <div className="sidebar-header-box1">
                                 <i><UserSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
-                                <span>{user.username}</span>
+                                <span>{SecurityConfig.getUser()?.username ?? "?"}</span>
                                 <a id="sidebar-username" ref={refSidebarUsername} href="#homeSubmenu"
                                     data-toggle="collapse"
                                     aria-expanded="false" style={{ paddingLeft: "15px", display: "flex", justifyContent: "center", alignItems: "center" }} className="dropdown-toggle">
@@ -154,7 +154,7 @@ const Dashboard = () => {
             </div>
             <div id="dashboard-main">
                 <nav id={isActive ? "db-navbar-active" : ""} className="navbar db-navbar">
-                    <i><img src={SPILogoFC} width={150} height={66} style={{ marginRight: "20px" }} /></i>
+                    <i><img src={SPILogoFE} width={145} height={66} style={{ marginRight: "20px" }} /></i>
                     <EasyQualitySVG width="145px" height="66px" />
                 </nav>
                 <div id="dashboard-main-content">

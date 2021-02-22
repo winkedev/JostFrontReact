@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './style.css';
+/*import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';*/
 
 import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
 import { ReactComponent as PDFSVG } from '../../assets/pdf.svg';
@@ -96,6 +97,7 @@ const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor,
 
                 <div style={{ backgroundColor: "#FFF", margin: "10px 0" }}>
                     <BootstrapTable
+                        bootstrap4
                         id="table-to-xls"
                         keyField={fieldKey != null ? fieldKey : "id"}
                         columns={customcolumns}
