@@ -10,12 +10,12 @@ import { ReactComponent as FileSearchSVG } from '../../assets/filesearchbold.svg
 import { ReactComponent as UserSVG } from '../../assets/user.svg';
 import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
-import { ReactComponent as EasyBGSVG } from '../../assets/easybg.svg';
-import { ReactComponent as Easy001 } from '../../assets/easy001.svg';
+import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg';
+import { ReactComponent as EasyQualitySVG2 } from '../../assets/easy-quality2.svg';
+import { ReactComponent as EasyQualitySVG3 } from '../../assets/easy-quality3.svg';
 
 import Logo from '../../assets/jost-logo1.png';
 import SPILogo from '../../assets/spi_logo.png';
-import EasyQuality from '../../assets/easyquality.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
@@ -148,6 +148,7 @@ const Dashboard = () => {
             <div id="dashboard-main">
                 <nav id={isActive ? "db-navbar-active" : ""} className="navbar db-navbar">
                     <i><img src={SPILogo} width={145} height={50} style={{ marginRight: "20px" }} /></i>
+                    <EasyQualitySVG width="145px" height="66px" />
                 </nav>
                 <div id="dashboard-main-content">
                     {
