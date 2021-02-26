@@ -11,14 +11,15 @@ import { ReactComponent as UserSVG } from '../../assets/user.svg';
 import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
 import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg';
+import { ReactComponent as FileReasonSVG } from '../../assets/file-reason.svg';
 
 import Logo from '../../assets/jost-logo1.png';
-import SPILogo from '../../assets/spi_logo.png';
-import SPILogoFC from '../../assets/spi_logo_fc.png';
 import SPILogoFE from '../../assets/spi_logo_fe.png';
 import DashboardDefault from '../DashboardDefault';
 import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
+import CadastraMedicao from '../CadastraMedicao';
+import CadastroMotivo from '../CadastroMotivo';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 
@@ -35,8 +36,12 @@ const Dashboard = () => {
             case 0:
                 return <DashboardDefault />
             case 1:
-                return <ConsultaMedicao />
+                return <CadastroMotivo />
             case 2:
+                return <ConsultaMedicao />
+            case 3:
+                return <CadastraMedicao />
+            case 99:
                 return <Conexao />
             default:
                 console.log(index);
@@ -90,7 +95,7 @@ const Dashboard = () => {
                                     <li>
                                         <a href="javascript:void(0);" onClick={doLogout}>
                                             <i>
-                                                <i><LogoutSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
+                                                <LogoutSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
                                             </i>
                                             <span>Logout</span>
                                         </a>
@@ -110,6 +115,14 @@ const Dashboard = () => {
                                     </a>
                                 </li>
                                 <li>
+                                    <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                        <i>
+                                            <FileReasonSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
+                                        </i>
+                                        <span>Motivos</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a id="sidebar-medicao" ref={refSidebarMedicao} href="#homeSubmenuMedicao" data-toggle="collapse" aria-expanded="false">
                                         <i>
                                             <FileSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
@@ -120,7 +133,7 @@ const Dashboard = () => {
                                     <div className="collapse" id="homeSubmenuMedicao">
                                         <ul className="list-unstyled sidebar-collapsed-list">
                                             <li>
-                                                <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                                <a href="javascript:void(0);" onClick={() => setIndexActive(2)}>
                                                     <i>
                                                         <FileSearchSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
                                                     </i>
@@ -129,7 +142,7 @@ const Dashboard = () => {
                                             </li>
                                             {isAdminRole() ?
                                                 <li>
-                                                    <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                                    <a href="javascript:void(0);" onClick={() => setIndexActive(3)}>
                                                         <i>
                                                             <FileEditSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" />
                                                         </i>
@@ -140,7 +153,7 @@ const Dashboard = () => {
                                     </div>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" onClick={() => setIndexActive(2)}>
+                                    <a href="javascript:void(0)" onClick={() => setIndexActive(99)}>
                                         <i>
                                             <PlugSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
                                         </i>

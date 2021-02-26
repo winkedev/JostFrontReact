@@ -17,3 +17,7 @@
 .td-alternate-color{
     background-color: var(--primary-gray);
 }
+
+caption{
+    display: none;
+}

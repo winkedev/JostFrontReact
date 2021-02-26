@@ -8,9 +8,9 @@ import CustomPopup from '../../components/CustomPopup';
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 import { SecurityConfig } from '../../services/SecurityConfig';
 
-const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
+const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
-    const CONSULTAMEDICAODET_PREFIX = "*ConsultaMedicaoDetalhada*";
+    const CONSULTAMEDICAODET_PREFIX = "*CadastraMedicaoDetalhada*";
 
     const refmodal = useRef(null);
 
@@ -123,7 +123,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         {
             dataField: "valorMedido",
             text: "Valor",
-            editable: false,
+            editable: true,
             sort: true
         },
         {
@@ -185,7 +185,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             </div>
 
             <div className="cm-body">
-                <CustomTable tableid="idConsultaMedicaoTable" fieldKey="row" pdfHeaderText="Consulta Medição" customcolumns={columns} customdata={dic}
+                <CustomTable tableid="idCadastraMedicaoTable" fieldKey="row" pdfHeaderText="Cadastra Medição" customcolumns={columns} customdata={dic}
                     orientation='l'
                     validateNewValue={(currentRow, newValue) => {
                         if (currentRow.tipoCaracteristica.toUpperCase().includes("OK/NOK")) {
@@ -218,4 +218,4 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
     )
 }
 
-export default ConsultaMedicaoDetalhada;
+export default CadastraMedicaoDetalhada;

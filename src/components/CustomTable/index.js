@@ -15,7 +15,7 @@ import 'jspdf-autotable';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 
-const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent }) => {
+const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation }) => {
 
     //#region Exemplos de Columns / Data e ActionFormatter
     /* const actionformatter = (cell, row) => {
@@ -65,11 +65,27 @@ const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor,
 
     //#endregion
 
+
+
     const saveAsPDF = () => {
-        var doc = new jspdf('p', 'pt');
-        var elem = document.getElementById("table-to-xls");
+
+        var doc = new jspdf(orientation != null ? orientation : 'l', 'pt');
+
+        var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
+        var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+
+        var tableHeader = () => {
+            doc.text(pdfHeaderText ?? "", pageWidth / 2, 20, 'center');
+        }
+
+        var opt = {
+            beforePageContent: tableHeader
+        }
+
+
+        var elem = document.getElementById(tableid ?? "table-to-xls");
         var res = doc.autoTableHtmlToJson(elem);
-        doc.autoTable(res.columns, res.data);
+        doc.autoTable(res.columns, res.data, opt);
         doc.save("table.pdf");
 
         /*
@@ -98,7 +114,8 @@ const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor,
                 <div style={{ backgroundColor: "#FFF", margin: "10px 0" }}>
                     <BootstrapTable
                         bootstrap4
-                        id="table-to-xls"
+                        caption={pdfHeaderText}
+                        id={tableid ?? "table-to-xls"}
                         keyField={fieldKey != null ? fieldKey : "id"}
                         columns={customcolumns}
                         data={customdata}
@@ -124,7 +141,7 @@ const CustomTable = ({ fieldKey, customcolumns, customdata, isAlternateRowColor,
 
                     <ReactHTMLTableToExcel id="test-table-xls-button"
                         className="download-table-xls-button btn"
-                        table="table-to-xls"
+                        table={tableid ?? "table-to-xls"}
                         filename="tablexls"
                         sheet="tablexls"
                         buttonText={<i><ExcellSVG className="btn-scale" width={31} height={31} fill="#000" opacity="0.5" /></i>}
