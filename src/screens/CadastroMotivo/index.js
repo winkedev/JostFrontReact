@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
+import $ from 'jquery';
+
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
 
 import ReactLoading from 'react-loading';
@@ -16,6 +18,8 @@ const CadastroMotivo = () => {
     const refModal = useRef(null);
 
     const [isLoading, setIsloading] = useState(true);
+    const [isEditLoading, setIsEditLoading] = useState(false);
+
     const [fullMotivos, setFullMotivos] = useState([]);
     const [selectData, setSelectData] = useState([]);
     const [currentSelectMotivo, setCurrentSelectMotivo] = useState(null);
@@ -24,28 +28,38 @@ const CadastroMotivo = () => {
 
     useEffect(async () => {
 
-        let resp = await ApiMotivo.getAll();
-
-        if (resp.data != null && resp.data.length > 0) {
-            setFullMotivos(resp.data);
-
-            let respdata = [];
-
-            Object.keys(resp.data).map((k, v) => {
-                respdata.push({
-                    key: resp.data[v].id,
-                    value: resp.data[v].descricao
-                })
-            })
-
-            setSelectData(respdata);
-        }
+        await consumeMotivos();
 
         setIsloading(false);
 
     }, [])
 
+    const consumeMotivos = async () => {
+        let resp = await ApiMotivo.getAll();
+
+        if (resp?.data?.length > 0) {
+            setFullMotivos(resp.data);
+            fillSelect(resp.data);
+        }
+    }
+
+    const fillSelect = (data) => {
+        var respdata = [];
+
+        if (data?.length > 0) {
+            Object.keys(data).map((k, v) => {
+                respdata.push({
+                    key: data[v].id,
+                    value: data[v].descricao
+                })
+            })
+
+            setSelectData(respdata);
+        }
+    }
+
     const fillData = (e) => {
+
         let tableData = [];
 
         Object.keys(fullMotivos).map((k, v) => {
@@ -80,18 +94,62 @@ const CadastroMotivo = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="btn" onClick={() => setCurrentSelectedRow(row)} data-toggle="modal" data-target="#EditCausaModal" data-backdrop="static" data-keyboard="false" style={{ width: "64px" }} >
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => setCurrentSelectedRow(row)} data-toggle="modal" data-target="#EditCausaModal" data-backdrop="static" data-keyboard="false" style={{ width: "64px" }} >
                     <EditSVG fill="#01579B" width={32} height={32} />
                 </button>
-                <button className="btn" style={{ width: "64px" }}>
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => setCurrentSelectedRow(row)} style={{ width: "64px" }}>
                     <DeleteSVG fill="red" width={32} height={32} />
                 </button>
             </div>
         )
     }
 
-    const editCausa = () => {
+    const editCausa = async () => {
 
+        var motivo;
+
+        setIsEditLoading(true);
+        await new Promise(r => setTimeout(r, 500));
+
+        Object.keys(fullMotivos).map((k, v) => {
+            if (fullMotivos[v].id == currentSelectedRow.idN1) {
+                motivo = fullMotivos[v];
+                let motivoN2 = fullMotivos[v]?.motivoN2;
+                Object.keys(motivoN2).map((k, v) => {
+                    if (motivoN2[v].id == currentSelectedRow.idN2) {
+                        motivoN2[v].descricao = currentSelectedRow.descricaoN2;
+                    }
+                })
+            }
+        })
+
+        let resp = await ApiMotivo.saveUpdate(motivo);
+
+        if (resp) {
+            reloadData();
+        }
+
+        setIsEditLoading(false);
+        closeEditModal();
+    }
+
+    const deleteCausa = async () => {
+
+        let resp = await ApiMotivo.deleteN2(currentSelectedRow.idN2);
+
+        if (resp) {
+
+        }
+
+    }
+
+    const closeEditModal = () => {
+        $("#EditCausaModal .close").trigger("click");
+    }
+
+    const reloadData = () => {
+        consumeMotivos();
+        fillData($("#idNaoConformeSelect").val());
     }
 
     var columns = [
@@ -134,7 +192,7 @@ const CadastroMotivo = () => {
                     <h4>Cadastro Motivos</h4>
                     <div className="cadastro-motivo-inputs col">
                         <div className="row">
-                            <CustomSelectPicker initWithEmptyValue classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e.target.value)} />
+                            <CustomSelectPicker ID="idNaoConformeSelect" initWithEmptyValue classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e.target.value)} />
                         </div>
                         <div className="row justify-content-end cadastro-motivo-buttons">
                             <button className="btn col-2 bg-primary-green color-white" data-toggle="modal" data-target="#cadastroModal" data-backdrop="static" data-keyboard="false">Cadastrar Não Conforme</button>
@@ -218,7 +276,7 @@ const CadastroMotivo = () => {
                                     <div className="modal-header cadastro-motivo-modal-header">
                                         <div className="cadastro-motivo-modal-header-title">
                                             <h4 className="modal-title" id="exampleModalLongTitle">Editar Causa</h4>
-                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" disabled={isEditLoading} className="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -229,11 +287,13 @@ const CadastroMotivo = () => {
                                             <div class="col-3 input-group-prepend">
                                                 <span class="input-group-text" id="basic-addon1">Causa: </span>
                                             </div>
-                                            <input type="text" class="col-9 form-control " placeholder="Descrição..." aria-label="Username" defaultValue={currentSelectedRow?.descricaoN2} aria-describedby="basic-addon1" />
+                                            <input type="text" class="col-9 form-control " placeholder="Descrição..." aria-label="Username" value={currentSelectedRow?.descricaoN2} onChange={(e) => setCurrentSelectedRow(p => ({ ...p, descricaoN2: e.target.value }))} aria-describedby="basic-addon1" />
                                         </div>
                                         <div className="row cadastro-motivo-modal-buttons">
-                                            <button className="btn bg-primary-green color-white" onClick={editCausa}>Alterar</button>
-                                            <button className="btn bg-primary-red color-white" data-dismiss="modal">Sair</button>
+                                            <button className="btn bg-primary-green color-white" disabled={isEditLoading} onClick={editCausa}>
+                                                {isEditLoading ? <div style={{ display: "flex", justifyContent: "center" }}><ReactLoading type="spin" width="20px" height="20px" /></div> : "Editar"}
+                                            </button>
+                                            <button disabled={isEditLoading} className="btn bg-primary-red color-white" data-dismiss="modal">Sair</button>
                                         </div>
                                     </div>
                                 </div>
