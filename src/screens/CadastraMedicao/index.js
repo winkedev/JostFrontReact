@@ -122,6 +122,11 @@ const CadastraMedicao = () => {
     const searchData = async () => {
 
         try {
+            if (currentDescricaoItem == null || currentDescricaoItem == '') {
+                openModal("Aviso", "Item deve ser preenchido para concluir a busca.", true);
+                return;
+            }
+
             setIsConsumeLoading(true);
             await new Promise(r => setTimeout(r, 500));
 
@@ -232,7 +237,7 @@ const CadastraMedicao = () => {
                 <div>
 
                     <div className="cm-title">
-                        <h4>Cadastra Medição</h4>
+                        <h4>Cadastro Medição</h4>
                     </div>
 
 

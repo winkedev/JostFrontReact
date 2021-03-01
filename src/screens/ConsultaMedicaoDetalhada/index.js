@@ -134,7 +134,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
         {
             dataField: "justificativa",
-            text: "Justificatica",
+            text: "Justificativa",
             editable: false,
             sort: true
         },

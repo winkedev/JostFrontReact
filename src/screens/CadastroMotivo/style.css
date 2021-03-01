@@ -13,3 +13,72 @@
     padding: 20px;
     box-shadow: 0 1px 15px 1px rgb(39 39 39 / 10%);
 }
+
+.cadastro-motivo-buttons button{
+    width: 94px;
+    margin: 10px 5px;
+    transition: all 0.3s;
+}
+
+.cadastro-motivo-buttons button:hover{
+    transform: scale(1.1);
+}
+
+.cadastro-motivo-table col{
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.modal-content .cadastro-motivo-modal{
+    height: 100% !important;
+    min-height: 200px;
+}
+
+.cadastro-motivo-modal-header{
+    display: flex;
+    flex-direction: column;
+}
+
+.cadastro-motivo-modal-header-title{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.cadastro-motivo-modal-header-subtitle{
+    margin: 10px 0;
+}
+
+.cadastro-motivo-modal-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-height: 200px;
+}
+
+.cadastro-motivo-modal-inputs{
+    justify-content: center;
+}
+
+.cadastro-motivo-modal-inputs-causa{
+    justify-content: center;
+    margin: 0 10px
+}
+
+.cadastro-motivo-modal-buttons{
+    margin-top: 30px !important;
+    justify-content: center;
+}
+
+.cadastro-motivo-modal-buttons button{
+    width: 96px;
+    transition: all 0.3s;
+    margin: 0 5px;
+}
+
+.cadastro-motivo-modal-buttons button:hover{
+    transform: scale(1.1);
+}

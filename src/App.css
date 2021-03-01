@@ -52,3 +52,7 @@ body, html, #root, #root > div{
 .border-none{
   border: none;
 }
+
+.color-white{
+  color: var(--primary-white) !important;
+}

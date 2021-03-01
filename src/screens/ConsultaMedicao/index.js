@@ -122,6 +122,12 @@ const ConsultaMedicao = () => {
     const searchData = async () => {
 
         try {
+
+            if (currentDescricaoItem == null || currentDescricaoItem == '') {
+                openModal("Aviso", "Item deve ser preenchido para concluir a busca.", true);
+                return;
+            }
+
             setIsConsumeLoading(true);
             await new Promise(r => setTimeout(r, 500));
 
