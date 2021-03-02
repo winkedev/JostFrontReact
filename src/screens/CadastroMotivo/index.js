@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import { swalMessagePopup, swalConfirmPopup } from '../../components/SwalPopup';
-import Swal from 'sweetalert2';
+import { clone } from '../../utils/CloneObject';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
 
@@ -244,12 +244,12 @@ const CadastroMotivo = () => {
         )
 
         if (resp.isConfirmed) {
-            consumeMotivosAndFulltable();
+            await consumeMotivosAndFulltable();
         }
     }
 
     const cadastrarNaoConforme = async () => {
-        await swalConfirmPopup(
+        let resp = await swalConfirmPopup(
             'Cadastro Não Conforme',
             '',
             '',
@@ -260,13 +260,30 @@ const CadastroMotivo = () => {
             mountCadastroNaoConforme(),
             true,
             () => {
+                var value = document.getElementById("id-input-descricao").value;
 
+                if (value != null && value != '') {
+                    return ApiMotivo.saveUpdate({ descricao: value })
+                        .then(res => {
+                            if (res?.sucess) {
+                                return true;
+                            }
+                            else {
+                                swalMessagePopup("Erro", `Erro ao atualizar motivo: ${res?.message}`, "error");
+                                return false;
+                            }
+                        });
+                }
             }
         );
+
+        if (resp.isConfirmed) {
+            await consumeMotivosAndFulltable();
+        }
     }
 
     const cadastrarCausa = async () => {
-        await swalConfirmPopup(
+        let resp = await swalConfirmPopup(
             'Cadastro Causa',
             '',
             '',
@@ -277,9 +294,38 @@ const CadastroMotivo = () => {
             mountCadastroCausa(),
             true,
             () => {
+                let value = document.getElementById("id-input-descricao").value;
 
+                if (value != null && value != '') {
+
+                    var currentMotivo;
+
+                    Object.keys(fullMotivos).map((k, v) => {
+                        if (fullMotivos[v].id == currentSelectMotivo.id) {
+                            currentMotivo = clone(fullMotivos[v]);
+                            currentMotivo.motivoN2.push({
+                                descricao: value
+                            });
+                        }
+                    });
+
+                    return ApiMotivo.saveUpdate(currentMotivo)
+                        .then(res => {
+                            if (res?.sucess) {
+                                return true;
+                            }
+                            else {
+                                swalMessagePopup("Erro", `Erro ao atualizar motivo: ${res?.message}`, "error");
+                                return false;
+                            }
+                        });
+                }
             }
         );
+
+        if (resp.isConfirmed) {
+            await consumeMotivosAndFulltable();
+        }
     }
 
     var columns = [
