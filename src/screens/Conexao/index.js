@@ -7,6 +7,8 @@ import { SecurityConfig } from '../../services/SecurityConfig';
 import { ApiConnection } from '../../services/Jost/Api/Connection/Api';
 
 import CustomPopup from '../../components/CustomPopup';
+import { SwalPopup } from '../../components/SwalPopup';
+import { swalMessagePopup } from '../../components/SwalPopup';
 
 import { ReactComponent as PluvSVG } from '../../assets/plug.svg';
 
@@ -84,12 +86,9 @@ const Conexao = () => {
 
         } finally {
             setIsLoading(false);
-            openModal();
+            swalMessagePopup('Teste Completo', '', "success", 'OK', '', false);
         }
-    }
 
-    const openModal = () => {
-        refButton.current.click();
     }
 
     const handleCheck = (e) => {
@@ -122,17 +121,18 @@ const Conexao = () => {
                         <div className="conexao-card-body">
                             <div style={{ display: "none" }} ref={refButton} data-toggle="modal" data-target="#testOkModal"></div>
                             <CustomPopup dataTargetID="testOkModal" title="Test Finish" content={isWSConnected && isCSConnected && isOPConnected && isREConnected ? "Teste realizado com sucesso" : "Erro ao realizar teste."} isOk={isWSConnected && isCSConnected && isOPConnected && isREConnected} isError={!isWSConnected || !isCSConnected || !isOPConnected || !isREConnected} />
-                            <button id="conexao-button" className={isWSConnected ? "active" : ""} data-toggle="modal" data-target="#WSModal">WS</button>
-                            <CustomPopup dataTargetID="WSModal" title="WebService" content={currentWSString} isOk={isWSConnected} />
+
+                            <button onClick={() => swalMessagePopup('WS', currentWSString, '', 'OK', '', true)} id="conexao-button" className={isWSConnected ? "active" : ""} >WS</button>
                             <div id="conexao-line" className={isWSConnected ? "active" : ""}></div>
-                            <button id="conexao-button" className={isCSConnected ? "active" : ""} data-toggle="modal" data-target="#CSModal">CS</button>
-                            <CustomPopup dataTargetID="CSModal" title="Connection String" content={currentCSString} isOk={isCSConnected} />
+
+                            <button onClick={() => swalMessagePopup('CS', currentCSString, '', 'OK', '', true)} id="conexao-button" className={isCSConnected ? "active" : ""} >CS</button>
                             <div id="conexao-line" className={isCSConnected ? "active" : ""}></div>
-                            <button id="conexao-button" className={isOPConnected ? "active" : ""} data-toggle="modal" data-target="#OPModal">OP</button>
-                            <CustomPopup dataTargetID="OPModal" title="Open Connection" content={currentOPString} isOk={isOPConnected} />
+
+                            <button onClick={() => swalMessagePopup('OP', currentOPString, '', 'OK', '', true)} id="conexao-button" className={isOPConnected ? "active" : ""} >OP</button>
                             <div id="conexao-line" className={isOPConnected ? "active" : ""}></div>
-                            <button id="conexao-button" className={isREConnected ? "active" : ""} data-toggle="modal" data-target="#REModal">RE</button>
-                            <CustomPopup dataTargetID="REModal" title="Response Connection" content={currentREString} isOk={isREConnected} />
+
+                            <button onClick={() => swalMessagePopup('RE', currentREString, '', 'OK', '', true)} id="conexao-button" className={isREConnected ? "active" : ""} >RE</button>
+
                         </div>
                     </div>
                     <div className="card-footer">
