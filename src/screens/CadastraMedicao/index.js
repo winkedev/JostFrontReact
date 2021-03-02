@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
+import Swal from 'sweetalert2';
+
 import ReactLoading from 'react-loading';
 
 import CustomSelectPicker from '../../components/CustomSelectPicker';

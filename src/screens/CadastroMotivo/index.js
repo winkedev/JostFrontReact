@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import Swal from 'sweetalert2';
+import { swalMessagePopup } from '../../components/SwalPopup';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
 
@@ -182,6 +183,8 @@ const CadastroMotivo = () => {
     }
 
     const deleteCausa = async (row) => {
+
+        let r = await swalMessagePopup("Test", "Connte", "warning", null, null, false);
 
         let result = await Swal.fire({
             title: "Excluir",

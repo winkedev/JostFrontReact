@@ -1,22 +1,28 @@
 import Swal from 'sweetalert2';
 
-export const SwalPopup = ({ title, text, icon, confirmButtonText, cancelButtonText, isShowConfirmButton, isShowCancelButton, isAllowOutsideClick, onSucessEvent, onCancelEvent }) => {
-    Swal.fire({
+export const swalMessagePopup = async (title, text, icon, confirmButtonText, confirmButtonColor, isAllowOutsideClick) => {
+    console.log(title);
+    await Swal.fire({
+        title: title ?? "title",
+        text: text ?? "content",
+        icon: icon ?? "success",
+        showConfirmButton: true,
+        confirmButtonColor: confirmButtonColor ?? "#18CE0F",
+        confirmButtonText: confirmButtonText ?? "Confirmar",
+        allowOutsideClick: isAllowOutsideClick ?? true
+    });
+}
+
+export const swalConfirmPopup = async (title, text, icon, confirmButtonText, confirmButtonColor, cancelButtonText, isAllowOutsideClick) => {
+    await Swal.fire({
         title: { title } ?? "title",
         text: { text } ?? "content",
         icon: { icon } ?? "success",
-        showCancelButton: { isShowCancelButton } ?? true,
-        showConfirmButton: { isShowConfirmButton } ?? true,
+        showCancelButton: true,
+        showConfirmButton: true,
         cancelButtonText: { cancelButtonText } ?? "Cancelar",
         confirmButtonText: { confirmButtonText } ?? "Confirmar",
+        confirmButtonColor: confirmButtonColor ?? "#18CE0F",
         allowOutsideClick: { isAllowOutsideClick } ?? true
-    }).then((r) => {
-        if (r.isConfirmed) {
-            onSucessEvent();
-            Swal.fire('Saved!', '', 'sucess');
-        }
-        else {
-            onCancelEvent();
-        }
     });
 }
