@@ -83,3 +83,18 @@
 .cadastro-motivo-modal-buttons button:hover{
     transform: scale(1.1);
 }
+
+.cadastro-motivo-edit-inputs-container{
+    display: flex !important;
+    flex-direction: column !important;
+    margin: 30px 0;
+}
+
+.cadastro-motivo-edit-inputs-container i{
+    margin-bottom: 30px;
+}
+
+.cadastro-motivo-edit-inputs{
+    display: flex !important;
+    flex-direction: row !important;
+}

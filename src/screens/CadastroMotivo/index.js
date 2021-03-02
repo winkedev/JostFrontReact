@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
+import { swalMessagePopup, swalConfirmPopup } from '../../components/SwalPopup';
 import Swal from 'sweetalert2';
-import { swalMessagePopup } from '../../components/SwalPopup';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
 
@@ -143,7 +143,7 @@ const CadastroMotivo = () => {
     const actionFormatter = (cell, row) => {
         return (
             <div>
-                <button className="btn" disabled={row.idN2 == -1} onClick={() => setCurrentSelectedRow(row)} data-toggle="modal" data-target="#EditCausaModal" data-backdrop="static" data-keyboard="false" style={{ width: "64px" }} >
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => editCausa(row)} style={{ width: "64px" }} >
                     <EditSVG fill="#01579B" width={32} height={32} />
                 </button>
                 <button className="btn" disabled={row.idN2 == -1} onClick={() => deleteCausa(row)} style={{ width: "64px" }}>
@@ -153,59 +153,133 @@ const CadastroMotivo = () => {
         )
     }
 
-    const editCausa = async () => {
+    const mountEditInputs = (row) => {
+        return "<div class='cadastro-motivo-edit-inputs-container'>" +
+            "<div class='cadastro-motivo-edit-inputs'>" +
+            "<div class='input-group-prepend'>" +
+            "<span class='input-group-text' id='basic-addon1'>Causa: </span>" +
+            "</div>" +
+            "<input id='id-input-descricao' type='text' class='form-control' placeholder='Descrição...' value='" + row.descricaoN2 + "' aria-label='Username' aria-describedby='basic-addon1' />" +
+            "</div>" +
+            "</div>"
+    }
 
-        var motivo;
+    const mountCadastroNaoConforme = () => {
+        return "<div class='cadastro-motivo-edit-inputs-container'>" +
+            "<div class='cadastro-motivo-edit-inputs'>" +
+            "<div class='input-group-prepend'>" +
+            "<span class='input-group-text' id='basic-addon1'>Não conforme: </span>" +
+            "</div>" +
+            "<input id='id-input-descricao' type='text' class='form-control' placeholder='Descrição...' aria-label='Username' aria-describedby='basic-addon1' />" +
+            "</div>" +
+            "</div>"
+    }
 
-        setIsEditLoading(true);
-        await new Promise(r => setTimeout(r, 500));
+    const mountCadastroCausa = () => {
+        return "<div class='cadastro-motivo-edit-inputs-container'>" +
+            "<i>Não conforme: <strong>" + currentSelectMotivo.descricao + "</strong></i>" +
+            "<div class='cadastro-motivo-edit-inputs'>" +
+            "<div class='input-group-prepend'>" +
+            "<span class='input-group-text' id='basic-addon1'>Causa: </span>" +
+            "</div>" +
+            "<input id='id-input-descricao' type='text' class='form-control' placeholder='Descrição...' aria-label='Username' aria-describedby='basic-addon1' />" +
+            "</div>" +
+            "</div>"
+    }
 
-        Object.keys(fullMotivos).map((k, v) => {
-            if (fullMotivos[v].id == currentSelectedRow.idN1) {
-                motivo = fullMotivos[v];
-                let motivoN2 = fullMotivos[v]?.motivoN2;
-                Object.keys(motivoN2).map((k, v) => {
-                    if (motivoN2[v].id == currentSelectedRow.idN2) {
-                        motivoN2[v].descricao = currentSelectedRow.descricaoN2;
+    const editCausa = async (row) => {
+
+        let resp = await swalConfirmPopup(
+            'Editar',
+            '',
+            'warning',
+            'Confirmar',
+            null,
+            'Cancelar',
+            false,
+            mountEditInputs(row),
+            true,
+            () => {
+
+                var motivo;
+
+                Object.keys(fullMotivos).map((k, v) => {
+                    if (fullMotivos[v].id == row.idN1) {
+                        motivo = fullMotivos[v];
+                        let motivoN2 = motivo?.motivoN2;
+                        Object.keys(motivoN2).map((k, v) => {
+                            if (motivoN2[v].id == row.idN2) {
+                                motivoN2[v].descricao = document.getElementById("id-input-descricao").value;
+                            }
+                        })
                     }
-                })
+                });
+
+                return ApiMotivo.saveUpdate(motivo);
             }
-        })
+        );
 
-        let resp = await ApiMotivo.saveUpdate(motivo);
-
-        if (resp) {
+        if (resp.isConfirmed) {
             await consumeMotivosAndFulltable();
         }
 
-        setIsEditLoading(false);
-        closeEditModal();
     }
+
 
     const deleteCausa = async (row) => {
 
-        let r = await swalMessagePopup("Test", "Connte", "warning", null, null, false);
+        let resp = await swalConfirmPopup(
+            'Excluir',
+            `Deseja excluir ${row.descricaoN2} permanentemente?`,
+            'warning',
+            "Confirmar",
+            null,
+            null,
+            false,
+            null,
+            true,
+            () => {
+                return ApiMotivo.deleteN2({ id: row.idN2 });
+            }
+        )
 
-        let result = await Swal.fire({
-            title: "Excluir",
-            text: `Deseja excluir ${row.descricaoN2} permanentemente?`,
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Confirmar",
-            cancelButtonText: "Cancelar",
-            confirmButtonColor: "#18CE0F"
-        });
-
-        if (result.isConfirmed) {
-            let resp = await ApiMotivo.deleteN2({ id: row.idN2 });
-            await Swal.fire(resp?.sucess ? 'Excluido' : 'Falha ao excluir', '', resp?.sucess ? 'success' : 'error');
-            await consumeMotivosAndFulltable();
+        if (resp.isConfirmed) {
+            consumeMotivosAndFulltable();
         }
     }
 
+    const cadastrarNaoConforme = async () => {
+        await swalConfirmPopup(
+            'Cadastro Não Conforme',
+            '',
+            '',
+            'Cadastrar',
+            null,
+            'Cancelar',
+            false,
+            mountCadastroNaoConforme(),
+            true,
+            () => {
 
-    const closeEditModal = () => {
+            }
+        );
+    }
 
+    const cadastrarCausa = async () => {
+        await swalConfirmPopup(
+            'Cadastro Causa',
+            '',
+            '',
+            'Cadastrar',
+            null,
+            'Cancelar',
+            false,
+            mountCadastroCausa(),
+            true,
+            () => {
+
+            }
+        );
     }
 
     var columns = [
@@ -241,6 +315,9 @@ const CadastroMotivo = () => {
 
     return (
         <div className="cadastro-motivo-container">
+
+
+
             <button id="bt-dismiss" style={{ display: "none" }} data-dismiss="modal" data-target="#EditCausaModal" ref={refModal} />
             {isLoading ? <div style={{ height: "500px" }} className="d-flex justify-content-center align-items-center"><ReactLoading type="spin" width={128} height={128} color="#FFFFFF" /> </div> :
                 <div className="cadastro-motivo-wrap">
@@ -251,8 +328,8 @@ const CadastroMotivo = () => {
                             <CustomSelectPicker ID="idNaoConformeSelect" initWithEmptyValue classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e.target.value)} />
                         </div>
                         <div className="row justify-content-end cadastro-motivo-buttons">
-                            <button className="btn col-2 bg-primary-green color-white" data-toggle="modal" data-target="#cadastroModal" data-backdrop="static" data-keyboard="false">Cadastrar Não Conforme</button>
-                            <button disabled={currentSelectMotivo == null || currentSelectMotivo.id <= 0} className="btn col-2 bg-primary-orange color-white" data-toggle="modal" data-target="#cadastroCausaModal" data-backdrop="static" data-keyboard="false">Cadastrar Causa</button>
+                            <button className="btn col-2 bg-primary-green color-white" onClick={cadastrarNaoConforme}>Cadastrar Não Conforme</button>
+                            <button disabled={currentSelectMotivo == null || currentSelectMotivo.id <= 0} className="btn col-2 bg-primary-orange color-white" onClick={cadastrarCausa}>Cadastrar Causa</button>
                         </div>
                     </div>
                     <div className="row cadastro-motivo-table">
@@ -260,103 +337,6 @@ const CadastroMotivo = () => {
                             <CustomTable customcolumns={columns} customdata={tableData} />
                         </div>
                     </div>
-
-                    {/* Modal Não Conforme */}
-
-                    <div className="modal fade" id="cadastroModal" tabIndex="-1" role="dialog" aria-labelledby="popupCenteredTitle" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered" role="document">
-                            <div className="modal-content">
-                                <div className="cadastro-motivo-modal">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title" id="exampleModalLongTitle">Cadastro Não Conforme</h5>
-                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="modal-body cadastro-motivo-modal-body">
-                                        <div className="row cadastro-motivo-modal-inputs">
-                                            <div class="col-4 input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">Não conforme: </span>
-                                            </div>
-                                            <input type="text" class="col-7 form-control " placeholder="Descrição..." aria-label="Username" aria-describedby="basic-addon1" />
-                                        </div>
-                                        <div></div>
-                                        <div className="row cadastro-motivo-modal-buttons">
-                                            <button className="btn bg-primary-green color-white">Cadastrar</button>
-                                            <button className="btn bg-primary-red color-white" data-dismiss="modal">Sair</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Modal Causa */}
-
-                    <div className="modal fade" id="cadastroCausaModal" tabIndex="-1" role="dialog" aria-labelledby="popupCenteredTitle" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered" role="document">
-                            <div className="modal-content">
-                                <div className="cadastro-motivo-modal">
-                                    <div className="modal-header cadastro-motivo-modal-header">
-                                        <div className="cadastro-motivo-modal-header-title">
-                                            <h4 className="modal-title" id="exampleModalLongTitle">Cadastro Causa</h4>
-                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <h6 className="cadastro-motivo-modal-header-subtitle" id="exampleModalsubtitle">Não conforme: <strong>{currentSelectMotivo?.descricao}</strong></h6>
-                                    </div>
-                                    <div className="modal-body cadastro-motivo-modal-body" style={{ whiteSpace: "pre-line", display: "flex", flexDirection: "column" }}>
-                                        <div className="row cadastro-motivo-modal-inputs-causa">
-                                            <div class="col-3 input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">Causa: </span>
-                                            </div>
-                                            <input type="text" class="col-9 form-control " placeholder="Descrição..." aria-label="Username" aria-describedby="basic-addon1" />
-                                        </div>
-                                        <div className="row cadastro-motivo-modal-buttons">
-                                            <button className="btn bg-primary-green color-white">Cadastrar</button>
-                                            <button className="btn bg-primary-red color-white" data-dismiss="modal">Sair</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Modal Edit Causa */}
-
-                    <div className="modal fade" id="EditCausaModal" tabIndex="-1" role="dialog" aria-labelledby="popupCenteredTitle" aria-hidden="true">
-                        <div className="modal-dialog modal-dialog-centered" role="document">
-                            <div className="modal-content">
-                                <div className="cadastro-motivo-modal">
-                                    <div className="modal-header cadastro-motivo-modal-header">
-                                        <div className="cadastro-motivo-modal-header-title">
-                                            <h4 className="modal-title" id="exampleModalLongTitle">Editar Causa</h4>
-                                            <button type="button" disabled={isEditLoading} className="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <h6 className="cadastro-motivo-modal-header-subtitle" id="exampleModalsubtitle">Não conforme: <strong>{currentSelectMotivo?.descricao}</strong></h6>
-                                    </div>
-                                    <div className="modal-body cadastro-motivo-modal-body" style={{ whiteSpace: "pre-line", display: "flex", flexDirection: "column" }}>
-                                        <div className="row cadastro-motivo-modal-inputs-causa">
-                                            <div class="col-3 input-group-prepend">
-                                                <span class="input-group-text" id="basic-addon1">Causa: </span>
-                                            </div>
-                                            <input type="text" class="col-9 form-control " placeholder="Descrição..." aria-label="Username" value={currentSelectedRow?.descricaoN2} onChange={(e) => setCurrentSelectedRow(p => ({ ...p, descricaoN2: e.target.value }))} aria-describedby="basic-addon1" />
-                                        </div>
-                                        <div className="row cadastro-motivo-modal-buttons">
-                                            <button className="btn bg-primary-green color-white" disabled={isEditLoading} onClick={editCausa}>
-                                                {isEditLoading ? <div style={{ display: "flex", justifyContent: "center" }}><ReactLoading type="spin" width="20px" height="20px" /></div> : "Editar"}
-                                            </button>
-                                            <button disabled={isEditLoading} className="btn bg-primary-red color-white" data-dismiss="modal">Sair</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             }
         </div>
