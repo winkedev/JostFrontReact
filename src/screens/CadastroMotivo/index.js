@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import $ from 'jquery';
+import Swal from 'sweetalert2';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
 
@@ -43,6 +44,16 @@ const CadastroMotivo = () => {
         }
     }
 
+    const consumeMotivosAndFulltable = async () => {
+        let resp = await ApiMotivo.getAll();
+
+        if (resp?.data?.length > 0) {
+            setFullMotivos(resp.data);
+            fillSelect(resp.data);
+            fillDataAfterRefresh($("#idNaoConformeSelect").val(), resp.data);
+        }
+    }
+
     const fillSelect = (data) => {
         var respdata = [];
 
@@ -60,7 +71,9 @@ const CadastroMotivo = () => {
 
     const fillData = (e) => {
 
+        console.log(fullMotivos);
         let tableData = [];
+        setTableData([]);
 
         Object.keys(fullMotivos).map((k, v) => {
             if (fullMotivos[v].id == e) {
@@ -91,13 +104,49 @@ const CadastroMotivo = () => {
         setTableData(tableData);
     }
 
+    const fillDataAfterRefresh = (e, refreshData) => {
+
+        console.log(refreshData);
+        let tableData = [];
+        setTableData([]);
+
+        Object.keys(refreshData).map((k, v) => {
+            if (refreshData[v].id == e) {
+                setCurrentSelectMotivo(refreshData[v]);
+                let currentMotivo = refreshData[v];
+                let currentMotivoN2 = refreshData[v].motivoN2;
+                if (currentMotivoN2?.length > 0) {
+                    Object.keys(currentMotivoN2).map((k, v) => {
+                        tableData.push({
+                            idN1: currentMotivo.id,
+                            idN2: currentMotivoN2[v].id,
+                            descricaoN1: currentMotivo.descricao,
+                            descricaoN2: currentMotivoN2[v].descricao
+                        });
+                    });
+                }
+                else {
+                    tableData.push({
+                        idN1: currentMotivo.id,
+                        idN2: -1,
+                        descricaoN1: currentMotivo.descricao,
+                        descricaoN2: ''
+                    });
+                }
+            }
+        })
+
+        setTableData(tableData);
+    }
+
+
     const actionFormatter = (cell, row) => {
         return (
             <div>
                 <button className="btn" disabled={row.idN2 == -1} onClick={() => setCurrentSelectedRow(row)} data-toggle="modal" data-target="#EditCausaModal" data-backdrop="static" data-keyboard="false" style={{ width: "64px" }} >
                     <EditSVG fill="#01579B" width={32} height={32} />
                 </button>
-                <button className="btn" disabled={row.idN2 == -1} onClick={() => setCurrentSelectedRow(row)} style={{ width: "64px" }}>
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => deleteCausa(row)} style={{ width: "64px" }}>
                     <DeleteSVG fill="red" width={32} height={32} />
                 </button>
             </div>
@@ -126,30 +175,35 @@ const CadastroMotivo = () => {
         let resp = await ApiMotivo.saveUpdate(motivo);
 
         if (resp) {
-            reloadData();
+            await consumeMotivosAndFulltable();
         }
 
         setIsEditLoading(false);
         closeEditModal();
     }
 
-    const deleteCausa = async () => {
+    const deleteCausa = async (row) => {
 
-        let resp = await ApiMotivo.deleteN2(currentSelectedRow.idN2);
+        let result = await Swal.fire({
+            title: "Excluir",
+            text: `Deseja excluir ${row.descricaoN2} permanentemente?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+            confirmButtonColor: "#18CE0F"
+        });
 
-        if (resp) {
-
+        if (result.isConfirmed) {
+            let resp = await ApiMotivo.deleteN2({ id: row.idN2 });
+            await Swal.fire(resp?.sucess ? 'Excluido' : 'Falha ao excluir', '', resp?.sucess ? 'success' : 'error');
+            await consumeMotivosAndFulltable();
         }
-
     }
+
 
     const closeEditModal = () => {
         $("#EditCausaModal .close").trigger("click");
-    }
-
-    const reloadData = () => {
-        consumeMotivos();
-        fillData($("#idNaoConformeSelect").val());
     }
 
     var columns = [

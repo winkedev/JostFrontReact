@@ -8,6 +8,6 @@ export const ApiMotivo = {
         return MountRespPost('api/motivo/saveupdate', motivo);
     },
     deleteN2: async (motivoN2) => {
-        return MountRespDelete('api/motivo/deleteN2', motivoN2);
+        return MountRespPost('api/motivo/deleteN2', motivoN2);
     }
 }
