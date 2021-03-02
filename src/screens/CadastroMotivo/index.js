@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
-import $ from 'jquery';
 import Swal from 'sweetalert2';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
@@ -50,7 +49,7 @@ const CadastroMotivo = () => {
         if (resp?.data?.length > 0) {
             setFullMotivos(resp.data);
             fillSelect(resp.data);
-            fillDataAfterRefresh($("#idNaoConformeSelect").val(), resp.data);
+            fillDataAfterRefresh(document.getElementById("idNaoConformeSelect").value, resp.data);
         }
     }
 
@@ -203,7 +202,7 @@ const CadastroMotivo = () => {
 
 
     const closeEditModal = () => {
-        $("#EditCausaModal .close").trigger("click");
+
     }
 
     var columns = [
