@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './style.css';
-/*import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';*/
+/* import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 
 import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
 import { ReactComponent as PDFSVG } from '../../assets/pdf.svg';
@@ -103,7 +103,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
     function rowClassNameFormat(row, rowIdx) {
         // row is whole row object
         // rowIdx is index of row
-        return rowIdx % 2 === 0 ? 'td-alternate-color' : '';
+        return rowIdx % 2 === 0 ? 'td-alternate-color-x' : 'td-alternate-color-y';
     }
 
     return (
@@ -121,7 +121,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
                         data={customdata}
                         pagination={paginationFactory()}
                         noDataIndication="Table Empty"
-                        rowClasses={isAlternateRowColor ? rowClassNameFormat : ""}
+                        rowClasses={rowClassNameFormat}
                         cellEdit={cellEditfactory({
                             mode: "click",
                             beforeSaveCell(oldValue, newValue, row, column, done) {

@@ -114,14 +114,16 @@ const Dashboard = () => {
                                         <span>Home</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
-                                        <i>
-                                            <FileReasonSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
-                                        </i>
-                                        <span>Motivos</span>
-                                    </a>
-                                </li>
+                                {isAdminRole() ?
+                                    <li>
+                                        <a href="javascript:void(0);" onClick={() => setIndexActive(1)}>
+                                            <i>
+                                                <FileReasonSVG width={31} height={31} opacity="0.5" fill="#FFFFFF" />
+                                            </i>
+                                            <span>Motivos</span>
+                                        </a>
+                                    </li>
+                                    : ""}
                                 <li>
                                     <a id="sidebar-medicao" ref={refSidebarMedicao} href="#homeSubmenuMedicao" data-toggle="collapse" aria-expanded="false">
                                         <i>

@@ -2,12 +2,12 @@ import { BaseApi, MountRespGet, MountRespPost, MountRespDelete } from '../BaseAp
 
 export const ApiMotivo = {
     getAll: async () => {
-        return MountRespGet('api/motivo/getall');
+        return await MountRespGet('api/motivo/getall');
     },
     saveUpdate: async (motivo) => {
-        return MountRespPost('api/motivo/saveupdate', motivo);
+        return await MountRespPost('api/motivo/saveupdate', motivo);
     },
     deleteN2: async (motivoN2) => {
-        return MountRespPost('api/motivo/deleteN2', motivoN2);
+        return await MountRespPost('api/motivo/deleteN2', motivoN2);
     }
 }

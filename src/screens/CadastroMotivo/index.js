@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import { swalMessagePopup, swalConfirmPopup } from '../../components/SwalPopup';
+import Swal from 'sweetalert2';
 import { clone } from '../../utils/CloneObject';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
@@ -46,6 +47,8 @@ const CadastroMotivo = () => {
 
     const consumeMotivosAndFulltable = async () => {
         let resp = await ApiMotivo.getAll();
+
+        console.log(resp);
 
         if (resp?.data?.length > 0) {
             setFullMotivos(resp.data);
@@ -263,14 +266,13 @@ const CadastroMotivo = () => {
                 var value = document.getElementById("id-input-descricao").value;
 
                 if (value != null && value != '') {
-                    return ApiMotivo.saveUpdate({ descricao: value })
+                    return ApiMotivo.saveUpdate({ descricao: value, dataRI: new Date().toISOString() })
                         .then(res => {
                             if (res?.sucess) {
                                 return true;
                             }
                             else {
-                                swalMessagePopup("Erro", `Erro ao atualizar motivo: ${res?.message}`, "error");
-                                return false;
+                                return swalMessagePopup("Erro", 'Erro ao cadastrar não conforme.', 'error');
                             }
                         });
                 }
@@ -278,6 +280,7 @@ const CadastroMotivo = () => {
         );
 
         if (resp.isConfirmed) {
+            await swalMessagePopup("Sucesso", 'Não conforme cadastrado com sucesso.', 'success');
             await consumeMotivosAndFulltable();
         }
     }
@@ -367,8 +370,7 @@ const CadastroMotivo = () => {
             <button id="bt-dismiss" style={{ display: "none" }} data-dismiss="modal" data-target="#EditCausaModal" ref={refModal} />
             {isLoading ? <div style={{ height: "500px" }} className="d-flex justify-content-center align-items-center"><ReactLoading type="spin" width={128} height={128} color="#FFFFFF" /> </div> :
                 <div className="cadastro-motivo-wrap">
-
-                    <h4>Cadastro Motivos</h4>
+                    <span className="cadastro-motivo-title">Cadastro Motivos</span>
                     <div className="cadastro-motivo-inputs col">
                         <div className="row">
                             <CustomSelectPicker ID="idNaoConformeSelect" initWithEmptyValue classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e.target.value)} />

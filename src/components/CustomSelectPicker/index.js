@@ -9,7 +9,7 @@ const CustomSelectPicker = ({ title, dict, initWithEmptyValue, onChangeEvent, ID
             {dict != null ?
                 <div>
                     <label>{title}</label>
-                    <select id={ID} className="selectpicker form-control" onChange={onChangeEvent}>
+                    <select id={ID} className="selectpicker form-control custom-select-picker" onChange={onChangeEvent}>
 
                         {initWithEmptyValue ? <option key="" value="selectone" selected disabled>Selecione...</option> : ""}
                         {Object.keys(dict).map((k, v) => {

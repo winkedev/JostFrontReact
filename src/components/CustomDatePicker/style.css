@@ -3,3 +3,11 @@
     border-radius: .25rem;
     height: calc(1.5em + .75rem + 2px);
 }
+
+.react-date-picker__clear-button svg{
+    stroke-width: 1 !important;
+}
+
+.react-date-picker__calendar-button svg{
+    stroke-width: 1 !important;
+}

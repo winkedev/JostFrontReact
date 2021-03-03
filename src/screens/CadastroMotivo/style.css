@@ -6,6 +6,11 @@
     flex-direction: column;
 }
 
+.cadastro-motivo-title{
+    font-size: 22px;
+    
+}
+
 .cadastro-motivo-inputs{
     width: 100%;
     background-color: var(--primary-white);

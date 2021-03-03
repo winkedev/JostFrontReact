@@ -8,13 +8,13 @@
 }
 
 .cm-box-label label{
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 300;
 }
 
 .cm-box-label span{
-    font-size: 15px;
     font-weight: 300;
+    font-size: 14px;
 }
 
 .cm-body{
@@ -33,6 +33,7 @@
     color: var(--primary-white);
     transition: all 0.3s;
     width: 94px;
+    font-weight: 300;
 }
 
 .button-back:hover{
@@ -49,6 +50,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 300;
 }
 
 .button-save:hover{

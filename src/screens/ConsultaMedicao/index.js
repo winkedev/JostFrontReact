@@ -201,7 +201,7 @@ const ConsultaMedicao = () => {
         },
         {
             dataField: "codigoOP",
-            text: "Código Operação",
+            text: "Ordem Produção",
             editable: false,
             sort: true
         },
@@ -238,7 +238,7 @@ const ConsultaMedicao = () => {
                 <div>
 
                     <div className="cm-title">
-                        <h4>Consulta Medição</h4>
+                        <span>Consulta Medição</span>
                     </div>
 
 
@@ -253,7 +253,7 @@ const ConsultaMedicao = () => {
                                     </div>
 
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Item" ID="IDMaterial" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
+                                        <CustomSelectPicker title="Material" ID="IDMaterial" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
                                     </div>
 
                                     <div className="cm-header-box-select">
@@ -268,6 +268,8 @@ const ConsultaMedicao = () => {
                                         <CustomDatePicker title="Data Final" startdate={finalDate} value={currentFinalDate} onChangeEvent={(date) => setCurrentFinalDate(date != null ? date : null)} />
                                     </div>
                                 </div>
+
+                                <div style={{ backgroundColor: "#EBECF1", height: "1px", marginTop: "30px" }}></div>
 
                                 <div className="cm-header-box-buttons">
                                     <button className="btn button-ok" disabled={isConsumeLoading} onClick={searchData}>

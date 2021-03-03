@@ -23,6 +23,8 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     const [isLoading, setIsloading] = useState(false);
 
+    const [isShowColumns, setIsShowColumns] = useState(false);
+
     useEffect(async () => {
 
         let dto = {
@@ -77,6 +79,17 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         }
     }
 
+    const actionformatter = (cell, row) => {
+        return (
+            <div>
+                { row?.justificativa != '' ?
+                    <button className="btn bg-primary-blue" style={{ width: "25px", height: "25px" }} onClick={() => setIsShowColumns(!isShowColumns)} />
+                    : ""
+                }
+            </div>
+        )
+    }
+
     const columns = [
         {
             dataField: "row",
@@ -88,73 +101,122 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             dataField: "posicao",
             text: "Pos",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', textAlign: 'center' };
+            }
         },
         {
             dataField: "tipo",
             text: "Tipo",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "caracteristica",
-            text: "Característica",
+            text: "Carac.",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "class",
             text: "Class",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', minWidth: '5%', textAlign: 'center' };
+            }
         },
         {
             dataField: "limite",
             text: "Limites",
             editable: false,
-            sort: true
-        },
-        {
-            dataField: "numeroMedicao",
-            text: "N°Med",
-            editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "valorMedido",
             text: "Valor",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', textAlign: 'center' };
+            }
         },
         {
             dataField: "descricaoTipo",
             text: "TipoMed",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "justificativa",
             text: "Justificativa",
             editable: false,
-            sort: true
+            sort: true,
+            hidden: !isShowColumns,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7%', textAlign: 'center' };
+            }
         },
         {
-            dataField: "observacao",
-            text: "Observação",
+            dataField: "relN",
+            text: "RelN",
             editable: false,
-            sort: true
+            sort: true,
+            hidden: !isShowColumns,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
+        },
+        {
+            dataField: "dsv",
+            text: "DSV",
+            editable: false,
+            sort: true,
+            hidden: !isShowColumns,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "numeroMatricula",
             text: "Nome",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', textAlign: 'center' };
+            }
         },
         {
             dataField: "dataMedicaoShort",
-            text: "DataMedição",
+            text: "Data Med.",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
+        },
+        {
+            dataField: "showHiddens",
+            text: "Mot.",
+            editable: false,
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '4%', textAlign: 'center' };
+            },
+            formatter: actionformatter
         },
     ]
 
@@ -166,7 +228,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             <div className="cm-header">
                 <div className="cm-header-inputs">
                     <div className="cm-box-label">
-                        <label>Item</label>
+                        <label>Material</label>
                         <span>{customdata.codigoItem}</span>
                     </div>
                     <div className="cm-box-label">
@@ -174,7 +236,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata.descricaoItem}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Plano Medição(Máquina)</label>
+                        <label>Centro de Trabalho</label>
                         <span>{customdata.codigoCCAndDescricaoCC}</span>
                     </div>
                     <div className="cm-box-label">
@@ -185,8 +247,14 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             </div>
 
             <div className="cm-body">
-                <CustomTable tableid="idConsultaMedicaoTable" fieldKey="row" pdfHeaderText="Consulta Medição" customcolumns={columns} customdata={dic}
+                <CustomTable
+                    tableid="idConsultaMedicaoTable"
+                    fieldKey="row"
+                    pdfHeaderText="Consulta Medição"
+                    customcolumns={columns}
+                    customdata={dic}
                     orientation='l'
+                    isAlternateRowColor
                     validateNewValue={(currentRow, newValue) => {
                         if (currentRow.tipoCaracteristica.toUpperCase().includes("OK/NOK")) {
                             if (newValue.toUpperCase() == "OK" || newValue.toUpperCase() == "NOK") {

@@ -88,73 +88,118 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             dataField: "posicao",
             text: "Pos",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', textAlign: 'center' };
+            }
         },
         {
             dataField: "tipo",
             text: "Tipo",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "caracteristica",
-            text: "Característica",
+            text: "Carac.",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "class",
             text: "Class",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "limite",
             text: "Limites",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "numeroMedicao",
             text: "N°Med",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "valorMedido",
             text: "Valor",
             editable: true,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "descricaoTipo",
             text: "TipoMed",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "justificativa",
             text: "Justificativa",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
         },
         {
-            dataField: "observacao",
-            text: "Observação",
+            dataField: "relN",
+            text: "RelN",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
+        },
+        {
+            dataField: "dsv",
+            text: "DSV",
+            editable: false,
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "numeroMatricula",
             text: "Nome",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "dataMedicaoShort",
-            text: "DataMedição",
+            text: "Data Med.",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
     ]
 

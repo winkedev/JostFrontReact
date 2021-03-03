@@ -1,5 +1,21 @@
-.table-to-xls{
+.table{
     height: 100%;
+    border: 2px solid #dee2e6;
+    font-size: 14px;
+}
+
+.table thead tr th{
+    border: none;
+    text-align: center;
+    font-weight: 300;
+}
+
+.table tbody tr td{
+    border: none;
+    border: 2px solid #dee2e6;
+    text-align: center;
+    font-weight: 300;
+    font-size: 13px;
 }
 
 .btn-scale{
@@ -14,10 +30,23 @@
     height: 100%;
 }
 
-.td-alternate-color{
-    background-color: var(--primary-gray);
+.td-alternate-color-x{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.td-alternate-color-y{
+    background-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 caption{
     display: none;
+}
+
+.react-bootstrap-table table { 
+    table-layout: auto !important; 
+    word-break: break-all;
+}
+
+#idConsultaMedicaoTable-pageDropDown{
+    margin-left: 10px;
 }

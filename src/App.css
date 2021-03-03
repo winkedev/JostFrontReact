@@ -23,7 +23,7 @@
   --primary-dark: #000000;
   --primary-gray: #EBECF1;
   --primary-white: #FFFFFF;
-  --primary-darkblue: #01579B;
+  --primary-darkblue: #007BFF;
 }
 
 *{
@@ -47,6 +47,10 @@ body, html, #root, #root > div{
 
 .bg-primary-orange{
   background-color: var(--primary-orange) !important;
+}
+
+.bg-primary-blue{
+  background-color: var(--primary-darkblue) !important;
 }
 
 .border-none{
