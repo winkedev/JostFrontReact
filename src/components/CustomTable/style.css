@@ -47,6 +47,6 @@ caption{
     word-break: break-all;
 }
 
-#idConsultaMedicaoTable-pageDropDown{
+.react-bs-table-sizePerPage-dropdown button{
     margin-left: 10px;
 }

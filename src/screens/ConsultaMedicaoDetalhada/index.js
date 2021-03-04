@@ -8,6 +8,8 @@ import CustomPopup from '../../components/CustomPopup';
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 import { SecurityConfig } from '../../services/SecurityConfig';
 
+import JOSTLOGO from '../../assets/jost_LOGO_OFICIAL.jpg';
+
 const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     const CONSULTAMEDICAODET_PREFIX = "*ConsultaMedicaoDetalhada*";
@@ -28,9 +30,10 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
     useEffect(async () => {
 
         let dto = {
-            codigoCC: customdata.codigoCC,
+            ct: customdata.ct,
             descricaoItem: customdata.descricaoItem,
             codigoOperacao: customdata.codigoOperacao,
+            planoPadraoVersao: customdata.planoPadraoVersao,
             dataInicio: customdata.dataRI,
             dataFim: customdata.dataRI
         };
@@ -236,12 +239,16 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata.descricaoItem}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Centro de Trabalho</label>
-                        <span>{customdata.codigoCCAndDescricaoCC}</span>
+                        <label>Centro Trabalho</label>
+                        <span>{customdata.ct}</span>
                     </div>
                     <div className="cm-box-label">
                         <label>Versão</label>
                         <span>{customdata.verPlano}</span>
+                    </div>
+                    <div className="cm-box-label">
+                        <label>Versão Padrão</label>
+                        <span>{customdata.planoPadraoVersao}</span>
                     </div>
                 </div>
             </div>
@@ -277,7 +284,6 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         openModal("Erro ao validar campo", "Verifique os limites e o tipo de caracteristica.", false, true);
                     }} />
                 <div className="cm-body-box-button">
-                    <button className="btn button-save" disabled={isLoading} onClick={saveAll}>{isLoading ? <ReactLoading type="spin" width="20px" height="24px" color="#FFF" /> : "Salvar"}</button>
                     <button className="btn button-back" disabled={isLoading} onClick={onBackButtonClick}>Voltar</button>
                 </div>
             </div>

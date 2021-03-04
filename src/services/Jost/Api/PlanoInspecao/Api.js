@@ -1,44 +1,19 @@
-import { BaseApi, MountError } from '../BaseApi';
+import { MountRespGet, MountRespPost } from '../BaseApi';
 
 export const ApiPlanoInspecao = {
     getAll: async () => {
-        var resp = await BaseApi.get('api/planoinspecao/getall')
-        return resp.data;
+        return await MountRespGet('api/planoinspecao/getall');
     },
     getBy: async (dto) => {
-        let resp;
-
-        try {
-            resp = await BaseApi.post('api/planoinspecao/getby', dto);
-        }
-        catch (e) {
-            resp = MountError(e);
-        }
-
-        return resp.data;
+        return await MountRespPost('api/planoinspecao/getby', dto);
     },
     getAllCodCC: async () => {
-        var resp;
-
-        try {
-            resp = await BaseApi.get('api/planoinspecao/getallcodcc')
-        }
-        catch (e) {
-            resp = MountError(e);
-        }
-
-        return resp.data;
+        return await MountRespGet('api/planoinspecao/getallcodcc');
     },
     getAllCodItem: async () => {
-        var resp;
-
-        try {
-            resp = await BaseApi.get('api/planoinspecao/getallcoditem')
-        }
-        catch (e) {
-            resp = MountError(e);
-        }
-
-        return resp.data;
+        return await MountRespGet('api/planoinspecao/getallcoditem');
     },
+    getAllVersaoPlanoPadrao: async () => {
+        return await MountRespGet('api/planoinspecao/getallversaopp');
+    }
 }

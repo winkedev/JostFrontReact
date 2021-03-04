@@ -15,6 +15,9 @@ import 'jspdf-autotable';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 
+
+import JOSTLOGO from '../../assets/jost_LOGO_OFICIAL.jpg';
+
 const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation }) => {
 
     //#region Exemplos de Columns / Data e ActionFormatter
@@ -74,13 +77,29 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
         var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
 
+        doc.page = 1;
+
         var tableHeader = () => {
-            doc.text(pdfHeaderText ?? "", pageWidth / 2, 20, 'center');
+            /* var xtable = doc.autoTableHtmlToJson(document.getElementById("xtable"));
+            var headers = ["Header 1", "Header 2"];
+            var rows = [["Cell 1", "Cell 2"], ["Cell 1", "Cell 2"]];
+
+            doc.autoTable(xtable.columns, xtable.data); */
+            doc.addImage(JOSTLOGO, 'jpg', 20, 20, 150, 150);
+        }
+
+        var tableFooter = () => {
+            doc.setFontSize(10);
+            doc.text(pageWidth - 100, pageHeight - 10, `Pagina: ${doc.page}`);
+            doc.page++;
         }
 
         var opt = {
-            beforePageContent: tableHeader
+            beforePageContent: tableHeader,
+            afterPageContent: tableFooter,
+            margin: { top: 160, bottom: 80 }
         }
+
 
 
         var elem = document.getElementById(tableid ?? "table-to-xls");

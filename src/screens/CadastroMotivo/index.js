@@ -345,11 +345,6 @@ const CadastroMotivo = () => {
             hidden: true
         },
         {
-            dataField: "descricaoN1",
-            text: "Não Conforme",
-            editable: false
-        },
-        {
             dataField: "descricaoN2",
             text: "Causa",
             editable: false

@@ -13,6 +13,8 @@ import { useHistory } from 'react-router-dom';
 import CustomInput from '../../components/CustomInput';
 import { SecurityConfig } from '../../services/SecurityConfig';
 
+import { swalMessagePopup } from '../../components/SwalPopup';
+
 const Login = () => {
 
     const [user, setUser] = useContext(UserContext);
@@ -27,8 +29,13 @@ const Login = () => {
 
     const doLogin = async () => {
 
-        setIsLoading(true);
+        if (currentUser.toUpperCase() == "ADMIN" && currentPassword != "micri@2021") {
 
+            await swalMessagePopup("Erro", "Senha invalida para usuario Admin", 'error');
+            return;
+        }
+
+        setIsLoading(true);
 
         SecurityConfig.writeLogs(LOGIN_PREFIX, `CurrentUser: ${currentUser}, CurrentPass: ${currentPassword}`);
         SecurityConfig.writeLogs(LOGIN_PREFIX, "Open WS Communication...");
@@ -36,7 +43,7 @@ const Login = () => {
         SecurityConfig.setUser({
             username: currentUser,
             password: currentPassword,
-            type: currentUser == "admin" ? 0 : 1
+            type: currentUser.toUpperCase() == "ADMIN" ? 0 : 1
         })
 
         await new Promise(r => setTimeout(r, 1000));

@@ -34,23 +34,27 @@ const ConsultaMedicao = () => {
     const [dicMaquinas, setDicMaquinas] = useState([])
     const [dicMaterial, setDicMaterial] = useState([])
     const [dicOrdemProducao, setDicOrdemProducao] = useState([]);
+    const [dicVersaoPadrao, setDicVersaoPadrao] = useState([]);
+
     const [initialDate, setInitialDate] = useState(new Date());
     const [finalDate, setFinalDate] = useState(new Date());
     const [medicaoData, setMedicaoData] = useState([]);
     const [isMedicaoDetalhada, setIsMedicaoDetalhada] = useState(false);
 
-    const [currentCodigoCC, setCurrentCodigoCC] = useState(null);
+    const [currentCT, setCurrentCT] = useState(null);
     const [currentDescricaoItem, setCurrentDescricaoItem] = useState(null);
     const [currentCodigoOp, setCurrentCodigoOp] = useState(null);
     const [currentInitialDate, setCurrentInitialDate] = useState(new Date());
     const [currentFinalDate, setCurrentFinalDate] = useState(new Date());
     const [currentMedicao, setCurrentMedicao] = useState({});
+    const [currentVersaoPP, setCurrentVersaoPP] = useState(null);
 
     useEffect(async () => {
 
         await fillMaquina();
         await fillItem();
         await fillOrdemProducao();
+        await fillVersaoPadrao();
         setIsLoading(false);
 
     }, [])
@@ -73,8 +77,8 @@ const ConsultaMedicao = () => {
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
-                key: resp.data[v].codigoCC,
-                value: resp.data[v].codigoCC + " " + resp.data[v].descricaoCC
+                key: resp.data[v].ct,
+                value: resp.data[v].ct
             });
         });
 
@@ -117,6 +121,24 @@ const ConsultaMedicao = () => {
 
     }
 
+    const fillVersaoPadrao = async () => {
+
+        let dicVersaoPadrao = [];
+
+        let resp = await ApiPlanoInspecao.getAllVersaoPlanoPadrao();
+        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllVersaoPlanoPadrao(): ${resp?.sucess ? 'Ok' : 'Error'}`);
+
+        Object.keys(resp.data).map((k, v) => {
+            dicVersaoPadrao.push({
+                key: resp.data[v].planoPadraoVersao,
+                value: resp.data[v].planoPadraoVersao
+            })
+        })
+
+        setDicVersaoPadrao(dicVersaoPadrao);
+
+    }
+
     //#endregion
 
     const searchData = async () => {
@@ -132,9 +154,10 @@ const ConsultaMedicao = () => {
             await new Promise(r => setTimeout(r, 500));
 
             let dto = {
-                codigoCC: currentCodigoCC,
+                codigoCC: currentCT,
                 descricaoItem: currentDescricaoItem,
                 codigoOperacao: currentCodigoOp,
+                planoPadraoVersao: currentVersaoPP,
                 dataInicio: currentInitialDate != null ? currentInitialDate.toISOString() : null,
                 dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
             };
@@ -159,13 +182,15 @@ const ConsultaMedicao = () => {
     }
 
     const cleanData = () => {
-        setCurrentCodigoCC(null);
+        setCurrentCT(null);
         setCurrentDescricaoItem(null);
         setCurrentCodigoOp(null);
+        setCurrentVersaoPP(null);
 
         document.getElementById("IDMaquina").value = "selectone";
         document.getElementById("IDMaterial").value = "selectone";
         document.getElementById("IDOrdemProducao").value = "selectone";
+        document.getElementById("IDVersaoPadrao").value = "selectone";
     }
 
     const mountMedicaoDetalhada = (row) => {
@@ -181,53 +206,83 @@ const ConsultaMedicao = () => {
 
     const actionformatter = (cell, row) => {
         return (
-            <button className="btn btn-primary" style={{ width: "30%" }} onClick={() => mountMedicaoDetalhada(row)}>
+            <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => mountMedicaoDetalhada(row)}>
                 <i><FontAwesomeIcon icon={faFile} /></i>
             </button>)
     }
 
     const column = [
         {
-            dataField: "codigoCCAndDescricaoCC",
-            text: "Centro de Trabalho",
+            dataField: "ct",
+            text: "Centro Trabalho",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
         },
         {
             dataField: "codigoItem",
             text: "Item",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
         },
         {
             dataField: "codigoOP",
             text: "Ordem Produção",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
         },
         {
             dataField: "descricaoItem",
             text: "Descrição",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '7.7%', textAlign: 'center' };
+            }
         },
         {
             dataField: "verPlano",
-            text: "Versão Plano",
+            text: "Versão Item",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '8.5%', textAlign: 'center' };
+            }
+        },
+        {
+            dataField: "planoPadraoVersao",
+            text: "Versão Padrão",
+            editable: false,
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '9%', textAlign: 'center' };
+            }
         },
         {
             dataField: "dataMedicaoShort",
             text: "Data medição",
             editable: false,
-            sort: true
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '10%', textAlign: 'center' };
+            }
         },
         {
             dataField: "IDConsultaDet",
-            text: "Consulta Medições",
+            text: "Detalhes",
             formatter: actionformatter,
-            editable: false
+            editable: false,
+            headerStyle: (colum, colIndex) => {
+                return { width: '5%', textAlign: 'center' };
+            }
         },
     ]
 
@@ -249,16 +304,13 @@ const ConsultaMedicao = () => {
                             <div className="cm-header">
                                 <div className="cm-header-inputs">
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Centro de Trabalho" ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoCC(e.target.value)} />
+                                        <CustomSelectPicker title="Centro de Trabalho" ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCT(e.target.value)} />
                                     </div>
 
                                     <div className="cm-header-box-select">
                                         <CustomSelectPicker title="Material" ID="IDMaterial" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
                                     </div>
 
-                                    <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Ordem produção" ID="IDOrdemProducao" dict={dicOrdemProducao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoOp(e.target.value)} />
-                                    </div>
 
                                     <div className="cm-header-box-datepicker">
                                         <CustomDatePicker title="Data Início" startdate={initialDate} value={currentInitialDate} onChangeEvent={(date) => setCurrentInitialDate(date != null ? date : null)} />
@@ -269,7 +321,19 @@ const ConsultaMedicao = () => {
                                     </div>
                                 </div>
 
-                                <div style={{ backgroundColor: "#EBECF1", height: "1px", marginTop: "30px" }}></div>
+                                <div className="cm-header-inputs" style={{ marginTop: "20px" }}>
+                                    <div className="cm-header-box-select">
+                                        <CustomSelectPicker title="Ordem produção" ID="IDOrdemProducao" dict={dicOrdemProducao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoOp(e.target.value)} />
+                                    </div>
+                                    <div className="cm-header-box-select">
+                                        <CustomSelectPicker title="Versão Padrão" ID="IDVersaoPadrao" dict={dicVersaoPadrao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentVersaoPP(e.target.value)} />
+                                    </div>
+                                </div>
+
+
+                                <div style={{ borderBottom: "1px solid #EBECF1", marginTop: "20px" }}>
+
+                                </div>
 
                                 <div className="cm-header-box-buttons">
                                     <button className="btn button-ok" disabled={isConsumeLoading} onClick={searchData}>
