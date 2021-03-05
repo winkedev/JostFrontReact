@@ -6,8 +6,8 @@ export const swalMessagePopup = async (title, text, icon, confirmButtonText, con
         text: text ?? "content",
         icon: icon ?? "success",
         showConfirmButton: true,
-        confirmButtonColor: confirmButtonColor ?? "#18CE0F",
-        confirmButtonText: confirmButtonText ?? "Confirmar",
+        confirmButtonColor: confirmButtonColor ?? "#007BFF",
+        confirmButtonText: confirmButtonText ?? "Ok",
         allowOutsideClick: isAllowOutsideClick ?? true,
     });
 }

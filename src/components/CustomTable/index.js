@@ -16,7 +16,7 @@ import 'jspdf-autotable';
 import { SecurityConfig } from '../../services/SecurityConfig';
 
 
-import JOSTLOGO from '../../assets/jost_LOGO_OFICIAL.jpg';
+import JOSTLOGO from '../../assets/jost-logo1.png';
 
 const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation }) => {
 
@@ -85,7 +85,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
             var rows = [["Cell 1", "Cell 2"], ["Cell 1", "Cell 2"]];
 
             doc.autoTable(xtable.columns, xtable.data); */
-            doc.addImage(JOSTLOGO, 'jpg', 20, 20, 150, 150);
+            doc.addImage(JOSTLOGO, 'png', (pageHeight / 2), 20, 135, 56);
         }
 
         var tableFooter = () => {
@@ -97,7 +97,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         var opt = {
             beforePageContent: tableHeader,
             afterPageContent: tableFooter,
-            margin: { top: 160, bottom: 80 }
+            margin: { top: 80, bottom: 80 }
         }
 
 

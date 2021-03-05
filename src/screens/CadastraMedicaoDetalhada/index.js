@@ -4,6 +4,7 @@ import './style.css';
 import CustomTable from '../../components/CustomTable';
 import ReactLoading from 'react-loading';
 import CustomPopup from '../../components/CustomPopup';
+import { swalMessagePopup } from '../../components/SwalPopup';
 
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 import { SecurityConfig } from '../../services/SecurityConfig';
@@ -68,7 +69,10 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             SecurityConfig.writeLogs(CONSULTAMEDICAODET_PREFIX, `Response from ApiConsultaMedicao.updateAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.sucess) {
-                openModal("Sucesso", "informações atualizadas com sucesso.", true, false);
+                await swalMessagePopup("Sucesso", "Informação atualizadas com sucesso.", 'success');
+            }
+            else {
+                await swalMessagePopup("Erro", "Falha ao atualizar informações.", 'error');
             }
 
         }

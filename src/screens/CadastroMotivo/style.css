@@ -8,7 +8,7 @@
 
 .cadastro-motivo-title{
     font-size: 22px;
-    
+    font-weight: 300;
 }
 
 .cadastro-motivo-inputs{
@@ -17,6 +17,7 @@
     margin-top: 20px;
     padding: 20px;
     box-shadow: 0 1px 15px 1px rgb(39 39 39 / 10%);
+    font-weight: 300;
 }
 
 .cadastro-motivo-buttons button{
@@ -24,6 +25,7 @@
     height: 38px;
     margin: 10px 5px;
     transition: all 0.3s;
+    font-weight: 300;
 }
 
 .cadastro-motivo-buttons button:hover{

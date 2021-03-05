@@ -7,6 +7,7 @@ import CustomSelectPicker from '../../components/CustomSelectPicker';
 import CustomTable from '../../components/CustomTable';
 import CustomDatePicker from '../../components/CustomDatePicker';
 import CustomPopup from '../../components/CustomPopup';
+import { swalMessagePopup } from '../../components/SwalPopup';
 
 import CadastraMedicaoDetalhada from '../CadastraMedicaoDetalhada';
 
@@ -146,7 +147,7 @@ const CadastraMedicao = () => {
         try {
 
             if (currentDescricaoItem == null || currentDescricaoItem == '') {
-                openModal("Aviso", "Item deve ser preenchido para concluir a busca.", true);
+                await swalMessagePopup("Aviso", "Campo 'Material' não pode estar vazio.", '');
                 return;
             }
 
