@@ -32,10 +32,20 @@
     transform: scale(1.1);
 }
 
-.cadastro-motivo-table col{
+.cadastro-motivo-table{
     width: 100%;
     margin: 0 !important;
     padding: 0 !important;
+    display: flex;
+    flex-direction: row;
+}
+
+.cadastro-motivo-table-nc{
+    width: 48%;
+}
+
+.cadastro-motivo-table-ca{
+    width: 48%;
 }
 
 .modal-content .cadastro-motivo-modal{
@@ -104,4 +114,18 @@
 .cadastro-motivo-edit-inputs{
     display: flex !important;
     flex-direction: row !important;
+}
+
+.cadastro-motivo-table-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.cadastro-motivo-table-bt{
+    transition: all 0.3s;
+}
+
+.cadastro-motivo-table-bt:hover{
+    transform: scale(1.1);
 }

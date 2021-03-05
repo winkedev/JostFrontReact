@@ -24,6 +24,10 @@ const ConsultaMedicao = () => {
     const CONSULTAMEDICAO_PREFIX = '*ConsultaMedicao*';
 
     const refmodal = useRef(null);
+    const refCentroTrabalho = useRef(null);
+    const refMaterial = useRef(null);
+    const refOrdemProducao = useRef(null);
+    const refVersaoPadrao = useRef(null);
 
     const [modalTitle, setModalTitle] = useState();
     const [modalContent, setmodalContent] = useState();
@@ -78,7 +82,7 @@ const ConsultaMedicao = () => {
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
-                key: resp.data[v].ct,
+                label: resp.data[v].ct,
                 value: resp.data[v].ct
             });
         });
@@ -96,7 +100,7 @@ const ConsultaMedicao = () => {
 
         Object.keys(resp.data).map((k, v) => {
             dicMaterial.push({
-                key: resp.data[v].codigoItem,
+                label: resp.data[v].codigoItem,
                 value: resp.data[v].codigoItem
             })
         });
@@ -113,7 +117,7 @@ const ConsultaMedicao = () => {
 
         Object.keys(resp.data).map((k, v) => {
             dicOrdemProducao.push({
-                key: resp.data[v].codigoOp,
+                label: resp.data[v].codigoOp,
                 value: resp.data[v].codigoOp
             });
         });
@@ -131,7 +135,7 @@ const ConsultaMedicao = () => {
 
         Object.keys(resp.data).map((k, v) => {
             dicVersaoPadrao.push({
-                key: resp.data[v].planoPadraoVersao,
+                label: resp.data[v].planoPadraoVersao,
                 value: resp.data[v].planoPadraoVersao
             })
         })
@@ -188,10 +192,10 @@ const ConsultaMedicao = () => {
         setCurrentCodigoOp(null);
         setCurrentVersaoPP(null);
 
-        document.getElementById("IDMaquina").value = "selectone";
-        document.getElementById("IDMaterial").value = "selectone";
-        document.getElementById("IDOrdemProducao").value = "selectone";
-        document.getElementById("IDVersaoPadrao").value = "selectone";
+        refCentroTrabalho.current.select.clearValue();
+        refMaterial.current.select.clearValue();
+        refOrdemProducao.current.select.clearValue();
+        refVersaoPadrao.current.select.clearValue();
     }
 
     const mountMedicaoDetalhada = (row) => {
@@ -224,7 +228,7 @@ const ConsultaMedicao = () => {
         },
         {
             dataField: "codigoItem",
-            text: "Item",
+            text: "Material",
             editable: false,
             sort: true,
             headerStyle: (colum, colIndex) => {
@@ -305,11 +309,11 @@ const ConsultaMedicao = () => {
                             <div className="cm-header">
                                 <div className="cm-header-inputs">
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Centro de Trabalho" ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCT(e.target.value)} />
+                                        <CustomSelectPicker title="Centro de Trabalho" REF={refCentroTrabalho} ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCT(e?.value)} />
                                     </div>
 
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Material" ID="IDMaterial" dict={dicMaterial} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentDescricaoItem(e.target.value)} />
+                                        <CustomSelectPicker title="Material" ID="IDMaterial" REF={refMaterial} dict={dicMaterial} onChangeEvent={(e) => setCurrentDescricaoItem(e?.value)} />
                                     </div>
 
 
@@ -324,10 +328,10 @@ const ConsultaMedicao = () => {
 
                                 <div className="cm-header-inputs" style={{ marginTop: "20px" }}>
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Ordem produção" ID="IDOrdemProducao" dict={dicOrdemProducao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCodigoOp(e.target.value)} />
+                                        <CustomSelectPicker title="Ordem produção" REF={refOrdemProducao} ID="IDOrdemProducao" dict={dicOrdemProducao} onChangeEvent={(e) => setCurrentCodigoOp(e?.value)} />
                                     </div>
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Versão Padrão" ID="IDVersaoPadrao" dict={dicVersaoPadrao} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentVersaoPP(e.target.value)} />
+                                        <CustomSelectPicker title="Versão Padrão" REF={refVersaoPadrao} ID="IDVersaoPadrao" dict={dicVersaoPadrao} onChangeEvent={(e) => setCurrentVersaoPP(e?.value)} />
                                     </div>
                                 </div>
 

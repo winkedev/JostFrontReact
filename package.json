@@ -26,7 +26,7 @@
     "react-loading": "^2.0.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
-    "react-select": "^4.1.0",
+    "react-select": "^4.2.0",
     "react-switch": "^6.0.0",
     "reactjs-popup": "^2.0.4",
     "sweetalert2": "^10.15.5",

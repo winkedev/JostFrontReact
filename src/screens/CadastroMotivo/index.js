@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import { swalMessagePopup, swalConfirmPopup } from '../../components/SwalPopup';
-import Swal from 'sweetalert2';
 import { clone } from '../../utils/CloneObject';
 
 import { ApiMotivo } from '../../services/Jost/Api/Motivo/Api';
@@ -14,10 +13,9 @@ import CustomTable from '../../components/CustomTable';
 
 import { ReactComponent as DeleteSVG } from '../../assets/delete.svg';
 import { ReactComponent as EditSVG } from '../../assets/edit.svg';
+import { ReactComponent as PlusSVG } from '../../assets/plus.svg';
 
 const CadastroMotivo = () => {
-
-    const refModal = useRef(null);
 
     const [isLoading, setIsloading] = useState(true);
     const [isEditLoading, setIsEditLoading] = useState(false);
@@ -63,8 +61,8 @@ const CadastroMotivo = () => {
         if (data?.length > 0) {
             Object.keys(data).map((k, v) => {
                 respdata.push({
-                    key: data[v].id,
-                    value: data[v].descricao
+                    label: data[v].descricao,
+                    value: data[v].id,
                 })
             })
 
@@ -74,7 +72,7 @@ const CadastroMotivo = () => {
 
     const fillData = (e) => {
 
-        console.log(fullMotivos);
+        console.log(e);
         let tableData = [];
         setTableData([]);
 
@@ -147,10 +145,10 @@ const CadastroMotivo = () => {
         return (
             <div>
                 <button className="btn" disabled={row.idN2 == -1} onClick={() => editCausa(row)} style={{ width: "64px" }} >
-                    <EditSVG fill="#01579B" width={32} height={32} />
+                    <EditSVG fill="#01579B" width={20} height={20} />
                 </button>
                 <button className="btn" disabled={row.idN2 == -1} onClick={() => deleteCausa(row)} style={{ width: "64px" }}>
-                    <DeleteSVG fill="red" width={32} height={32} />
+                    <DeleteSVG fill="red" width={20} height={20} />
                 </button>
             </div>
         )
@@ -301,8 +299,8 @@ const CadastroMotivo = () => {
 
                 if (value != null && value != '') {
 
-                    var currentMotivo;
 
+                    var currentMotivo;
                     Object.keys(fullMotivos).map((k, v) => {
                         if (fullMotivos[v].id == currentSelectMotivo.id) {
                             currentMotivo = clone(fullMotivos[v]);
@@ -331,13 +329,27 @@ const CadastroMotivo = () => {
         }
     }
 
-    var columns = [
+    var columnsNaoConforme = [
         {
             dataField: "idN1",
             text: "IDN1",
             editable: false,
             hidden: true
         },
+        {
+            dataField: "descricaoN1",
+            text: "Descrição Não Conforme",
+            editable: false
+        },
+        {
+            dataField: "acoes",
+            text: "Ação",
+            editable: false,
+            formatter: actionFormatter
+        },
+    ]
+
+    var columnsCausa = [
         {
             dataField: "idN2",
             text: "IDN2",
@@ -346,38 +358,41 @@ const CadastroMotivo = () => {
         },
         {
             dataField: "descricaoN2",
-            text: "Causa",
+            text: "Descrição Causa",
             editable: false
         },
         {
-            dataField: "id",
-            text: "Ações",
-            formatter: actionFormatter,
-            editable: false
-        }
+            dataField: "acoes",
+            text: "Ação",
+            editable: false,
+            formatter: actionFormatter
+        },
     ]
 
     return (
         <div className="cadastro-motivo-container">
 
-
-
-            <button id="bt-dismiss" style={{ display: "none" }} data-dismiss="modal" data-target="#EditCausaModal" ref={refModal} />
             {isLoading ? <div style={{ height: "500px" }} className="d-flex justify-content-center align-items-center"><ReactLoading type="spin" width={128} height={128} color="#FFFFFF" /> </div> :
                 <div className="cadastro-motivo-wrap">
                     <span className="cadastro-motivo-title">Cadastro Motivos</span>
-                    <div className="cadastro-motivo-inputs col">
-                        <div className="row">
-                            <CustomSelectPicker ID="idNaoConformeSelect" initWithEmptyValue classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e.target.value)} />
-                        </div>
-                        <div className="row justify-content-end cadastro-motivo-buttons">
-                            <button className="btn col-2 bg-primary-green color-white" onClick={cadastrarNaoConforme}>Cadastrar Não Conforme</button>
-                            <button disabled={currentSelectMotivo == null || currentSelectMotivo.id <= 0} className="btn col-2 bg-primary-orange color-white" onClick={cadastrarCausa}>Cadastrar Causa</button>
+                    <div className="cadastro-motivo-inputs">
+                        <div>
+                            <CustomSelectPicker ID="idNaoConformeSelect" classname="col-3" dict={selectData} title="Não conforme" onChangeEvent={(e) => fillData(e?.value)} />
                         </div>
                     </div>
                     <div className="row cadastro-motivo-table">
-                        <div className="col-12">
-                            <CustomTable customcolumns={columns} customdata={tableData} />
+                        <div className="cadastro-motivo-table-nc">
+                            <CustomTable customcolumns={columnsNaoConforme} customdata={tableData} />
+                            <div className="cadastro-motivo-table-buttons">
+                                <button className="btn cadastro-motivo-table-bt" style={{ margin: "0", padding: "5px 0 0 0" }} onClick={cadastrarNaoConforme}><PlusSVG width={32} height={32} fill="#18CE0F" /></button>
+                            </div>
+                        </div>
+                        <div style={{ width: "4%" }}></div>
+                        <div className="cadastro-motivo-table-ca">
+                            <CustomTable customcolumns={columnsCausa} customdata={tableData} />
+                            <div className="cadastro-motivo-table-buttons">
+                                <button className="btn cadastro-motivo-table-bt" style={{ margin: "0", padding: "5px 0 0 0" }} onClick={cadastrarCausa}><PlusSVG width={32} height={32} fill="#18CE0F" /></button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -130,7 +130,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
             { customdata != null && customcolumns != null
                 ?
 
-                <div style={{ backgroundColor: "#FFF", margin: "10px 0" }}>
+                <div style={{ backgroundColor: "#FFF", marginTop: "10px" }}>
                     <BootstrapTable
                         bootstrap4
                         caption={pdfHeaderText}
