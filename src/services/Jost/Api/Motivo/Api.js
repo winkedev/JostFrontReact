@@ -7,6 +7,9 @@ export const ApiMotivo = {
     saveUpdate: async (motivo) => {
         return await MountRespPost('api/motivo/saveupdate', motivo);
     },
+    deleteN1: async (motivoN1) => {
+        return await MountRespPost('api/motivo/deleteN1', motivoN1);
+    },
     deleteN2: async (motivoN2) => {
         return await MountRespPost('api/motivo/deleteN2', motivoN2);
     }

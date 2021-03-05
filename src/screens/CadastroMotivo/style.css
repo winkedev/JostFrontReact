@@ -1,3 +1,7 @@
+.cadastro-motivo-wrap span{
+    font-weight: 300;
+}
+
 .cadastro-motivo-container{
     height: 100%;
     min-height: calc(100vh - 160px);
@@ -18,6 +22,8 @@
     padding: 20px;
     box-shadow: 0 1px 15px 1px rgb(39 39 39 / 10%);
     font-weight: 300;
+    display: flex;
+    flex-direction: row;
 }
 
 .cadastro-motivo-buttons button{
@@ -37,68 +43,12 @@
     margin: 0 !important;
     padding: 0 !important;
     display: flex;
-    flex-direction: row;
-}
-
-.cadastro-motivo-table-nc{
-    width: 48%;
-}
-
-.cadastro-motivo-table-ca{
-    width: 48%;
+    flex-direction: column;
 }
 
 .modal-content .cadastro-motivo-modal{
     height: 100% !important;
     min-height: 200px;
-}
-
-.cadastro-motivo-modal-header{
-    display: flex;
-    flex-direction: column;
-}
-
-.cadastro-motivo-modal-header-title{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.cadastro-motivo-modal-header-subtitle{
-    margin: 10px 0;
-}
-
-.cadastro-motivo-modal-body{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    min-height: 200px;
-}
-
-.cadastro-motivo-modal-inputs{
-    justify-content: center;
-}
-
-.cadastro-motivo-modal-inputs-causa{
-    justify-content: center;
-    margin: 0 10px
-}
-
-.cadastro-motivo-modal-buttons{
-    margin-top: 30px !important;
-    justify-content: center;
-}
-
-.cadastro-motivo-modal-buttons button{
-    width: 96px;
-    transition: all 0.3s;
-    margin: 0 5px;
-}
-
-.cadastro-motivo-modal-buttons button:hover{
-    transform: scale(1.1);
 }
 
 .cadastro-motivo-edit-inputs-container{
@@ -120,6 +70,8 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    margin-right: 22px;
+    margin-top: -50px;
 }
 
 .cadastro-motivo-table-bt{
