@@ -285,20 +285,18 @@ const CadastroMotivo = () => {
             true,
             () => {
                 return ApiMotivo.deleteN2({ id: row.idN2 }).then(r => {
-                    console.log(r);
                     if (r?.sucess) {
                         return true;
                     }
-                    return false;
+                    else {
+                        return swalMessagePopup("Erro", `Erro ao excluir causa.`, "error");
+                    }
                 });
             }
         )
 
         if (resp.isConfirmed) {
             await consumeMotivosAndFulltable();
-        }
-        else if (resp.isDenied) {
-            await swalMessagePopup("Erro", "Erro ao excluir causa.", "error");
         }
     }
 
@@ -323,12 +321,11 @@ const CadastroMotivo = () => {
             true,
             () => {
                 return ApiMotivo.deleteN1({ id: currentSelectMotivo.id }).then(r => {
-                    console.log(r);
                     if (r?.sucess) {
                         return true;
                     }
                     else {
-                        return swalMessagePopup("Erro", "Erro ao excluir não conforme.", "error");
+                        return swalMessagePopup("Erro", `Erro ao excluir não conforme.`, "error");
                     }
                 });
             }
