@@ -469,7 +469,7 @@ const CadastroMotivo = () => {
                         </div>
                     </div>
                     <div className="cadastro-motivo-table">
-                        <CustomTable customcolumns={columnsCausa} customdata={tableData} />
+                        <CustomTable customcolumns={columnsCausa} customdata={tableData} disableExport />
                         <div className="cadastro-motivo-table-buttons" >
                             <button className="btn bg-primary-green color-white cadastro-motivo-table-bt" onClick={cadastrarCausa}><span>Nova causa</span> <PlusSVG width={26} height={26} fill="#FFFFFF" /></button>
                         </div>

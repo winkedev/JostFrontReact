@@ -17,8 +17,9 @@ import { SecurityConfig } from '../../services/SecurityConfig';
 
 
 import JOSTLOGO from '../../assets/jost-logo1.png';
+import { faCreativeCommonsZero } from '@fortawesome/free-brands-svg-icons';
 
-const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation }) => {
+const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation, disableExport }) => {
 
     //#region Exemplos de Columns / Data e ActionFormatter
     /* const actionformatter = (cell, row) => {
@@ -76,16 +77,42 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
 
         var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
         var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
+        var xtable = document.getElementById("xtable");
 
         doc.page = 1;
 
         var tableHeader = () => {
-            /* var xtable = doc.autoTableHtmlToJson(document.getElementById("xtable"));
-            var headers = ["Header 1", "Header 2"];
-            var rows = [["Cell 1", "Cell 2"], ["Cell 1", "Cell 2"]];
 
-            doc.autoTable(xtable.columns, xtable.data); */
-            doc.addImage(JOSTLOGO, 'png', (pageHeight / 2), 20, 135, 56);
+            var xtable = document.getElementById("xtable");
+
+            if (xtable == null) {
+                return;
+            }
+
+            var xtable = doc.autoTableHtmlToJson(xtable);
+            //var headers = ["Header 1", "Header 2"];
+            //var rows = [["Cell 1", "Cell 2"], ["Cell 1", "Cell 2"]];
+
+            //doc.addImage(JOSTLOGO, 'png', orientation == 'p' ? (pageWidth / 2) : (pageHeight / 2), 0, 135, 56);
+
+            doc.autoTable(xtable.columns, xtable.data,
+                {
+                    margin: {
+                        top: 50, bottom: 0
+                    },
+                    headerStyles: {
+                        fillColor: [82, 86, 89],
+                        fontSize: 16,
+                        fontWeight: 300
+                    },
+                    bodyStyles: {
+                        lineColor: [0, 0, 0],
+                    },
+                    didDrawCell: function (data) {
+
+                    }
+                });
+
         }
 
         var tableFooter = () => {
@@ -97,7 +124,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         var opt = {
             beforePageContent: tableHeader,
             afterPageContent: tableFooter,
-            margin: { top: 80, bottom: 80 }
+            margin: { top: xtable == null ? 80 : 130, bottom: 0 }
         }
 
 
@@ -158,17 +185,19 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
                             }
                         })} />
 
-                    <ReactHTMLTableToExcel id="test-table-xls-button"
-                        className="download-table-xls-button btn"
-                        table={tableid ?? "table-to-xls"}
-                        filename="tablexls"
-                        sheet="tablexls"
-                        buttonText={<i><ExcellSVG className="btn-scale" width={31} height={31} fill="#000" opacity="0.5" /></i>}
+                    {disableExport ? "" : <div>
+                        <ReactHTMLTableToExcel id="test-table-xls-button"
+                            className="download-table-xls-button btn"
+                            table={tableid ?? "table-to-xls"}
+                            filename="tablexls"
+                            sheet="tablexls"
+                            buttonText={<i><ExcellSVG className="btn-scale" width={31} height={31} fill="#000" opacity="0.5" /></i>}
 
-                    >
+                        >
 
-                    </ReactHTMLTableToExcel>
-                    <button onClick={() => saveAsPDF()} className="btn btn-scale"><i><PDFSVG width={31} height={31} fill="#000" opacity="0.5" /> </i></button>
+                        </ReactHTMLTableToExcel>
+                        <button onClick={() => saveAsPDF()} className="btn btn-scale"><i><PDFSVG width={31} height={31} fill="#000" opacity="0.5" /> </i></button>
+                    </div>}
                 </div>
                 : ""}
         </div >

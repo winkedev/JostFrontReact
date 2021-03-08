@@ -355,7 +355,7 @@ const CadastraMedicao = () => {
                             </div>
 
                             <div className="cm-body" style={{ height: "100%" }}>
-                                <CustomTable customcolumns={column} customdata={medicaoData} />
+                                <CustomTable customcolumns={column} customdata={medicaoData} disableExport />
                             </div>
                         </div>
                     }

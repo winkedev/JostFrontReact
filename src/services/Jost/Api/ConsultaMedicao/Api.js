@@ -1,32 +1,17 @@
-import { BaseApi, MountError } from '../BaseApi';
+import { MountRespGet, MountRespPost } from '../BaseApi';
 
 export const ApiConsultaMedicao = {
 
     getAll: async () => {
-        var resp = await BaseApi.get("api/medicao/getall");
-        return resp.data;
+        return await MountRespGet("api/medicao/getall");
     },
     getBy: async (dto) => {
-        var resp;
-        try {
-            resp = await BaseApi.post("api/medicao/getby", dto);
-        }
-        catch (e) {
-            resp = MountError(e);
-        }
-
-        return resp.data;
+        return await MountRespPost("api/medicao/getby", dto);
+    },
+    getItemReprovadoBy: async (dto) => {
+        return await MountRespPost("api/medicao/getItemReprovadoBy", dto);
     },
     updateAll: async (dic) => {
-        var resp;
-
-        try {
-            resp = await BaseApi.post("api/medicao/updateall", dic)
-        }
-        catch (e) {
-            resp = MountError(e);
-        }
-
-        return resp.data;
+        return await MountRespPost("api/medicao/updateall", dic);
     }
 }

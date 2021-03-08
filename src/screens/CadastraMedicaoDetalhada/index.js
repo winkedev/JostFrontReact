@@ -227,8 +227,27 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     return (
         <div>
-            <div style={{ display: "none" }} ref={refmodal} data-toggle="modal" data-target="#messageModal"></div>
-            <CustomPopup dataTargetID="messageModal" title={popupTitle} content={popupContent} isOk={isOkPopup} isError={isErrorPopup} />
+            <table id="xtable" style={{ display: "none" }}>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Relatório de Medicões</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Centro Trabalho: {customdata.ct}</td>
+                        <td>Material: {customdata.codigoItem}</td>
+                        <td>Descricao: {customdata.descricaoItem}</td>
+                    </tr>
+                    <tr>
+                        <td>Versão Material: {customdata.verPlano}</td>
+                        <td>Versão Padrão: {customdata.planoPadraoVersao}</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
 
             <div className="cm-header">
                 <div className="cm-header-inputs">
@@ -259,7 +278,15 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                 <CustomTable
                     tableid="idConsultaMedicaoTable"
                     fieldKey="row"
-                    pdfHeaderText="Consulta Medição"
+                    pdfHeaderText={
+                        <p>
+                            <h1>Relatório de Medicões</h1><br />
+                            <span>Centro de Trabalho: {customdata.ct}</span><br />
+                            <span>Material: {customdata.codigoItem}</span><br />
+                            <span>Descrição: {customdata.descricaoItem}</span><br />
+                            <span>Versão Material: {customdata.verPlano}</span><br />
+                            <span>Versão Padrão: {customdata.planoPadraoVersao}</span><br />
+                        </p>}
                     customcolumns={columns}
                     customdata={dic}
                     orientation='l'
@@ -283,7 +310,7 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         return false;
                     }}
                     onValidateErrorEvent={() => {
-                        openModal("Erro ao validar campo", "Verifique os limites e o tipo de caracteristica.", false, true);
+                        return swalMessagePopup("Erro ao validar campo", "Verifique os limites e o tipo de caracteristica.", 'error');
                     }} />
                 <div className="cm-body-box-button">
                     <button className="btn button-save" disabled={isLoading} onClick={saveAll}>{isLoading ? <ReactLoading type="spin" width="20px" height="24px" color="#FFF" /> : "Salvar"}</button>

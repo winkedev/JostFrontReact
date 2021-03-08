@@ -1,50 +1,39 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './style.css';
 
 import ReactLoading from 'react-loading';
 
-import CustomSelectPicker from '../../components/CustomSelectPicker';
-import CustomTable from '../../components/CustomTable';
-import CustomDatePicker from '../../components/CustomDatePicker';
-import CustomPopup from '../../components/CustomPopup';
-import { swalMessagePopup } from '../../components/SwalPopup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 
-import ConsultaMedicaoDetalhada from '../ConsultaMedicaoDetalhada';
+import ConsultaItemReprovadoDetalhada from '../ConsultaItemReprovadoDetalhada';
+
+import CustomSelectPicker from '../../components/CustomSelectPicker';
+import CustomDatePicker from '../../components/CustomDatePicker';
+import CustomTable from '../../components/CustomTable';
+import { swalMessagePopup, swalConfirmPopup } from '../../components/SwalPopup';
 
 import { ApiPlanoInspecao } from '../../services/Jost/Api/PlanoInspecao/Api';
 import { ApiOrdemProducao } from '../../services/Jost/Api/OrdemProducao/Api';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFile } from '@fortawesome/free-solid-svg-icons';
-
 import { SecurityConfig } from '../../services/SecurityConfig';
 
-const ConsultaMedicao = () => {
+const ConsultaItemReprovado = () => {
 
-    const CONSULTAMEDICAO_PREFIX = '*ConsultaMedicao*';
+    const CONSULTAIR_PREFIX = '*ConsultaItemReprovado*';
 
-    const refmodal = useRef(null);
     const refCentroTrabalho = useRef(null);
     const refMaterial = useRef(null);
     const refOrdemProducao = useRef(null);
     const refVersaoPadrao = useRef(null);
 
-    const [modalTitle, setModalTitle] = useState();
-    const [modalContent, setmodalContent] = useState();
-    const [isModalWarning, setIsModalWarning] = useState(false);
-
-    const [isLoading, setIsLoading] = useState(true);
     const [isConsumeLoading, setIsConsumeLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
-    const [dicMaquinas, setDicMaquinas] = useState([])
-    const [dicMaterial, setDicMaterial] = useState([])
+    const [dicMaquinas, setDicMaquinas] = useState([]);
+    const [dicMaterial, setDicMaterial] = useState([]);
     const [dicOrdemProducao, setDicOrdemProducao] = useState([]);
     const [dicVersaoPadrao, setDicVersaoPadrao] = useState([]);
-
-    const [initialDate, setInitialDate] = useState(new Date());
-    const [finalDate, setFinalDate] = useState(new Date());
-    const [medicaoData, setMedicaoData] = useState([]);
-    const [isMedicaoDetalhada, setIsMedicaoDetalhada] = useState(false);
 
     const [currentCT, setCurrentCT] = useState(null);
     const [currentDescricaoItem, setCurrentDescricaoItem] = useState(null);
@@ -53,6 +42,11 @@ const ConsultaMedicao = () => {
     const [currentFinalDate, setCurrentFinalDate] = useState(new Date());
     const [currentMedicao, setCurrentMedicao] = useState({});
     const [currentVersaoPP, setCurrentVersaoPP] = useState(null);
+
+    const [medicaoData, setMedicaoData] = useState([]);
+    const [isMedicaoDetalhada, setIsMedicaoDetalhada] = useState(false);
+    const [initialDate, setInitialDate] = useState(new Date());
+    const [finalDate, setFinalDate] = useState(new Date());
 
     useEffect(async () => {
 
@@ -64,13 +58,6 @@ const ConsultaMedicao = () => {
 
     }, [])
 
-    const openModal = (title, message, isWarning) => {
-        setModalTitle(title);
-        setmodalContent(message);
-        setIsModalWarning(isWarning);
-        refmodal.current.click();
-    }
-
     //#region Fill data
 
     const fillMaquina = async () => {
@@ -78,7 +65,7 @@ const ConsultaMedicao = () => {
         let dicMaquinas = [];
 
         let resp = await ApiPlanoInspecao.getAllCodCC();
-        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllCodCC(): ${resp?.data ? 'Ok' : "Error"}`);
+        SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getAllCodCC(): ${resp?.data ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicMaquinas.push({
@@ -96,7 +83,7 @@ const ConsultaMedicao = () => {
         let dicMaterial = [];
 
         let resp = await ApiPlanoInspecao.getAllCodItem();
-        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllCodItem(): ${resp?.sucess ? 'Ok' : "Error"}`);
+        SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getAllCodItem(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicMaterial.push({
@@ -113,7 +100,7 @@ const ConsultaMedicao = () => {
         let dicOrdemProducao = [];
 
         let resp = await ApiOrdemProducao.getAll();
-        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiOrdemProducao.getAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
+        SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiOrdemProducao.getAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicOrdemProducao.push({
@@ -131,7 +118,7 @@ const ConsultaMedicao = () => {
         let dicVersaoPadrao = [];
 
         let resp = await ApiPlanoInspecao.getAllVersaoPlanoPadrao();
-        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllVersaoPlanoPadrao(): ${resp?.sucess ? 'Ok' : 'Error'}`);
+        SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getAllVersaoPlanoPadrao(): ${resp?.sucess ? 'Ok' : 'Error'}`);
 
         Object.keys(resp.data).map((k, v) => {
             dicVersaoPadrao.push({
@@ -168,14 +155,14 @@ const ConsultaMedicao = () => {
             };
 
             let resp = await ApiPlanoInspecao.getBy(dto);
-            SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
+            SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.data != null) {
                 setMedicaoData(resp.data);
             }
             else {
                 setMedicaoData([]);
-                openModal("Aviso", "Não existe nenhuma informação.", true)
+                await swalMessagePopup("Erro", "Erro ao recuperar plano de inspeção", "error");
             }
         } catch (e) {
 
@@ -183,7 +170,6 @@ const ConsultaMedicao = () => {
         finally {
             setIsConsumeLoading(false);
         }
-
     }
 
     const cleanData = () => {
@@ -292,78 +278,70 @@ const ConsultaMedicao = () => {
     ]
 
     return (
-        <div className="consulta-medicao-container">
+        <div className="ir-container">
 
-            {isLoading ? <div className="cm-loading"><ReactLoading type="spin" width="128px" height="128px" color="#FFF" /> </div> :
+            {isLoading ? <div className="ir-loading"><ReactLoading type="spin" width="128px" height="128px" color="#FFF" /></div> : <div>
+                <div className="ir-title">
+                    Consulta Itens Reprovados
+            </div>
 
-                <div>
-
-                    <div className="cm-title">
-                        <span>Consulta Medição</span>
-                    </div>
-
-
-                    {isMedicaoDetalhada ? <ConsultaMedicaoDetalhada customdata={currentMedicao} onBackButtonClick={() => unmountMedicaoDetalhada()} /> :
-                        <div>
-                            <div style={{ display: "none" }} ref={refmodal} data-toggle="modal" data-target="#messageModal"></div>
-                            <CustomPopup dataTargetID="messageModal" title={modalTitle} content={modalContent} isWarning={isModalWarning} />
-                            <div className="cm-header">
-                                <div className="cm-header-inputs">
-                                    <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Centro de Trabalho" REF={refCentroTrabalho} ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCT(e?.value)} />
-                                    </div>
-
-                                    <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Material" ID="IDMaterial" REF={refMaterial} dict={dicMaterial} onChangeEvent={(e) => setCurrentDescricaoItem(e?.value)} />
-                                    </div>
-
-
-                                    <div className="cm-header-box-datepicker">
-                                        <CustomDatePicker title="Data Início" startdate={initialDate} value={currentInitialDate} onChangeEvent={(date) => setCurrentInitialDate(date != null ? date : null)} />
-                                    </div>
-
-                                    <div className="cm-header-box-datepicker">
-                                        <CustomDatePicker title="Data Final" startdate={finalDate} value={currentFinalDate} onChangeEvent={(date) => setCurrentFinalDate(date != null ? date : null)} />
-                                    </div>
-                                </div>
-
-                                <div className="cm-header-inputs" style={{ marginTop: "20px" }}>
-                                    <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Ordem produção" REF={refOrdemProducao} ID="IDOrdemProducao" dict={dicOrdemProducao} onChangeEvent={(e) => setCurrentCodigoOp(e?.value)} />
-                                    </div>
-                                    <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Versão Padrão" REF={refVersaoPadrao} ID="IDVersaoPadrao" dict={dicVersaoPadrao} onChangeEvent={(e) => setCurrentVersaoPP(e?.value)} />
-                                    </div>
-                                </div>
-
-
-                                <div style={{ borderBottom: "1px solid #EBECF1", marginTop: "20px" }}>
-
-                                </div>
-
-                                <div className="cm-header-box-buttons">
-                                    <button className="btn button-ok" disabled={isConsumeLoading} onClick={searchData}>
-                                        {isConsumeLoading ?
-                                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                                <ReactLoading type="spin" width="22px" height="22px" color="#FFFFFF" />
-                                            </div>
-                                            :
-                                            "Consultar"
-                                        }
-                                    </button>
-                                    <button className="btn button-limpar" disabled={isConsumeLoading} onClick={cleanData}>Limpar</button>
-                                </div>
+                {isMedicaoDetalhada ? <ConsultaItemReprovadoDetalhada customdata={currentMedicao} onBackButtonClick={() => unmountMedicaoDetalhada()} /> : <div>
+                    <div className="ir-header">
+                        <div className="ir-header-inputs">
+                            <div className="ir-header-box-select">
+                                <CustomSelectPicker title="Centro de Trabalho" REF={refCentroTrabalho} ID="IDMaquina" dict={dicMaquinas} initWithEmptyValue={true} onChangeEvent={(e) => setCurrentCT(e?.value)} />
                             </div>
 
-                            <div className="cm-body" style={{ height: "100%" }}>
-                                <CustomTable customcolumns={column} customdata={medicaoData} disableExport />
+                            <div className="ir-header-box-select">
+                                <CustomSelectPicker title="Material" ID="IDMaterial" REF={refMaterial} dict={dicMaterial} onChangeEvent={(e) => setCurrentDescricaoItem(e?.value)} />
+                            </div>
+
+
+                            <div className="ir-header-box-datepicker">
+                                <CustomDatePicker title="Data Início" startdate={initialDate} value={currentInitialDate} onChangeEvent={(date) => setCurrentInitialDate(date != null ? date : null)} />
+                            </div>
+
+                            <div className="ir-header-box-datepicker">
+                                <CustomDatePicker title="Data Final" startdate={finalDate} value={currentFinalDate} onChangeEvent={(date) => setCurrentFinalDate(date != null ? date : null)} />
                             </div>
                         </div>
-                    }
 
-                </div>
-            }
-        </div>)
+                        <div className="ir-header-inputs" style={{ marginTop: "20px" }}>
+                            <div className="ir-header-box-select">
+                                <CustomSelectPicker title="Ordem produção" REF={refOrdemProducao} ID="IDOrdemProducao" dict={dicOrdemProducao} onChangeEvent={(e) => setCurrentCodigoOp(e?.value)} />
+                            </div>
+                            <div className="ir-header-box-select">
+                                <CustomSelectPicker title="Versão Padrão" REF={refVersaoPadrao} ID="IDVersaoPadrao" dict={dicVersaoPadrao} onChangeEvent={(e) => setCurrentVersaoPP(e?.value)} />
+                            </div>
+                        </div>
+
+
+                        <div style={{ borderBottom: "1px solid #EBECF1", marginTop: "20px" }}>
+                        </div>
+
+                        <div className="ir-header-box-buttons">
+                            <button className="btn button-ok" disabled={isConsumeLoading} onClick={searchData}>
+                                {isConsumeLoading ?
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                                        <ReactLoading type="spin" width="22px" height="22px" color="#FFFFFF" />
+                                    </div>
+                                    :
+                                    "Consultar"
+                                }
+                            </button>
+                            <button className="btn button-limpar" disabled={isConsumeLoading} onClick={cleanData}>Limpar</button>
+                        </div>
+
+
+                    </div>
+
+                    <div className="ir-body">
+                        <CustomTable customcolumns={column} customdata={medicaoData} disableExport />
+                    </div>
+                </div>}
+            </div>}
+        </div>
+    );
 }
 
-export default ConsultaMedicao;
+export default ConsultaItemReprovado;

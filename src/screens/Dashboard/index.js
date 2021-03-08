@@ -12,6 +12,7 @@ import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
 import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
 import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg';
 import { ReactComponent as FileReasonSVG } from '../../assets/file-reason.svg';
+import { ReactComponent as FileError } from '../../assets/fileerror.svg';
 
 import Logo from '../../assets/jost-logo1.png';
 import SPILogoFE from '../../assets/spi_logo_fe.png';
@@ -20,6 +21,7 @@ import ConsultaMedicao from '../ConsultaMedicao';
 import Conexao from '../Conexao';
 import CadastraMedicao from '../CadastraMedicao';
 import CadastroMotivo from '../CadastroMotivo';
+import ConsultaItemReprovado from '../ConsultaItemReprovado';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 
@@ -41,6 +43,8 @@ const Dashboard = () => {
                 return <ConsultaMedicao />
             case 3:
                 return <CadastraMedicao />
+            case 4:
+                return <ConsultaItemReprovado />
             case 99:
                 return <Conexao />
             default:
@@ -153,6 +157,14 @@ const Dashboard = () => {
                                                 </li> : ""}
                                         </ul>
                                     </div>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" onClick={() => setIndexActive(4)}>
+                                        <i>
+                                            <FileError width={31} height={31} opacity="0.5" fill="#FFFFFF" />
+                                        </i>
+                                        <span>Reprovados</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="javascript:void(0)" onClick={() => setIndexActive(99)}>
