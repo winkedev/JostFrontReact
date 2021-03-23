@@ -71,7 +71,7 @@
     flex-direction: row;
     justify-content: flex-end;
     margin-right: 22px;
-    margin-top: -50px;
+    padding-bottom: 10px;
 }
 
 .cadastro-motivo-table-bt{

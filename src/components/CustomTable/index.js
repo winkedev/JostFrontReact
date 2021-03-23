@@ -19,7 +19,7 @@ import { SecurityConfig } from '../../services/SecurityConfig';
 import JOSTLOGO from '../../assets/jost-logo1.png';
 import { faCreativeCommonsZero } from '@fortawesome/free-brands-svg-icons';
 
-const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation, disableExport }) => {
+const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation, disableExport, customdiv }) => {
 
     //#region Exemplos de Columns / Data e ActionFormatter
     /* const actionformatter = (cell, row) => {
@@ -198,6 +198,9 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
                         </ReactHTMLTableToExcel>
                         <button onClick={() => saveAsPDF()} className="btn btn-scale"><i><PDFSVG width={31} height={31} fill="#000" opacity="0.5" /> </i></button>
                     </div>}
+
+                    {customdiv}
+
                 </div>
                 : ""}
         </div >
