@@ -137,11 +137,6 @@ const ConsultaItemReprovado = () => {
 
         try {
 
-            if (currentDescricaoItem == null || currentDescricaoItem == '') {
-                await swalMessagePopup("Aviso", "Campo 'Material' não pode estar vazio.", '');
-                return;
-            }
-
             setIsConsumeLoading(true);
             await new Promise(r => setTimeout(r, 500));
 
@@ -162,7 +157,7 @@ const ConsultaItemReprovado = () => {
             }
             else {
                 setMedicaoData([]);
-                await swalMessagePopup("Erro", "Erro ao recuperar plano de inspeção", "error");
+                await swalMessagePopup("Erro", "Erro ao recuperar dados", "error");
             }
         } catch (e) {
 

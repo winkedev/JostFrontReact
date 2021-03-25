@@ -217,28 +217,7 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
                     customcolumns={columns}
                     customdata={dic}
                     orientation='l'
-                    isAlternateRowColor
-                    validateNewValue={(currentRow, newValue) => {
-                        if (currentRow.tipoCaracteristica.toUpperCase().includes("OK/NOK")) {
-                            if (newValue.toUpperCase() == "OK" || newValue.toUpperCase() == "NOK") {
-                                return true;
-                            }
-                            return false;
-                        }
-
-                        let limiteInferior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + parseFloat(currentRow.limiteInferior.toString().replace(",", "."))).toFixed(4));
-                        let limiteSuperior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + parseFloat(currentRow.limiteSuperior.toString().replace(",", "."))).toFixed(4));
-                        let newVal = parseFloat(newValue.toString().replace(",", "."));
-
-                        if (newVal >= limiteInferior && newVal <= limiteSuperior) {
-                            return true;
-                        }
-
-                        return false;
-                    }}
-                    onValidateErrorEvent={() => {
-                        return swalMessagePopup("Erro ao validar campo", "Verifique os limites e o tipo de caracteristica.", 'error');
-                    }} />
+                    isAlternateRowColor />
                 <div className="cm-body-box-button">
                     <button className="btn button-back" disabled={isLoading} onClick={onBackButtonClick}>Voltar</button>
                 </div>
