@@ -128,12 +128,12 @@ const CadastroMotivo = () => {
 
     const actionFormatter = (cell, row) => {
         return (
-            <div>
-                <button className="btn" disabled={row.idN2 == -1} onClick={() => editCausa(row)} style={{ width: "64px" }} >
-                    <EditSVG fill="#01579B" width={20} height={20} />
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => editCausa(row)} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: "24px", height: '24px' }} >
+                    <i><EditSVG fill="#01579B" width={20} height={20} /></i>
                 </button>
-                <button className="btn" disabled={row.idN2 == -1} onClick={() => deleteCausa(row)} style={{ width: "64px" }}>
-                    <DeleteSVG fill="red" width={20} height={20} />
+                <button className="btn" disabled={row.idN2 == -1} onClick={() => deleteCausa(row)} style={{ marginLeft: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: "24px", height: '24px' }}>
+                    <i><DeleteSVG fill="red" width={20} height={20} /></i>
                 </button>
             </div>
         )
@@ -442,12 +442,18 @@ const CadastroMotivo = () => {
         {
             dataField: "descricaoN2",
             text: "Descrição Causa",
+            headerStyle: (colum, colIndex) => {
+                return { width: '50%', textAlign: 'center' };
+            },
             editable: false
         },
         {
             dataField: "acoes",
             text: "Ação",
             editable: false,
+            headerStyle: (colum, colIndex) => {
+                return { width: '50%', textAlign: 'center' };
+            },
             formatter: actionFormatter
         },
     ]

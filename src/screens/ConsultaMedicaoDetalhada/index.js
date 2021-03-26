@@ -33,7 +33,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         let dto = {
             ct: customdata.ct,
             descricaoItem: customdata.descricaoItem,
-            codigoOperacao: customdata.codigoOperacao,
+            codigoOperacao: customdata.codigoOP,
             planoPadraoVersao: customdata.planoPadraoVersao,
             dataInicio: customdata.dataRI,
             dataFim: customdata.dataRI
@@ -243,7 +243,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                     </tr>
                     <tr>
                         <td>Versão Material: {customdata.verPlano}</td>
-                        <td>Versão Padrão: {customdata.planoPadraoVersao}</td>
+                        <td>Versão Padrão: {customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</td>
                         <td></td>
                     </tr>
                 </tbody>
@@ -269,7 +269,11 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                     </div>
                     <div className="cm-box-label">
                         <label>Versão Padrão</label>
-                        <span>{customdata.planoPadraoVersao}</span>
+                        <span>{customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span>
+                    </div>
+                    <div className="cm-box-label">
+                        <label>Ordem Produção</label>
+                        <span>{customdata.codigoOP}</span>
                     </div>
                 </div>
             </div>
@@ -285,7 +289,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                             <span>Material: {customdata.codigoItem}</span><br />
                             <span>Descrição: {customdata.descricaoItem}</span><br />
                             <span>Versão Material: {customdata.verPlano}</span><br />
-                            <span>Versão Padrão: {customdata.planoPadraoVersao}</span><br />
+                            <span>Versão Padrão: {customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span><br />
                         </p>}
                     customcolumns={columns}
                     customdata={dic}

@@ -192,7 +192,7 @@ const ConsultaItemReprovado = () => {
 
     const actionformatter = (cell, row) => {
         return (
-            <button className="btn btn-primary" style={{ width: "100%" }} onClick={() => mountMedicaoDetalhada(row)}>
+            <button className="btn btn-primary" style={{ width: "25px", height: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => mountMedicaoDetalhada(row)}>
                 <i><FontAwesomeIcon icon={faFile} /></i>
             </button>)
     }
@@ -222,7 +222,7 @@ const ConsultaItemReprovado = () => {
             editable: false,
             sort: true,
             headerStyle: (colum, colIndex) => {
-                return { width: '10%', textAlign: 'center' };
+                return { width: '5%', textAlign: 'center' };
             }
         },
         {
@@ -231,7 +231,7 @@ const ConsultaItemReprovado = () => {
             editable: false,
             sort: true,
             headerStyle: (colum, colIndex) => {
-                return { width: '7.7%', textAlign: 'center' };
+                return { width: '20%', textAlign: 'center' };
             }
         },
         {
@@ -240,7 +240,7 @@ const ConsultaItemReprovado = () => {
             editable: false,
             sort: true,
             headerStyle: (colum, colIndex) => {
-                return { width: '8.5%', textAlign: 'center' };
+                return { width: '5%', textAlign: 'center' };
             }
         },
         {
@@ -248,8 +248,9 @@ const ConsultaItemReprovado = () => {
             text: "Versão Padrão",
             editable: false,
             sort: true,
+            formatter: (cel, row) => row.planoPadraoVersao == '' ? 'N/A.' : row.planoPadraoVersao,
             headerStyle: (colum, colIndex) => {
-                return { width: '9%', textAlign: 'center' };
+                return { width: '5%', textAlign: 'center' };
             }
         },
         {
@@ -267,7 +268,7 @@ const ConsultaItemReprovado = () => {
             formatter: actionformatter,
             editable: false,
             headerStyle: (colum, colIndex) => {
-                return { width: '5%', textAlign: 'center' };
+                return { width: '2%', textAlign: 'center' };
             }
         },
     ]

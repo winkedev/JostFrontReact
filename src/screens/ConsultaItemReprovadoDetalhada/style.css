@@ -1,0 +1,59 @@
+.cm-box-label{
+    width: 16%;
+    margin: 0 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.cm-box-label label{
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.cm-box-label span{
+    font-weight: 300;
+    font-size: 14px;
+}
+
+.cm-body{
+    display: flex;
+    flex-direction: column;
+}
+
+.cm-body-box-button{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.button-back{
+    background-color: var(--primary-red);
+    color: var(--primary-white);
+    transition: all 0.3s;
+    width: 94px;
+    font-weight: 300;
+}
+
+.button-back:hover{
+    color: var(--primary-white);
+    transform: scale(1.1);
+}
+
+.button-save{
+    background-color: var(--primary-green);
+    color: var(--primary-white);
+    transition: all 0.3s;
+    margin: 0 15px;
+    width: 94px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 300;
+}
+
+.button-save:hover{
+    color: var(--primary-white);
+    transform: scale(1.1);
+}
