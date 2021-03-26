@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import './style.css';
 /* import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 
@@ -20,6 +20,8 @@ import JOSTLOGO from '../../assets/jost-logo1.png';
 import { faCreativeCommonsZero } from '@fortawesome/free-brands-svg-icons';
 
 const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation, disableExport, customdiv }) => {
+
+    const tableRef = useRef(null);
 
     //#region Exemplos de Columns / Data e ActionFormatter
     /* const actionformatter = (cell, row) => {
@@ -80,6 +82,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         var xtable = document.getElementById("xtable");
 
         doc.page = 1;
+        var totalPagesExp = "{total_pages_count_string}";
 
         var tableHeader = () => {
 
@@ -117,21 +120,45 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
 
         var tableFooter = () => {
             doc.setFontSize(10);
-            doc.text(pageWidth - 100, pageHeight - 10, `Pagina: ${doc.page}`);
+            doc.text(pageWidth - 100, pageHeight - 10, `Pagina: ${doc.page}/${totalPagesExp}`);
             doc.page++;
         }
 
         var opt = {
             beforePageContent: tableHeader,
             afterPageContent: tableFooter,
-            margin: { top: xtable == null ? 80 : 130, bottom: 0 }
+            margin: { top: xtable == null ? 80 : 130, bottom: 30 }
         }
 
-
-
         var elem = document.getElementById(tableid ?? "table-to-xls");
-        var res = doc.autoTableHtmlToJson(elem);
-        doc.autoTable(res.columns, res.data, opt);
+
+        let mycols = [];
+        let myrefCols = {};
+        let mydata = [];
+
+        Object.keys(tableRef.current.props.columns).map((k, v) => {
+            if (tableRef.current.props.columns[v].hidden == null || tableRef.current.props.columns[v].hidden == false) {
+                mycols.push(tableRef.current.props.columns[v].text);
+                myrefCols[tableRef.current.props.columns[v].text] = tableRef.current.props.columns[v].dataField;
+            }
+        })
+
+        Object.keys(tableRef.current.props.data).map((k, v) => {
+            let dicInside = [];
+            Object.keys(mycols).map((k2, v2) => {
+                dicInside.push(tableRef.current.props.data[v][myrefCols[mycols[v2]]]);
+            })
+            mydata.push(dicInside);
+        })
+
+        console.log(mydata);
+
+        //var res = doc.autoTableHtmlToJson(elem);
+        //doc.autoTable(res.columns, res.data, opt);
+        doc.autoTable(mycols, mydata, opt);
+        if (typeof doc.putTotalPages === 'function') {
+            doc.putTotalPages(totalPagesExp);
+        }
         doc.save("table.pdf");
 
         /*
@@ -159,6 +186,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
 
                 <div style={{ backgroundColor: "#FFF", marginTop: "10px" }}>
                     <BootstrapTable
+                        ref={tableRef}
                         bootstrap4
                         caption={pdfHeaderText}
                         id={tableid ?? "table-to-xls"}
