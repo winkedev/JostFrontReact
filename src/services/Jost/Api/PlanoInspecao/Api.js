@@ -15,5 +15,8 @@ export const ApiPlanoInspecao = {
     },
     getAllVersaoPlanoPadrao: async () => {
         return await MountRespGet('api/planoinspecao/getallversaopp');
+    },
+    getAllPlanoPadrao: async () => {
+        return await MountRespGet('api/planoinspecao/getallplanopadrao');
     }
 }

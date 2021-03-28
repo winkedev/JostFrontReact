@@ -44,10 +44,10 @@
 }
 
 .ir-header-inputs .ir-header-box-datepicker{
-    width: 10%;
+    width: 20%;
     display: flex;
     flex-direction: column;
-    margin: 0 30px;
+    margin: 0 10px;
     font-weight: 300;
 }
 
@@ -87,10 +87,4 @@
 .button-limpar:hover{
     color: var(--primary-white);
     transform: scale(1.1);
-}
-
-.react-date-picker__wrapper{
-    height: 38px;
-    border-radius: 10px;
-    border: 1px solid #ced4da im !important;
 }

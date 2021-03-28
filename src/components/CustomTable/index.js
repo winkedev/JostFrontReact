@@ -151,8 +151,6 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
             mydata.push(dicInside);
         })
 
-        console.log(mydata);
-
         //var res = doc.autoTableHtmlToJson(elem);
         //doc.autoTable(res.columns, res.data, opt);
         doc.autoTable(mycols, mydata, opt);

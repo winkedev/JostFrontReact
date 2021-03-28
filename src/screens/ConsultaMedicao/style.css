@@ -45,10 +45,10 @@
 }
 
 .cm-header-inputs .cm-header-box-datepicker{
-    width: 10%;
+    width: 20%;
     display: flex;
     flex-direction: column;
-    margin: 0 30px;
+    margin: 0 10px;
     font-weight: 300;
 }
 
