@@ -28,6 +28,7 @@ const ConsultaMedicao = () => {
     const refMaterial = useRef(null);
     const refOrdemProducao = useRef(null);
     const refVersaoPadrao = useRef(null);
+    const refPlanoPadrao = useRef(null);
 
     const [modalTitle, setModalTitle] = useState();
     const [modalContent, setmodalContent] = useState();
@@ -40,6 +41,7 @@ const ConsultaMedicao = () => {
     const [dicMaterial, setDicMaterial] = useState([])
     const [dicOrdemProducao, setDicOrdemProducao] = useState([]);
     const [dicVersaoPadrao, setDicVersaoPadrao] = useState([]);
+    const [dicPlanoPadrao, setDicPlanoPadrao] = useState([]);
 
     const [initialDate, setInitialDate] = useState(new Date());
     const [finalDate, setFinalDate] = useState(new Date());
@@ -47,12 +49,13 @@ const ConsultaMedicao = () => {
     const [isMedicaoDetalhada, setIsMedicaoDetalhada] = useState(false);
 
     const [currentCT, setCurrentCT] = useState(null);
-    const [currentDescricaoItem, setCurrentDescricaoItem] = useState(null);
+    const [currentCodigoItem, setCurrentCodigoItem] = useState(null);
     const [currentCodigoOp, setCurrentCodigoOp] = useState(null);
     const [currentInitialDate, setCurrentInitialDate] = useState(new Date());
     const [currentFinalDate, setCurrentFinalDate] = useState(new Date());
     const [currentMedicao, setCurrentMedicao] = useState({});
     const [currentVersaoPP, setCurrentVersaoPP] = useState(null);
+    const [currentPP, setCurrentPP] = useState(null);
 
     useEffect(async () => {
 
@@ -60,6 +63,7 @@ const ConsultaMedicao = () => {
         await fillItem();
         await fillOrdemProducao();
         await fillVersaoPadrao();
+        await fillPlanoPadrao();
         setIsLoading(false);
 
     }, [])
@@ -144,13 +148,31 @@ const ConsultaMedicao = () => {
 
     }
 
+    const fillPlanoPadrao = async () => {
+
+        let dicPlanoPadrao = [];
+
+        let resp = await ApiPlanoInspecao.getAllPlanoPadrao();
+        SecurityConfig.writeLogs(CONSULTAMEDICAO_PREFIX, `Response from ApiPlanoInspecao.getAllPlanoPadrao(): ${resp?.sucess ? 'Ok' : 'Error'}`);
+
+        Object.keys(resp.data).map((k, v) => {
+            dicPlanoPadrao.push({
+                label: resp.data[v].planoPadrao,
+                value: resp.data[v].planoPadrao
+            })
+        })
+
+        setDicPlanoPadrao(dicPlanoPadrao);
+
+    }
+
     //#endregion
 
     const searchData = async () => {
 
         try {
 
-            if (currentDescricaoItem == null || currentDescricaoItem == '') {
+            if (currentCodigoItem == null || currentCodigoItem == '') {
                 await swalMessagePopup("Aviso", "Campo 'Material' não pode estar vazio.", '');
                 return;
             }
@@ -160,9 +182,10 @@ const ConsultaMedicao = () => {
 
             let dto = {
                 codigoCC: currentCT,
-                descricaoItem: currentDescricaoItem,
+                codigoItem: currentCodigoItem,
                 codigoOperacao: currentCodigoOp,
                 planoPadraoVersao: currentVersaoPP,
+                planoPadrao: currentPP,
                 dataInicio: currentInitialDate != null ? currentInitialDate.toISOString() : null,
                 dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
             };
@@ -188,14 +211,16 @@ const ConsultaMedicao = () => {
 
     const cleanData = () => {
         setCurrentCT(null);
-        setCurrentDescricaoItem(null);
+        setCurrentCodigoItem(null);
         setCurrentCodigoOp(null);
         setCurrentVersaoPP(null);
+        setCurrentPP(null);
 
         refCentroTrabalho.current.select.clearValue();
         refMaterial.current.select.clearValue();
         refOrdemProducao.current.select.clearValue();
         refVersaoPadrao.current.select.clearValue();
+        refPlanoPadrao.current.select.clearValue();
     }
 
     const mountMedicaoDetalhada = (row) => {
@@ -273,12 +298,21 @@ const ConsultaMedicao = () => {
             }
         },
         {
+            dataField: "planoPadrao",
+            text: "Plano Padrão",
+            editable: false,
+            sort: true,
+            headerStyle: (colum, colIndex) => {
+                return { width: '20%', textAlign: 'center' };
+            }
+        },
+        {
             dataField: "dataMedicaoShort",
             text: "Data medição",
             editable: false,
             sort: true,
             headerStyle: (colum, colIndex) => {
-                return { width: '10%', textAlign: 'center' };
+                return { width: '15%', textAlign: 'center' };
             }
         },
         {
@@ -315,7 +349,7 @@ const ConsultaMedicao = () => {
                                     </div>
 
                                     <div className="cm-header-box-select">
-                                        <CustomSelectPicker title="Material" ID="IDMaterial" REF={refMaterial} dict={dicMaterial} onChangeEvent={(e) => setCurrentDescricaoItem(e?.value)} />
+                                        <CustomSelectPicker title="Material" ID="IDMaterial" REF={refMaterial} dict={dicMaterial} onChangeEvent={(e) => setCurrentCodigoItem(e?.value)} />
                                     </div>
 
 
@@ -334,6 +368,9 @@ const ConsultaMedicao = () => {
                                     </div>
                                     <div className="cm-header-box-select">
                                         <CustomSelectPicker title="Versão Padrão" REF={refVersaoPadrao} ID="IDVersaoPadrao" dict={dicVersaoPadrao} onChangeEvent={(e) => setCurrentVersaoPP(e?.value)} />
+                                    </div>
+                                    <div className="cm-header-box-select">
+                                        <CustomSelectPicker title="Plano Padrão" REF={refPlanoPadrao} ID="IDPlanoPadrao" dict={dicPlanoPadrao} onChangeEvent={(e) => setCurrentPP(e?.value)} />
                                     </div>
                                 </div>
 

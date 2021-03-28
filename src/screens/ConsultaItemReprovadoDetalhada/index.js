@@ -20,9 +20,10 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
 
         let dto = {
             ct: customdata.ct,
-            descricaoItem: customdata.descricaoItem,
+            codigoItem: customdata.codigoItem,
             codigoOperacao: customdata.codigoOP,
             planoPadraoVersao: customdata.planoPadraoVersao,
+            planoPadrao: customdata.planoPadrao,
             dataInicio: customdata.dataRI,
             dataFim: customdata.dataRI
         };
@@ -191,7 +192,7 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata.ct}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Versão</label>
+                        <label>Versão Item</label>
                         <span>{customdata.verPlano}</span>
                     </div>
                     <div className="cm-box-label">
