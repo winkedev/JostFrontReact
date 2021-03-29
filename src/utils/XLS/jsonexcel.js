@@ -21,10 +21,12 @@ export function downloadAsExcel(data, filename) {
 }
 
 export const downloadAsExcelWithHeadings = (headings, cols, data, filename) => {
-    var Heading = [
-        headings,
-        cols
-    ];
+
+    var Heading = [];
+    Object.keys(headings).map((k, v) => {
+        Heading.push(headings[v])
+    })
+    Heading.push(cols);
     /*
     var Data = [
         { name: "xyz", sal: 1000 },

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import './style.css';
-import { downloadAsExcel, downloadAsExcelWithHeadings } from '../../utils/XLS/jsonexcel';
+import { downloadAsExcelWithHeadings } from '../../utils/XLS/jsonexcel';
 /* import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 
 import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
@@ -10,67 +10,14 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditfactory from 'react-bootstrap-table2-editor';
 
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import jspdf from 'jspdf';
 import 'jspdf-autotable';
 
 import { SecurityConfig } from '../../services/SecurityConfig';
 
-
-import JOSTLOGO from '../../assets/jost-logo1.png';
-import { faCreativeCommonsZero } from '@fortawesome/free-brands-svg-icons';
-
-const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternateRowColor, validateNewValue, onValidateErrorEvent, pdfHeaderText, orientation, disableExport, customdiv }) => {
+const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNewValue, onValidateErrorEvent, orientation, disableExport, customdiv, exportFileName, pdfTableHeaderID, excelHeaders }) => {
 
     const tableRef = useRef(null);
-
-    //#region Exemplos de Columns / Data e ActionFormatter
-    /* const actionformatter = (cell, row) => {
-        return <div>
-            <button style={{ margin: "0 5px" }} className="btn btn-secondary">Add</button>
-            <button style={{ margin: "0 5px" }} className="btn btn-secondary">Remove</button>
-            <button style={{ margin: "0 5px" }} className="btn btn-secondary">Edit</button>
-        </div>
-    } 
-
-    const columns = [
-        {
-            dataField: "C1",
-            text: "Column1",
-            sort: true,
-            headerStyle: { backgroundColor: "gray" }
-        },
-        {
-            dataField: "C2",
-            text: "Column2",
-            sort: true
-        },
-        {
-            dataField: "C3",
-            text: "Column3",
-            formatter: actionformatter,
-            sort: true
-        }
-    ]
-
-    const fillData = () => {
-        var data = [];
-        for (var i = 0; i < 50; i++) {
-            data.push({
-                key: i,
-                ID: i,
-                C1: Math.random() * 100,
-                C2: Math.random() * 100
-            })
-        }
-
-        console.log(data);
-        return data;
-    }
-
-    */
-
-    //#endregion
 
     const saveAsXLS = () => {
         let mycols = [];
@@ -92,7 +39,80 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
             mydata.push(dicInside);
         })
 
-        downloadAsExcelWithHeadings(["Teste01", "Teste02"], mycols, mydata, "relatorioXXX");
+        downloadAsExcelWithHeadings(excelHeaders, mycols, mydata, exportFileName);
+    }
+
+
+    const mountJostHeader = (doc) => {
+        doc.autoTable({
+            html: `#${pdfTableHeaderID}`,
+            margin: {
+                top: 50, bottom: 0
+            },
+            headerStyles: {
+                fillColor: [255, 255, 255],
+                fontSize: 14,
+                fontWeight: 300
+            },
+            bodyStyles: {
+            },
+            columnStyles: {
+                0: {
+                    cellWidth: 115,
+                    fillColor: [255, 255, 255],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 1,
+                    valign: 'middle',
+                    halign: 'center'
+                },
+                1: {
+                    cellWidth: 'auto',
+                    fillColor: [255, 255, 255],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 1,
+                    valign: 'middle',
+                    halign: 'center'
+                },
+                2: {
+                    cellWidth: 'auto',
+                    fillColor: [255, 255, 255],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 1,
+                    valign: 'middle',
+                    halign: 'center'
+                },
+                3: {
+                    cellWidth: 'auto',
+                    fillColor: [255, 255, 255],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 1,
+                    valign: 'middle',
+                    halign: 'center'
+                },
+                4: {
+                    cellWidth: 'auto',
+                    fillColor: [255, 255, 255],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 1,
+                    valign: 'middle',
+                    halign: 'center'
+                }
+            },
+            willDrawCell: function (data) {
+
+            },
+            didDrawCell: function (data) {
+
+                if (data.cell.section === 'body') {
+                    var td = data.cell.raw;
+                    var img = td.getElementsByTagName('img')[0];
+
+                    if (img != null) {
+                        doc.addImage(img.src, data.cell.x + 2, data.cell.y + 15, img.width, img.height);
+                    }
+                }
+            }
+        });
     }
 
     const saveAsPDF = () => {
@@ -101,43 +121,12 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
 
         var pageHeight = doc.internal.pageSize.height || doc.internal.pageSize.getHeight();
         var pageWidth = doc.internal.pageSize.width || doc.internal.pageSize.getWidth();
-        var xtable = document.getElementById("xtable");
 
         doc.page = 1;
         var totalPagesExp = "{total_pages_count_string}";
 
         var tableHeader = () => {
-
-            var xtable = document.getElementById("xtable");
-
-            if (xtable == null) {
-                return;
-            }
-
-            var xtable = doc.autoTableHtmlToJson(xtable);
-            //var headers = ["Header 1", "Header 2"];
-            //var rows = [["Cell 1", "Cell 2"], ["Cell 1", "Cell 2"]];
-
-            //doc.addImage(JOSTLOGO, 'png', orientation == 'p' ? (pageWidth / 2) : (pageHeight / 2), 0, 135, 56);
-
-            doc.autoTable(xtable.columns, xtable.data,
-                {
-                    margin: {
-                        top: 50, bottom: 0
-                    },
-                    headerStyles: {
-                        fillColor: [82, 86, 89],
-                        fontSize: 16,
-                        fontWeight: 300
-                    },
-                    bodyStyles: {
-                        lineColor: [0, 0, 0],
-                    },
-                    didDrawCell: function (data) {
-
-                    }
-                });
-
+            mountJostHeader(doc);
         }
 
         var tableFooter = () => {
@@ -149,10 +138,8 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         var opt = {
             beforePageContent: tableHeader,
             afterPageContent: tableFooter,
-            margin: { top: xtable == null ? 80 : 130, bottom: 30 }
+            margin: { top: 180, bottom: 30 }
         }
-
-        var elem = document.getElementById(tableid ?? "table-to-xls");
 
         let mycols = [];
         let myrefCols = {};
@@ -179,23 +166,10 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
         if (typeof doc.putTotalPages === 'function') {
             doc.putTotalPages(totalPagesExp);
         }
-        doc.save("table.pdf");
-
-        /*
-        doc.autoTable({
-            head: [['Name', 'Email', 'Country']],
-            body: [
-              ['David', 'david@example.com', 'Sweden'],
-              ['Castille', 'castille@example.com', 'Spain'],
-              // ...
-            ],
-          })
-          */
+        doc.save(`${exportFileName + new Date().getTime()}.pdf`);
     }
 
     function rowClassNameFormat(row, rowIdx) {
-        // row is whole row object
-        // rowIdx is index of row
         return rowIdx % 2 === 0 ? 'td-alternate-color-x' : 'td-alternate-color-y';
     }
 
@@ -208,7 +182,6 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
                     <BootstrapTable
                         ref={tableRef}
                         bootstrap4
-                        caption={pdfHeaderText}
                         id={tableid ?? "table-to-xls"}
                         keyField={fieldKey != null ? fieldKey : "id"}
                         columns={customcolumns}
