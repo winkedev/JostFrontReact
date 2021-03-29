@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import './style.css';
+import { downloadAsExcel, downloadAsExcelWithHeadings } from '../../utils/XLS/jsonexcel';
 /* import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'; */
 
 import { ReactComponent as ExcellSVG } from '../../assets/excell.svg';
@@ -71,7 +72,28 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
 
     //#endregion
 
+    const saveAsXLS = () => {
+        let mycols = [];
+        let myrefCols = {};
+        let mydata = [];
 
+        Object.keys(tableRef.current.props.columns).map((k, v) => {
+            if (tableRef.current.props.columns[v].hidden == null || tableRef.current.props.columns[v].hidden == false) {
+                mycols.push(tableRef.current.props.columns[v].text);
+                myrefCols[tableRef.current.props.columns[v].text] = tableRef.current.props.columns[v].dataField;
+            }
+        })
+
+        Object.keys(tableRef.current.props.data).map((k, v) => {
+            let dicInside = [];
+            Object.keys(mycols).map((k2, v2) => {
+                dicInside.push(tableRef.current.props.data[v][myrefCols[mycols[v2]]]);
+            })
+            mydata.push(dicInside);
+        })
+
+        downloadAsExcelWithHeadings(["Teste01", "Teste02"], mycols, mydata, "relatorioXXX");
+    }
 
     const saveAsPDF = () => {
 
@@ -212,16 +234,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, isAlternate
                         })} />
 
                     {disableExport ? "" : <div>
-                        <ReactHTMLTableToExcel id="test-table-xls-button"
-                            className="download-table-xls-button btn"
-                            table={tableid ?? "table-to-xls"}
-                            filename="tablexls"
-                            sheet="tablexls"
-                            buttonText={<i><ExcellSVG className="btn-scale" width={31} height={31} fill="#000" opacity="0.5" /></i>}
-
-                        >
-
-                        </ReactHTMLTableToExcel>
+                        <button onClick={() => saveAsXLS()} className="btn btn-scale"><i><ExcellSVG width={31} height={31} fill="#000" opacity="0.5" /> </i></button>
                         <button onClick={() => saveAsPDF()} className="btn btn-scale"><i><PDFSVG width={31} height={31} fill="#000" opacity="0.5" /> </i></button>
                     </div>}
 

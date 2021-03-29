@@ -181,8 +181,8 @@ const Dashboard = () => {
             </div>
             <div id="dashboard-main">
                 <nav id={isActive ? "db-navbar-active" : ""} className="navbar db-navbar">
-                    <i><img src={SPILogoFE} width={145} height={66} style={{ marginRight: "20px" }} /></i>
-                    <EasyQualitySVG width="145px" height="66px" />
+                    <i><img src={SPILogoFE} width={109} height={50} style={{ marginRight: "20px" }} /></i>
+                    <EasyQualitySVG width="109px" height="50px" />
                 </nav>
                 <div id="dashboard-main-content">
                     {
