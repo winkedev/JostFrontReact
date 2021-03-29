@@ -1,31 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './style.css';
+import { logo } from '../../assets/base64.json';
 
 import CustomTable from '../../components/CustomTable';
-import ReactLoading from 'react-loading';
-import CustomPopup from '../../components/CustomPopup';
 
 import { ApiConsultaMedicao } from '../../services/Jost/Api/ConsultaMedicao/Api';
 import { SecurityConfig } from '../../services/SecurityConfig';
-
-import JOSTLOGO from '../../assets/jost_LOGO_OFICIAL.jpg';
 import { swalMessagePopup } from '../../components/SwalPopup';
 
 const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     const CONSULTAMEDICAODET_PREFIX = "*ConsultaMedicaoDetalhada*";
 
-    const refmodal = useRef(null);
-
-    const [isErrorPopup, setIsErrorPopup] = useState(false);
-    const [isOkPopup, setIsOkPopup] = useState(false);
-    const [popupTitle, setPopupTitle] = useState();
-    const [popupContent, setPopupContent] = useState();
-
     const [dic, setDic] = useState([]);
-
     const [isLoading, setIsloading] = useState(false);
-
     const [isShowColumns, setIsShowColumns] = useState(false);
 
     useEffect(async () => {
@@ -46,14 +34,6 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
 
     }, [])
 
-    const openModal = (title, content, isOk, isError) => {
-        setPopupTitle(title);
-        setPopupContent(content);
-        setIsOkPopup(isOk);
-        setIsErrorPopup(isError);
-        refmodal.current.click();
-    }
-
     const saveAll = async () => {
 
         try {
@@ -72,7 +52,7 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             SecurityConfig.writeLogs(CONSULTAMEDICAODET_PREFIX, `Response from ApiConsultaMedicao.updateAll(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.sucess) {
-                openModal("Sucesso", "informações atualizadas com sucesso.", true, false);
+                swalMessagePopup("Sucesso", "informações atualizadas com sucesso.", "success");
             }
 
         }
@@ -225,30 +205,44 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
         },
     ]
 
+    const mountPDFHeader = () => {
+        return <table id="xtable" className="xtable" style={{ display: "none" }}>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowSpan="4"><img src={`data:image/jpg;base64,${logo}`} width="111px" height="50px" /></td>
+                    <td rowSpan="2" colSpan="2">Relatório de Medições</td>
+                    <td>Versão</td>
+                    <td>{customdata.verPlano}</td>
+                </tr>
+                <tr>
+                    <td colSpan="3">Centro de Trabalho</td>
+                </tr>
+                <tr>
+                    <td>Material</td>
+                    <td>{customdata.codigoItem}</td>
+                    <td rowSpan="2" colSpan="3">{customdata.ct}</td>
+                </tr>
+                <tr>
+                    <td>Descricao</td>
+                    <td>{customdata.descricaoItem}</td>
+                </tr>
+            </tbody>
+        </table>
+    }
+
     return (
         <div>
 
-            <table id="xtable" style={{ display: "none" }}>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Relatório de Medicões</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Centro Trabalho: {customdata.ct}</td>
-                        <td>Material: {customdata.codigoItem}</td>
-                        <td>Descricao: {customdata.descricaoItem}</td>
-                    </tr>
-                    <tr>
-                        <td>Versão Material: {customdata.verPlano}</td>
-                        <td>Versão Padrão: {customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            {mountPDFHeader()}
 
             <div className="cm-header">
                 <div className="cm-header-inputs">
@@ -287,19 +281,19 @@ const ConsultaMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                 <CustomTable
                     tableid="idConsultaMedicaoTable"
                     fieldKey="row"
-                    pdfHeaderText={
-                        <p>
-                            <h1>Relatório de Medicões</h1><br />
-                            <span>Centro de Trabalho: {customdata.ct}</span><br />
-                            <span>Material: {customdata.codigoItem}</span><br />
-                            <span>Descrição: {customdata.descricaoItem}</span><br />
-                            <span>Versão Material: {customdata.verPlano}</span><br />
-                            <span>Versão Padrão: {customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span><br />
-                        </p>}
+                    exportFileName="RelatorioMed"
+                    pdfTableHeaderID="xtable"
+                    excelHeaders={[
+                        ["Relatório de Medições"],
+                        [`Material: ${customdata.codigoItem}`],
+                        [`Descrição: ${customdata.descricaoItem}`],
+                        [`Versão: ${customdata.verPlano}`],
+                        [`Versão Padrão: ${customdata.planoPadraoVersao}`],
+                        []
+                    ]}
                     customcolumns={columns}
                     customdata={dic}
                     orientation='l'
-                    isAlternateRowColor
                     validateNewValue={(currentRow, newValue) => {
                         if (currentRow.tipoCaracteristica.toUpperCase().includes("OK/NOK")) {
                             if (newValue.toUpperCase() == "OK" || newValue.toUpperCase() == "NOK") {

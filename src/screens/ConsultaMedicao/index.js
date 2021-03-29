@@ -6,7 +6,6 @@ import ReactLoading from 'react-loading';
 import CustomSelectPicker from '../../components/CustomSelectPicker';
 import CustomTable from '../../components/CustomTable';
 import CustomDatePicker from '../../components/CustomDatePicker';
-import CustomPopup from '../../components/CustomPopup';
 import { swalMessagePopup } from '../../components/SwalPopup';
 
 import ConsultaMedicaoDetalhada from '../ConsultaMedicaoDetalhada';
@@ -23,7 +22,6 @@ const ConsultaMedicao = () => {
 
     const CONSULTAMEDICAO_PREFIX = '*ConsultaMedicao*';
 
-    const refmodal = useRef(null);
     const refCentroTrabalho = useRef(null);
     const refMaterial = useRef(null);
     const refOrdemProducao = useRef(null);
@@ -67,13 +65,6 @@ const ConsultaMedicao = () => {
         setIsLoading(false);
 
     }, [])
-
-    const openModal = (title, message, isWarning) => {
-        setModalTitle(title);
-        setmodalContent(message);
-        setIsModalWarning(isWarning);
-        refmodal.current.click();
-    }
 
     //#region Fill data
 
@@ -198,7 +189,7 @@ const ConsultaMedicao = () => {
             }
             else {
                 setMedicaoData([]);
-                openModal("Aviso", "Não existe nenhuma informação.", true)
+                swalMessagePopup("Aviso", "Não existe nenhuma informação.", "warning");
             }
         } catch (e) {
 
@@ -340,8 +331,6 @@ const ConsultaMedicao = () => {
 
                     {isMedicaoDetalhada ? <ConsultaMedicaoDetalhada customdata={currentMedicao} onBackButtonClick={() => unmountMedicaoDetalhada()} /> :
                         <div>
-                            <div style={{ display: "none" }} ref={refmodal} data-toggle="modal" data-target="#messageModal"></div>
-                            <CustomPopup dataTargetID="messageModal" title={modalTitle} content={modalContent} isWarning={isModalWarning} />
                             <div className="cm-header">
                                 <div className="cm-header-inputs">
                                     <div className="cm-header-box-select">
