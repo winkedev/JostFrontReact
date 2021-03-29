@@ -274,6 +274,10 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span>
                     </div>
                     <div className="cm-box-label">
+                        <label>Plano Padrão</label>
+                        <span>{customdata.planoPadrao}</span>
+                    </div>
+                    <div className="cm-box-label">
                         <label>Ordem Produção</label>
                         <span>{customdata.codigoOP}</span>
                     </div>

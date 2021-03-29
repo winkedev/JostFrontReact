@@ -5,10 +5,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    word-break: break-all;
 }
 
 .cm-box-label label{
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 300;
 }
 
