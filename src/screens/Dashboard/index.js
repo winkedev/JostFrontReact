@@ -13,6 +13,7 @@ import { ReactComponent as PlugSVG } from '../../assets/plug.svg';
 import { ReactComponent as EasyQualitySVG } from '../../assets/easy-quality.svg';
 import { ReactComponent as FileReasonSVG } from '../../assets/file-reason.svg';
 import { ReactComponent as FileError } from '../../assets/fileerror.svg';
+import { ReactComponent as List } from '../../assets/list.svg';
 
 import Logo from '../../assets/jost-logo1.png';
 import SPILogoFE from '../../assets/spi_logo_fe.png';
@@ -32,6 +33,7 @@ const Dashboard = () => {
 
     const [isActive, setIsActive] = useState(true);
     const [indexActive, setIndexActive] = useState(0);
+    const [isFixed, setIsFixed] = useState(false);
 
     const setActiveScreen = (index) => {
         switch (index) {
@@ -62,6 +64,8 @@ const Dashboard = () => {
 
     const onMouseLeaveSidebar = () => {
 
+        if (isFixed) { return };
+
         setIsActive(true);
 
         let areaExpandedUsername = document.getElementById('sidebar-username').getAttribute('aria-expanded');
@@ -84,7 +88,11 @@ const Dashboard = () => {
                         <div className="sidebar-logo">
                             <img src={Logo} style={{ borderRadius: "5px" }} />
                             <span>JOST</span>
+                            <div className="fix-sb" onClick={() => setIsFixed(!isFixed)}>
+                                <List width="22px" height="22px" fill="#FFFFFF" opacity={isFixed ? 1 : 0.5} />
+                            </div>
                         </div>
+
                         <div className="sidebar-header">
                             <div className="sidebar-header-box1">
                                 <i><UserSVG width={31} height={31} fill="#FFFFFF" opacity="0.5" /></i>
@@ -184,7 +192,8 @@ const Dashboard = () => {
                     <i><img src={SPILogoFE} width={109} height={50} style={{ marginRight: "20px" }} /></i>
                     <EasyQualitySVG width="109px" height="50px" />
                 </nav>
-                <div id="dashboard-main-content">
+
+                <div id="dashboard-main-content" className={isFixed ? "fixed" : ""}>
                     {
                         setActiveScreen(indexActive)
                     }

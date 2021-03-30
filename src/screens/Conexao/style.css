@@ -6,6 +6,11 @@
     padding: 20px;
 }
 
+.conexao-container .conexao-title{
+    font-weight: 300;
+    font-size: 22px;
+}
+
 .conexao-panel{
     display: flex;
     justify-content: center;
@@ -21,6 +26,12 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.conexao-card-header span
+{
+    font-size: 18px;
+    font-weight: 300;
 }
 
 .button-test{
@@ -94,4 +105,5 @@
 .conexao-card-footer span{
     font-size: 20px;
     padding-right: 10px;
+    font-weight: 300;
 }

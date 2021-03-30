@@ -217,7 +217,7 @@ const ConsultaItemReprovado = () => {
 
     const actionformatter = (cell, row) => {
         return (
-            <button className="btn btn-primary" style={{ width: "25px", height: '25px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => mountMedicaoDetalhada(row)}>
+            <button className="btn btn-primary" style={{ width: "32px", height: '32px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => mountMedicaoDetalhada(row)}>
                 <i><FontAwesomeIcon icon={faFile} /></i>
             </button>)
     }

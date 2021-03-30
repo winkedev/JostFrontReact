@@ -98,13 +98,13 @@ const Conexao = () => {
 
     return (
         <div className="conexao-container">
-            <div className="">
-                <h4>Conexão</h4>
+            <div className="conexao-title">
+                <span>Conexão</span>
             </div>
             <div className="conexao-panel">
                 <div className="card" style={{ width: "100%", height: "90%", backgroundColor: "transparent" }}>
                     <div className="card-header conexao-card-header">
-                        <h5>TEST...</h5>
+                        <span>TEST...</span>
                         <div style={{ width: "70px" }}>
                             <button className="btn button-test" disabled={isLoading} onClick={() => testConnection()}>
                                 <i>
