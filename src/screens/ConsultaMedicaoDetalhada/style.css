@@ -5,7 +5,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    word-break: break-all;
 }
 
 .cm-box-label label{

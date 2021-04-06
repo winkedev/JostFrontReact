@@ -163,13 +163,12 @@ const CadastraMedicao = () => {
 
         try {
 
-            if (currentCodigoItem == null || currentCodigoItem == '') {
-                await swalMessagePopup("Aviso", "Campo 'Material' não pode estar vazio.", '');
+            if (currentInitialDate == null || currentFinalDate == null) {
+                await swalMessagePopup("Aviso", "Informe o intervalo de datas.", 'warning');
                 return;
             }
 
             setIsConsumeLoading(true);
-            await new Promise(r => setTimeout(r, 500));
 
             let dto = {
                 codigoCC: currentCT,

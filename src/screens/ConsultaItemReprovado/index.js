@@ -159,8 +159,12 @@ const ConsultaItemReprovado = () => {
 
         try {
 
+            if (currentInitialDate == null || currentFinalDate == null) {
+                await swalMessagePopup("Aviso", "Informe o intervalo de datas.", 'warning');
+                return;
+            }
+
             setIsConsumeLoading(true);
-            await new Promise(r => setTimeout(r, 500));
 
             let dto = {
                 codigoCC: currentCT,
@@ -180,7 +184,7 @@ const ConsultaItemReprovado = () => {
             }
             else {
                 setMedicaoData([]);
-                await swalMessagePopup("Erro", "Erro ao recuperar dados", "error");
+                await swalMessagePopup("Erro", "Não existe nenhuma informação.", "error");
             }
         } catch (e) {
 

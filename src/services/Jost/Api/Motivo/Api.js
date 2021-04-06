@@ -1,4 +1,4 @@
-import { BaseApi, MountRespGet, MountRespPost, MountRespDelete } from '../BaseApi';
+import { MountRespGet, MountRespPost } from '../BaseApi';
 
 export const ApiMotivo = {
     getAll: async () => {
