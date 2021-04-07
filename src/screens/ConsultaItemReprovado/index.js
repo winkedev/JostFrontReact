@@ -273,6 +273,16 @@ const ConsultaItemReprovado = () => {
             }
         },
         {
+            dataField: "planoPadrao",
+            text: "Plano Padrão",
+            editable: false,
+            sort: true,
+            formatter: (cel, row) => row.planoPadrao == '' ? 'N/A.' : row.planoPadrao,
+            headerStyle: (colum, colIndex) => {
+                return { width: '20%', textAlign: 'center' };
+            }
+        },
+        {
             dataField: "planoPadraoVersao",
             text: "Versão Padrão",
             editable: false,
@@ -280,15 +290,6 @@ const ConsultaItemReprovado = () => {
             formatter: (cel, row) => row.planoPadraoVersao == '' ? 'N/A.' : row.planoPadraoVersao,
             headerStyle: (colum, colIndex) => {
                 return { width: '5%', textAlign: 'center' };
-            }
-        },
-        {
-            dataField: "planoPadrao",
-            text: "Plano Padrão",
-            editable: false,
-            sort: true,
-            headerStyle: (colum, colIndex) => {
-                return { width: '20%', textAlign: 'center' };
             }
         },
         {

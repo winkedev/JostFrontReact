@@ -211,12 +211,12 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
                         <span>{customdata.verPlano}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Versão Padrão</label>
-                        <span>{customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span>
+                        <label>Plano Padrão</label>
+                        <span>{customdata.planoPadrao == '' ? 'N/A.' : customdata.planoPadrao}</span>
                     </div>
                     <div className="cm-box-label">
-                        <label>Plano Padrão</label>
-                        <span>{customdata.planoPadrao}</span>
+                        <label>Versão Padrão</label>
+                        <span>{customdata.planoPadraoVersao == '' ? 'N/A.' : customdata.planoPadraoVersao}</span>
                     </div>
                     <div className="cm-box-label">
                         <label>Ordem Produção</label>
