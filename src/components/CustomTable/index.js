@@ -186,7 +186,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
                         keyField={fieldKey != null ? fieldKey : "id"}
                         columns={customcolumns}
                         data={customdata}
-                        pagination={paginationFactory()}
+                        pagination={paginationFactory({ sizePerPage: 30 })}
                         noDataIndication="Table Empty"
                         rowClasses={rowClassNameFormat}
                         cellEdit={cellEditfactory({
