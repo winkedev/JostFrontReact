@@ -154,7 +154,7 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
     ]
 
     const mountPDFHeader = () => {
-        return <table id="xtable" className="xtable" style={{ display: "none" }}>
+        return <table id="xtable" style={{ display: "none", backgroundColor: "#FFFFFF" }}>
             <thead>
                 <tr>
                     <th></th>
@@ -166,22 +166,22 @@ const ConsultaItemReprovadoDetalhada = ({ customdata, onBackButtonClick }) => {
             </thead>
             <tbody>
                 <tr>
-                    <td rowSpan="4"><img src={`data:image/jpg;base64,${logo}`} width="111px" height="50px" /></td>
-                    <td rowSpan="2" colSpan="2">Relatório de Itens Reprovados</td>
-                    <td>Versão</td>
-                    <td>{customdata.verPlano}</td>
+                    <td rowSpan="4"><img src={`data:image/jpg;base64,${logo}`} width="150px" height="40px" /></td>
+                    <td rowSpan="2" colSpan="2" style={{ fontSize: 27, textAlign: "center" }}>Relatório de Itens Reprovados</td>
+                    <td style={{ textAlign: "left", paddingLeft: 2 }}>Versão:</td>
+                    <td style={{ textAlign: "left", paddingLeft: 2 }}>{customdata.verPlano}</td>
                 </tr>
                 <tr>
-                    <td colSpan="3">Centro de Trabalho</td>
+                    <td colSpan="3" style={{ textAlign: "center" }}>Centro de Trabalho</td>
                 </tr>
                 <tr>
-                    <td>Material</td>
-                    <td>{customdata.codigoItem}</td>
-                    <td rowSpan="2" colSpan="3">{customdata.ct}</td>
+                    <td style={{ textAlign: "right", paddingRight: 2 }}>Material:</td>
+                    <td style={{ textAlign: "left", paddingLeft: 2 }}>{customdata.codigoItem}</td>
+                    <td rowSpan="2" colSpan="3" style={{ textAlign: "center" }}>{customdata.ct}</td>
                 </tr>
                 <tr>
-                    <td>Descricao</td>
-                    <td>{customdata.descricaoItem}</td>
+                    <td style={{ textAlign: "right", paddingRight: 2 }}>Descricao:</td>
+                    <td style={{ textAlign: "left", paddingLeft: 2 }}>{customdata.descricaoItem}</td>
                 </tr>
             </tbody>
         </table>
