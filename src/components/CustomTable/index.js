@@ -46,8 +46,9 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
     const mountJostHeader = (doc) => {
         doc.autoTable({
             html: `#${pdfTableHeaderID}`,
+            useCss: true,
             margin: {
-                top: 50, bottom: 0
+                top: 0, bottom: 0
             },
             headerStyles: {
                 fillColor: [255, 255, 255],
@@ -58,7 +59,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
             },
             columnStyles: {
                 0: {
-                    cellWidth: 115,
+                    cellWidth: 150,
                     fillColor: [255, 255, 255],
                     lineColor: [0, 0, 0],
                     lineWidth: 1,
@@ -66,12 +67,12 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
                     halign: 'center'
                 },
                 1: {
-                    cellWidth: 'auto',
+                    cellWidth: 80,
                     fillColor: [255, 255, 255],
                     lineColor: [0, 0, 0],
                     lineWidth: 1,
                     valign: 'middle',
-                    halign: 'center'
+                    halign: 'center',
                 },
                 2: {
                     cellWidth: 'auto',
@@ -82,7 +83,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
                     halign: 'center'
                 },
                 3: {
-                    cellWidth: 'auto',
+                    cellWidth: 80,
                     fillColor: [255, 255, 255],
                     lineColor: [0, 0, 0],
                     lineWidth: 1,
@@ -90,7 +91,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
                     halign: 'center'
                 },
                 4: {
-                    cellWidth: 'auto',
+                    cellWidth: 80,
                     fillColor: [255, 255, 255],
                     lineColor: [0, 0, 0],
                     lineWidth: 1,
@@ -102,13 +103,12 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
 
             },
             didDrawCell: function (data) {
-
                 if (data.cell.section === 'body') {
                     var td = data.cell.raw;
                     var img = td.getElementsByTagName('img')[0];
 
                     if (img != null) {
-                        doc.addImage(img.src, data.cell.x + 2, data.cell.y + 15, img.width, img.height);
+                        doc.addImage(img.src, data.cell.x + 1, data.cell.y + 23, img.width, img.height);
                     }
                 }
             }
@@ -138,7 +138,7 @@ const CustomTable = ({ tableid, fieldKey, customcolumns, customdata, validateNew
         var opt = {
             beforePageContent: tableHeader,
             afterPageContent: tableFooter,
-            margin: { top: 180, bottom: 30 }
+            margin: { top: 110, bottom: 30 }
         }
 
         let mycols = [];
