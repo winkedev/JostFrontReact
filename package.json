@@ -29,6 +29,7 @@
     "react-select": "^4.2.0",
     "react-switch": "^6.0.0",
     "reactjs-popup": "^2.0.4",
+    "styled-components": "^5.2.3",
     "sweetalert2": "^10.15.5",
     "web-vitals": "^1.1.0",
     "xlsx": "^0.16.9"
