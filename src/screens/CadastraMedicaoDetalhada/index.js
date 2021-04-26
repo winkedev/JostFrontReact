@@ -324,8 +324,8 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                             return false;
                         }
 
-                        let limiteInferior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + parseFloat(currentRow.limiteInferior.toString().replace(",", "."))).toFixed(4));
-                        let limiteSuperior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + parseFloat(currentRow.limiteSuperior.toString().replace(",", "."))).toFixed(4));
+                        let limiteInferior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) - Math.abs(parseFloat(currentRow.limiteInferior.toString().replace(",", "."))).toFixed(4)));
+                        let limiteSuperior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + Math.abs(parseFloat(currentRow.limiteSuperior.toString().replace(",", "."))).toFixed(4)));
                         let newVal = parseFloat(newValue.toString().replace(",", "."));
 
                         if (newVal >= limiteInferior && newVal <= limiteSuperior) {

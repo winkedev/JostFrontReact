@@ -84,14 +84,16 @@ const BaseSidebar = ({ sidebarColor, iconsColor, textColor, logoImage, logoTitle
                                 {Object.keys(item.child).map((k, v) => {
                                     return item.child[v].isLocked && item.child[v].hideLocked ? "" :
                                         <GenericAreaChildrenLI hasMouseOverEffect={hasMouseOverEffect} key={item.child[v].id}>
-                                            <GenericA onClick={item.child[v].onClickEvent ?? null}>
+                                            <GenericA onClick={item.child[v].isLocked ? null : item.child[v].onClickEvent ?? null}>
                                                 <GenericSVG iconsColor={iconsColor ?? DEFAULT_WHITE}>
                                                     {item.child[v].icon}
                                                 </GenericSVG>
                                                 <GenericSpan textColor={textColor ?? DEFAULT_WHITE} isExpanded={isExpanded}>{item.child[v].text}</GenericSpan>
-                                                <GenericAreaAbsolutRight isExpanded={isExpanded} iconsColor={iconsColor ?? DEFAULT_WHITE} >
-                                                    <LockSVG />
-                                                </GenericAreaAbsolutRight>
+                                                {item.child[v].isLocked &&
+                                                    <GenericAreaAbsolutRight isExpanded={isExpanded} iconsColor={iconsColor ?? DEFAULT_WHITE} >
+                                                        <LockSVG />
+                                                    </GenericAreaAbsolutRight>
+                                                }
                                             </GenericA>
                                         </GenericAreaChildrenLI>
                                 })}
