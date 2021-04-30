@@ -154,6 +154,13 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
             text: "Valor",
             editable: true,
             sort: true,
+            formatter: (cell, row) => {
+                if (!row.tipoCaracteristica.toUpperCase().includes("OK/NOK")) {
+                    row.valorMedido = parseFloat(row.valorMedido.toString().replace(",", ".")).toFixed(3);
+                }
+
+                return row.valorMedido;
+            },
             headerStyle: (colum, colIndex) => {
                 return { width: '5%', textAlign: 'center' };
             }
@@ -324,8 +331,8 @@ const CadastraMedicaoDetalhada = ({ customdata, onBackButtonClick }) => {
                             return false;
                         }
 
-                        let limiteInferior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) - Math.abs(parseFloat(currentRow.limiteInferior.toString().replace(",", "."))).toFixed(4)));
-                        let limiteSuperior = parseFloat((parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + Math.abs(parseFloat(currentRow.limiteSuperior.toString().replace(",", "."))).toFixed(4)));
+                        let limiteInferior = parseFloat(currentRow.caracteristica.toString().replace(",", ".")) - Math.abs(parseFloat(currentRow.limiteInferior.toString().replace(",", ".")));
+                        let limiteSuperior = parseFloat(currentRow.caracteristica.toString().replace(",", ".")) + Math.abs(parseFloat(currentRow.limiteSuperior.toString().replace(",", ".")));
                         let newVal = parseFloat(newValue.toString().replace(",", "."));
 
                         if (newVal >= limiteInferior && newVal <= limiteSuperior) {
