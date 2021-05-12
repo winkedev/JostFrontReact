@@ -171,7 +171,7 @@ const ConsultaMedicao = () => {
             setIsConsumeLoading(true);
 
             let dto = {
-                codigoCC: currentCT,
+                ct: currentCT,
                 codigoItem: currentCodigoItem,
                 codigoOperacao: currentCodigoOp,
                 planoPadraoVersao: currentVersaoPP,
