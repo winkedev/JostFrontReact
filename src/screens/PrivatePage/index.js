@@ -21,12 +21,15 @@ const PrivatePage = () => {
                             id: "relx",
                             text: "reX",
                             icon: <ListSVG />,
-                            onClickEvent: () => console.log("Clicked")
+                            onClickEvent: () => console.log("Clicked"),
+                            isLocked: true
                         },
                         {
                             id: "relas",
                             text: "relas",
-                            icon: <ListSVG />
+                            icon: <ListSVG />,
+                            isLocked: false,
+                            hideLocked: false
                         }
                     ]
                 },

@@ -7,6 +7,9 @@ export const ApiPlanoInspecao = {
     getBy: async (dto) => {
         return await MountRespPost('api/planoinspecao/getby', dto);
     },
+    getReprovadoBy: async (dto) => {
+        return await MountRespPost('api/planoinspecao/getreprovadoby', dto);
+    },
     getAllCodCC: async () => {
         return await MountRespGet('api/planoinspecao/getallcodcc');
     },

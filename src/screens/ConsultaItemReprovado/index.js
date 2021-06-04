@@ -176,8 +176,8 @@ const ConsultaItemReprovado = () => {
                 dataFim: currentFinalDate != null ? currentFinalDate.toISOString() : null
             };
 
-            let resp = await ApiPlanoInspecao.getBy(dto);
-            SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
+            let resp = await ApiPlanoInspecao.getReprovadoBy(dto);
+            SecurityConfig.writeLogs(CONSULTAIR_PREFIX, `Response from ApiPlanoInspecao.getReprovadoBy(): ${resp?.sucess ? 'Ok' : "Error"}`);
 
             if (resp?.data != null) {
                 setMedicaoData(resp.data);

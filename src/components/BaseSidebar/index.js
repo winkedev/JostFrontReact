@@ -1,9 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { ReactComponent as FixedPin } from '../../assets/list.svg';
-import { ReactComponent as UserSVG } from '../../assets/user.svg';
-import { ReactComponent as LogoutSVG } from '../../assets/logout.svg';
-import { ReactComponent as ArrowSVG } from '../../assets/darrow.svg';
-import { ReactComponent as LockSVG } from '../../assets/lock.svg';
+import { ReactComponent as FixedPin } from './internalAssets/list.svg';
+import { ReactComponent as UserSVG } from './internalAssets//user.svg';
+import { ReactComponent as LogoutSVG } from './internalAssets//logout.svg';
+import { ReactComponent as ArrowSVG } from './internalAssets//darrow.svg';
+import { ReactComponent as LockSVG } from './internalAssets//lock.svg';
 
 import { SidebarArea, SidebarLogoArea, LogoAreaText, LogoAreafixedPin, SidebarHeaderArea, GenericAreaParent, GenericAreaChildren, GenericAreaChildrenUL, GenericAreaChildrenLI, GenericSpan, Sidebar, GenericAreaArrow, GenericA, SidebarBodyArea, GenericSVG, GenericArea, LogoAreaImage, GenericAreaAbsolutRight } from './style';
 
